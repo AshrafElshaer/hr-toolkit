@@ -26,8 +26,9 @@ export default async function CalendarView({
 		from,
 		to:
 			searchParams?.["events-to"] ??
-			format(endOfDay(addDays(new Date(from), 6)), "yyyy-MM-dd"),
+			format(addDays(new Date(from), 7), "yyyy-MM-dd"),
 	};
+
 	const { data, error } = await getEventsByDate(supabase, date);
 
 	const groupedEvents = groupeEventsByDate(
@@ -42,10 +43,15 @@ export default async function CalendarView({
 				}).map((_, index) => (
 					<EventsList
 						key={(index + 1).toString()}
-						date={format(addDays(from, index), "EEEE , MMMM dd")}
+						date={format(
+							addDays(endOfDay(date.from), index + 1),
+							"EEEE , MMMM dd",
+						)}
 						index={index}
 						events={
-							groupedEvents[format(addDays(from, index), "yyyy-MM-dd")]
+							groupedEvents[
+								format(addDays(endOfDay(date.from), index + 1), "yyyy-MM-dd")
+							]
 						}
 					/>
 				))}
