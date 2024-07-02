@@ -1,6 +1,6 @@
 import { getAttendanceByDate } from "@hr-toolkit/supabase/attendance-queries";
 import { createServerClient } from "@hr-toolkit/supabase/server";
-import { subDays } from "date-fns";
+import { addDays, formatDate, subDays } from "date-fns";
 import React from "react";
 
 async function EmployeeAttendance({
@@ -8,8 +8,8 @@ async function EmployeeAttendance({
 }: { params: { organizationId: string; employeeId: string } }) {
 	const supabase = createServerClient();
 	const { data } = await getAttendanceByDate(supabase, params.employeeId, {
-		startDate: new Date().toISOString(),
-		endDate: subDays(new Date(), 7).toISOString(),
+		startDate: formatDate(subDays(new Date(), 7), "yyyy-MM-dd"),
+		endDate: formatDate(addDays(new Date(), 2), "yyyy-MM-dd"),
 	});
 
 	const totalHours = data?.reduce((acc, attendance) => {
@@ -17,7 +17,7 @@ async function EmployeeAttendance({
 	}, 0);
 
 	return (
-		<div>
+		<main className="flex flex-col items-center gap-4 justify-center h-full p-4 ">
 			EmployeeAttendance
 			<p>{params.employeeId}</p>
 			{data?.map((attendance) => (
@@ -27,7 +27,7 @@ async function EmployeeAttendance({
 				</div>
 			))}
 			total hours: {getHoursFromMinutes(totalHours ?? 0)}
-		</div>
+		</main>
 	);
 }
 

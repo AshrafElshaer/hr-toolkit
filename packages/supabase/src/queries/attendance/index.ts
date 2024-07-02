@@ -29,10 +29,13 @@ export async function getAttendanceByDate(
     endDate: string;
   },
 ) {
+
   return await supabase
     .from("attendance")
     .select("*")
     .eq("user_id", userId)
     .neq("status", AttendanceStatus.CLOCKED_IN)
-    .order("created_at", { ascending: false });
+    .lte("date", endDate)
+    .gte("date", startDate)
+    .order("date", { ascending: false });
 }
