@@ -26,7 +26,7 @@ async function EmployeeAttendance({
 					<p> Hours worked {getHoursFromMinutes(attendance.total_time ?? 0)}</p>
 				</div>
 			))}
-      total hours: {getHoursFromMinutes(totalHours ?? 0)}
+			total hours: {getHoursFromMinutes(totalHours ?? 0)}
 		</div>
 	);
 }

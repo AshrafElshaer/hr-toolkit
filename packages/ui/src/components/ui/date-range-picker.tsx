@@ -80,8 +80,8 @@ export function DatePickerWithRange({
 								defaultValue={
 									dateRangeOptions?.find(
 										(option) =>
-											option.range.from === date.from &&
-											option.range.to === date.to,
+											option.range?.from === date?.from &&
+											option.range?.to === date?.to,
 									)?.title || ""
 								}
 							>

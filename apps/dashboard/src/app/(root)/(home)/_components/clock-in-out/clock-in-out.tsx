@@ -27,23 +27,23 @@ export default function ClockInOut({ currentAttendance }: TimerProps) {
 	});
 
 	async function handleClockIn() {
-		const now = new Date().toString();
+		const now = `${new Date().toISOString().replace("T", " ").substring(0, 19)}+00`;
+
 		const { data, serverError } = await clockInMutation.mutateAsync({
 			clockedInAt: now,
 		});
 
 		if (serverError) {
-			toast.error(serverError, {
-				description: "Please try again",
-			});
+			toast.error(serverError);
 			return;
 		}
 		toast.success(
-			`You are clocked in at ${format(new Date(data?.clock_in ?? ""), "hh:mm a")}`,
+			`You are clocked in at ${format(new Date(data?.clock_in ?? ""), "hh:mm a")}`, 
+
 		);
 	}
 	async function handleClockOut() {
-		const now = new Date().toString();
+		const now = `${new Date().toISOString().replace("T", " ").substring(0, 19)}+00`;
 		const { data, serverError } = await clockInOutMutation.mutateAsync({
 			clockedOutAt: now,
 		});

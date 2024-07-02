@@ -25,7 +25,8 @@ export default async function IndexPage({
 				</Suspense>
 				<Suspense fallback={<ClockInOutSkeleton />}>
 					{env.NEXT_PUBLIC_NODE_ENV === "development" ? (
-						<ClockInOutSkeleton />
+						// <ClockInOutSkeleton />
+						<ClockInOut />
 					) : (
 						<ClockInOut />
 					)}

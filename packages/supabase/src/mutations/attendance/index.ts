@@ -4,7 +4,8 @@ import { getCurrentAttendanceByUserId } from "../../queries/attendance";
 import { format } from "date-fns";
 
 export async function clockIn(supabase: SupabaseClient, clockedInAt: string) {
-  const { user } = await getUser(supabase);
+  const { user, error: userError } = await getUser(supabase);
+
 
   if (!user || !user.id || !user.organization_id) {
     throw new Error("User not found");
@@ -17,7 +18,7 @@ export async function clockIn(supabase: SupabaseClient, clockedInAt: string) {
         organization_id: user.organization_id,
         clock_in: clockedInAt,
         status: "clocked_in",
-        created_at: format(clockedInAt, "yyyy-MM-dd"),
+        date: clockedInAt.split(" ")[0],
       },
     ],
   )
@@ -32,7 +33,6 @@ export async function clockIn(supabase: SupabaseClient, clockedInAt: string) {
 }
 
 export async function clockOut(supabase: SupabaseClient, clockedOutAt: string) {
-  const now = clockedOutAt;
   const { user } = await getUser(supabase);
 
   if (!user || !user.id) {
@@ -50,15 +50,14 @@ export async function clockOut(supabase: SupabaseClient, clockedOutAt: string) {
 
   const totalTime = getTotalWorkedTime(
     currentAttendance.clock_in,
-    now,
+    clockedOutAt,
   );
 
   const { data, error } = await supabase
     .from("attendance")
     .update({
-      clock_out: now,
+      clock_out: clockedOutAt,
       status: AttendanceStatus.PENDING,
-      updated_at: now,
       total_time: totalTime,
     })
     .eq("user_id", user.id)

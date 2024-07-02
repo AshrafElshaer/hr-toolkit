@@ -13,34 +13,31 @@ export type Database = {
         Row: {
           clock_in: string
           clock_out: string | null
-          created_at: string | null
+          date: string | null
           id: string
           organization_id: string
           status: string
           total_time: number | null
-          updated_at: string | null
           user_id: string
         }
         Insert: {
           clock_in: string
           clock_out?: string | null
-          created_at?: string | null
+          date?: string | null
           id?: string
           organization_id: string
           status: string
           total_time?: number | null
-          updated_at?: string | null
           user_id: string
         }
         Update: {
           clock_in?: string
           clock_out?: string | null
-          created_at?: string | null
+          date?: string | null
           id?: string
           organization_id?: string
           status?: string
           total_time?: number | null
-          updated_at?: string | null
           user_id?: string
         }
         Relationships: [
