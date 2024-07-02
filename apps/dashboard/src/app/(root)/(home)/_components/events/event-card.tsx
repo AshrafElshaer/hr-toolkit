@@ -88,9 +88,8 @@ export default function EventCard({ event }: Props) {
 						{amPm(event.start_time)} - {amPm(event.end_time)}
 					</p>
 					<p className=" px-4 flex items-center gap-2 ">
-						<Info className="h-4 w-4 " /> Details
+						<Info className="h-4 w-4 " /> {event.event_name}
 					</p>
-					<p className="pl-10 pr-4">{event.event_name}</p>
 					<p className="pl-10 pr-4 text-secondary-foreground/70">
 						{event.event_description}
 					</p>
