@@ -26,7 +26,7 @@ export default async function CalendarView({
 		from,
 		to:
 			searchParams?.["events-to"] ??
-			format(addDays(new Date(from), 7), "yyyy-MM-dd"),
+			format(addDays(new Date(from), 6), "yyyy-MM-dd"),
 	};
 
 	const { data, error } = await getEventsByDate(supabase, date);
