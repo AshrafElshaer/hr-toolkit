@@ -91,7 +91,7 @@ export default function EventCard({ event }: Props) {
 						<Info className="h-4 w-4 " /> Details
 					</p>
 					<p className="pl-10 pr-4">{event.event_name}</p>
-					<p className="pl-10 pr-4 text-secondary/80">
+					<p className="pl-10 pr-4 text-secondary-foreground/70">
 						{event.event_description}
 					</p>
 					<div className="flex items-center gap-2 px-4">
