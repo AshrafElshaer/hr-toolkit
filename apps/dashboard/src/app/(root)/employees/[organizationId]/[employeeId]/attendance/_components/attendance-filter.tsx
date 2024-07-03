@@ -75,10 +75,17 @@ const dateRangeOptions: DateRangeOption[] = [
 		},
 	},
 	{
-		title: "Last 2 Weeks",
+		title: "This & Last Week",
 		range: {
 			from: startOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 }),
 			to: endOfWeek(new Date(), { weekStartsOn: 1 }),
+		},
+	},
+	{
+		title: "Last 2 Weeks",
+		range: {
+			from: startOfWeek(subDays(new Date(), 14), { weekStartsOn: 1 }),
+			to: endOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 }),
 		},
 	},
 	{
