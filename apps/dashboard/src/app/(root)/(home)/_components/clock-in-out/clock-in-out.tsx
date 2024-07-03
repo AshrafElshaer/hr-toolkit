@@ -38,8 +38,7 @@ export default function ClockInOut({ currentAttendance }: TimerProps) {
 			return;
 		}
 		toast.success(
-			`You are clocked in at ${format(new Date(data?.clock_in ?? ""), "hh:mm a")}`, 
-
+			`You are clocked in at ${format(new Date(data?.clock_in ?? ""), "hh:mm a")}`,
 		);
 	}
 	async function handleClockOut() {
@@ -74,7 +73,7 @@ export default function ClockInOut({ currentAttendance }: TimerProps) {
 					<Button
 						className="w-full"
 						onClick={handleClockIn}
-						disabled={clockInMutation.isPending || clockInMutation.isSuccess}
+						disabled={clockInMutation.isPending}
 					>
 						Clock In at {hoursAndMinutes}
 					</Button>
@@ -83,9 +82,7 @@ export default function ClockInOut({ currentAttendance }: TimerProps) {
 						className="w-full"
 						variant={"destructive"}
 						onClick={handleClockOut}
-						disabled={
-							clockInOutMutation.isPending || clockInOutMutation.isSuccess
-						}
+						disabled={clockInOutMutation.isPending}
 					>
 						Clock Out {hours ? `${hours}h : ` : null}
 						{minutes ? `${minutes}m :` : null} {`${seconds}s`}

@@ -32,6 +32,7 @@ export function DatePickerWithRange({
 	onSelect,
 	numberOfMonths = 2,
 	dateRangeOptions,
+	align = "center",
 	...props
 }: Omit<DayPickerRangeProps, "mode"> &
 	React.HTMLAttributes<HTMLDivElement> & {
@@ -39,6 +40,7 @@ export function DatePickerWithRange({
 		onSelect: (dateRange: DateRange) => void;
 		numberOfMonths?: number;
 		dateRangeOptions?: DateRangeOption[];
+		align?: "center" | "start" | "end";
 	}) {
 	return (
 		<div className={cn("grid gap-2 w-[300px]", className)}>
@@ -67,7 +69,7 @@ export function DatePickerWithRange({
 						)}
 					</Button>
 				</PopoverTrigger>
-				<PopoverContent className="w-auto p-0" align="center">
+				<PopoverContent className="w-auto p-0" align={align}>
 					{dateRangeOptions && dateRangeOptions.length > 0 ? (
 						<div className="px-4 py-2">
 							<Select

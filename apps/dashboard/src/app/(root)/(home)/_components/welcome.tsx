@@ -32,12 +32,4 @@ export default async function WelcomeMessage() {
 	);
 }
 
-// async function promiseSettled(promises: Promise<>[]) {
-// 	const results = await Promise.allSettled(promises);
-// 	return results.map((result) => {
-// 		if (result.status === "fulfilled") {
-// 			return result.value;
-// 		}
-// 		return result.reason;
-// 	});
-// }
+

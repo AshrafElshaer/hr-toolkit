@@ -141,7 +141,7 @@ function EmployeeForm({
 		});
 
 		setOpen(false);
-		console.log(values);
+
 	}
 	return (
 		<Form {...form}>

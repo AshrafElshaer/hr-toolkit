@@ -1,12 +1,43 @@
 import { getAttendanceByDate } from "@hr-toolkit/supabase/attendance-queries";
 import { createServerClient } from "@hr-toolkit/supabase/server";
-import { addDays, formatDate, subDays } from "date-fns";
+import {
+	addDays,
+	endOfWeek,
+	format,
+	formatDate,
+	startOfWeek,
+	subDays,
+} from "date-fns";
 import React from "react";
+import AttendanceHeader from "./_components/attendance-header";
 
-async function EmployeeAttendance({
-	params,
-}: { params: { organizationId: string; employeeId: string } }) {
+type PageProps = {
+	params: {
+		organizationId: string;
+		employeeId: string;
+	};
+	searchParams?: { [key: string]: string | undefined };
+};
+
+async function EmployeeAttendance({ params, searchParams }: PageProps) {
 	const supabase = createServerClient();
+
+	const from =
+		searchParams?.from ??
+		format(
+			startOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 }),
+			"yyyy-MM-dd",
+		);
+
+	const defaultDateRange = {
+		from,
+		to:
+			searchParams?.to ??
+			format(endOfWeek(new Date(), { weekStartsOn: 1 }), "yyyy-MM-dd"),
+	};
+
+	console.log(defaultDateRange);
+
 	const { data } = await getAttendanceByDate(supabase, params.employeeId, {
 		startDate: formatDate(subDays(new Date(), 7), "yyyy-MM-dd"),
 		endDate: formatDate(addDays(new Date(), 2), "yyyy-MM-dd"),
@@ -17,8 +48,8 @@ async function EmployeeAttendance({
 	}, 0);
 
 	return (
-		<main className="flex flex-col items-center gap-4 justify-center h-full p-4 ">
-			EmployeeAttendance
+		<main className="flex flex-col gap-4 justify-start h-full p-4 ">
+			<AttendanceHeader name="Ashraf Elshaer" />
 			<p>{params.employeeId}</p>
 			{data?.map((attendance) => (
 				<div key={attendance.id}>
