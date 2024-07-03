@@ -5,7 +5,6 @@ import { capitalize } from "lodash";
 import { Avatar, AvatarFallback, AvatarImage } from "@hr-toolkit/ui/avatar";
 import { Card } from "@hr-toolkit/ui/card";
 
-
 type Props = {
 	employeeId: string;
 };
@@ -14,9 +13,8 @@ async function EmployeeInfo({ employeeId }: Props) {
 	const supabase = createServerClient();
 	const employee = await getEmployeeById(supabase, employeeId);
 
-
 	return (
-		<Card className="p-4 w-full  flex flex-col items-start sm:flex-row sm:items-center sm:gap-20 justify-between ">
+		<Card className="px-4 py-2 w-full  flex flex-col items-start sm:flex-row sm:items-center sm:gap-20 justify-between ">
 			<div className="flex items-center justify-between w-full">
 				<div>
 					<span className="text-sm text-muted-foreground ml-10">Employee</span>
