@@ -23,3 +23,7 @@ export function getSegmentAfterDocuments(pathname: string) {
     ? pathSegments.slice(documentsIndex + 1).join("/")
     : "";
 }
+
+export async function wait(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
