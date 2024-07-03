@@ -9,7 +9,7 @@ import {
 	subDays,
 } from "date-fns";
 import React from "react";
-import AttendanceHeader from "./_components/attendance-header";
+import AttendanceFilter from "./_components/attendance-filter";
 
 type PageProps = {
 	params: {
@@ -29,19 +29,18 @@ async function EmployeeAttendance({ params, searchParams }: PageProps) {
 			"yyyy-MM-dd",
 		);
 
-	const defaultDateRange = {
-		from,
-		to:
+	const dateRange = {
+		startDate: from,
+		endDate:
 			searchParams?.to ??
 			format(endOfWeek(new Date(), { weekStartsOn: 1 }), "yyyy-MM-dd"),
 	};
 
-	console.log(defaultDateRange);
-
-	const { data } = await getAttendanceByDate(supabase, params.employeeId, {
-		startDate: formatDate(subDays(new Date(), 7), "yyyy-MM-dd"),
-		endDate: formatDate(addDays(new Date(), 2), "yyyy-MM-dd"),
-	});
+	const { data } = await getAttendanceByDate(
+		supabase,
+		params.employeeId,
+		dateRange,
+	);
 
 	const totalHours = data?.reduce((acc, attendance) => {
 		return acc + (attendance.total_time ?? 0);
@@ -49,8 +48,9 @@ async function EmployeeAttendance({ params, searchParams }: PageProps) {
 
 	return (
 		<main className="flex flex-col gap-4 justify-start h-full p-4 ">
-			<AttendanceHeader name="Ashraf Elshaer" />
+			<AttendanceFilter />
 			<p>{params.employeeId}</p>
+			{dateRange.startDate} - {dateRange.endDate}
 			{data?.map((attendance) => (
 				<div key={attendance.id}>
 					{/* <p>{attendance.status}</p> */}
