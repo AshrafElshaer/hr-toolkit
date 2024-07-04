@@ -42,7 +42,7 @@ export default async function IndexPage({
 		</main>
 	);
 }
-function WelcomeMessageSkeleton() {
+export function WelcomeMessageSkeleton() {
 	return (
 		<div className="flex flex-col p-4 gap-2 w-full sm:w-80 h-fit ">
 			<Skeleton className="h-8 2/3 " />
@@ -51,7 +51,7 @@ function WelcomeMessageSkeleton() {
 		</div>
 	);
 }
-function ClockInOutSkeleton() {
+export function ClockInOutSkeleton() {
 	return (
 		<Card className=" ml-auto flex flex-col p-4 gap-4 w-full sm:w-80 h-fit ">
 			<div className="flex items-center justify-between">

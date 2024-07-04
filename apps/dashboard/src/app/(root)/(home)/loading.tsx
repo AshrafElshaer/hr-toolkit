@@ -1,7 +1,27 @@
+import { Card } from "@hr-toolkit/ui/card";
+import { ClockInOutSkeleton, WelcomeMessageSkeleton } from "./page";
+import { Skeleton } from "@hr-toolkit/ui/skeleton";
+import UpcomingEventsHeader from "./_components/events/upcoming-events-header";
+import { CalendarSkeleton } from "./_components/events";
+
 export default function DashboardLoading() {
 	return (
-		<div className="flex items-center justify-center h-full p-4">
-			<div className="flex items-center justify-center">loading ...</div>
-		</div>
+		<main className="flex flex-col gap-4 h-full p-4 ">
+			<div className="flex gap-4 flex-col lg:flex-row">
+				<WelcomeMessageSkeleton />
+
+				<ClockInOutSkeleton />
+			</div>
+			<Card className="p-4 w-full flex flex-col gap-4">
+				<UpcomingEventsHeader />
+				<CalendarSkeleton />
+			</Card>
+			<div>
+				<Card className="flex flex-col p-4 gap-4 w-full sm:w-80 h-fit ">
+					<h3 className="text-foreground/70 font-semibold">Todo</h3>
+					<Skeleton className="h-8 w-full " />
+				</Card>
+			</div>
+		</main>
 	);
 }
