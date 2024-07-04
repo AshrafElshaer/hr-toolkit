@@ -8,6 +8,7 @@ import DashboardHeader from "@/components/dashboard-header/dashboard-header";
 import type { ReactNode } from "react";
 import MainSidebar from "@/components/sidebar/main-sidebar";
 
+
 async function DashboardLayout({ children }: { children: ReactNode }) {
 	const supabase = createServerClient();
 	const pathname = headers().get("x-pathname");
