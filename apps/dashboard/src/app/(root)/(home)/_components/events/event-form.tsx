@@ -42,9 +42,10 @@ type Props = {
 		data: z.infer<typeof createEventSchema>,
 		reset: UseFormReturn<z.infer<typeof createEventSchema>>["reset"],
 	) => Promise<void>;
+	isOpen?: boolean;
 };
 
-function EventForm({ event, onSubmit }: Props) {
+function EventForm({ event, onSubmit, isOpen }: Props) {
 	const form = useForm<z.infer<typeof createEventSchema>>({
 		resolver: zodResolver(createEventSchema),
 		defaultValues: {
@@ -238,6 +239,7 @@ function EventForm({ event, onSubmit }: Props) {
 								<DepartmentSelector
 									value={field.value ?? ""}
 									onChange={field.onChange}
+									isOpen={isOpen}
 								/>
 							</FormControl>
 							<FormMessage />

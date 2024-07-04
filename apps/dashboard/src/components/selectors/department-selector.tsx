@@ -14,13 +14,19 @@ import {
 type Props = {
 	value: string;
 	onChange: (value: string) => void;
+	isOpen?: boolean;
 };
 
-export default function DepartmentSelector({ onChange, value }: Props) {
+export default function DepartmentSelector({
+	onChange,
+	value,
+	isOpen = true,
+}: Props) {
 	const supabase = createClient();
 	const { data: departments } = useQuery({
 		queryKey: ["departments"],
 		queryFn: () => getDepartments(supabase),
+		enabled: isOpen,
 	});
 	return (
 		<Select onValueChange={onChange} value={value}>

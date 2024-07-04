@@ -53,7 +53,7 @@ export default function CreateEvent() {
 						Create a new event to be added to the calendar
 					</DialogDescription>
 				</DialogHeader>
-				<EventForm onSubmit={onSubmit} />
+				<EventForm onSubmit={onSubmit} isOpen={open} />
 			</DialogContent>
 		</Dialog>
 	);

@@ -38,11 +38,10 @@ export default function AddNewEmployee() {
 						Add a new employee to your organization.
 					</SheetDescription>
 				</SheetHeader>
-				{/* <div className="h-full overflow-y-scroll scrollbar-muted"> */}
+
 				<ScrollArea className="h-full p-6">
-					<EmployeeForm setOpen={setOpen} />
+					<EmployeeForm setOpen={setOpen} isOpen={open} />
 				</ScrollArea>
-				{/* </div> */}
 			</SheetContent>
 		</Sheet>
 	);
@@ -84,20 +83,17 @@ import { formatCurrency } from "@/lib/numbers";
 import { createNeweEmployee } from "../../actions";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "framer-motion";
-import { Badge } from "@hr-toolkit/ui/badge";
+
 import { queryClient } from "@/lib/react-query";
 import DepartmentSelector from "@/components/selectors/department-selector";
 
 function EmployeeForm({
 	setOpen,
+	isOpen,
 }: {
 	setOpen: (open: boolean) => void;
+	isOpen: boolean;
 }) {
-	const supabase = createClient();
-	const { data: departments } = useQuery({
-		queryKey: ["departments"],
-		queryFn: () => getDepartments(supabase),
-	});
 	const form = useForm<z.infer<typeof employeeSchema>>({
 		resolver: zodResolver(employeeSchema),
 		defaultValues: {
@@ -141,7 +137,6 @@ function EmployeeForm({
 		});
 
 		setOpen(false);
-
 	}
 	return (
 		<Form {...form}>
@@ -425,6 +420,7 @@ function EmployeeForm({
 								<DepartmentSelector
 									value={field.value ?? ""}
 									onChange={field.onChange}
+									isOpen={isOpen}
 								/>
 							</FormControl>
 							<FormMessage />
