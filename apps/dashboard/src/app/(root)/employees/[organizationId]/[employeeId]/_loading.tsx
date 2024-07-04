@@ -2,7 +2,7 @@ import React from "react";
 import { employeeDetailsNavigation } from "./employee-navigation";
 import { Button } from "@hr-toolkit/ui/button";
 import BackButton from "@/components/back-button";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, NotebookTabs } from "lucide-react";
 import GeneralInfoLoading from "./(general)/loading";
 
 export default function EmployeeDetailsLoading() {
@@ -13,7 +13,11 @@ export default function EmployeeDetailsLoading() {
 					<ArrowLeft className="mr-2 w-4 h-4" />
 					Back
 				</Button>
-				{employeeDetailsNavigation.map((route) => {
+				<Button className="gap-2" variant="ghost" disabled>
+					General
+					<NotebookTabs className="w-4 h-4" />
+				</Button>
+				{/* {employeeDetailsNavigation.map((route) => {
 					return (
 						<Button
 							key={route.title}
@@ -25,7 +29,7 @@ export default function EmployeeDetailsLoading() {
 							{route.title}
 						</Button>
 					);
-				})}
+				})} */}
 			</section>
 			<GeneralInfoLoading />
 		</main>
