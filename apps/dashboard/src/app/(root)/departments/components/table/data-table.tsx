@@ -86,7 +86,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <section className="w-full h-full flex flex-col">
+    <section className="w-full h-full flex gap-4  flex-col">
       <DepartmentFilters table={table} />
       <div className="rounded-md border h-[24rem] sm:h-[30rem] w-full flex-grow overflow-scroll  scrollbar-muted">
         <Table>

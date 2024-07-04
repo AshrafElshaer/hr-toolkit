@@ -9,7 +9,7 @@ interface DataTableFiltersProps<TData> {
 
 function DepartmentFilters<TData>({ table }: DataTableFiltersProps<TData>) {
 	return (
-		<div className="flex items-center py-4">
+		<div className="flex items-center">
 			<Input
 				placeholder="Filter Departments by name"
 				startIcon={Search}
