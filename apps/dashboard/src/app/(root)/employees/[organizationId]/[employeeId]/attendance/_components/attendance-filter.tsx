@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useMediaQuery } from "@uidotdev/usehooks";
 import {
 	startOfMonth,
 	endOfMonth,
@@ -21,6 +22,7 @@ export default function AttendanceFilter() {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 	const pathname = usePathname();
+	const isMobile = useMediaQuery("only screen and (max-width : 768px)");
 
 	const from = searchParams.get("from");
 	const to = searchParams.get("to");
@@ -47,6 +49,7 @@ export default function AttendanceFilter() {
 					setDate(date as DateRange);
 					handleDateSearch(date as DateRange, searchParams, router, pathname);
 				}}
+				numberOfMonths={isMobile ? 1 : 2}
 			/>
 		</section>
 	);
