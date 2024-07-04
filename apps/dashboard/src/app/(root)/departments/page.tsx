@@ -3,19 +3,7 @@ import { Suspense } from "react";
 
 import DepartmentsHeader from "./components/departments-header";
 import DepartmentTable from "./components/table";
-import { Skeleton } from "@hr-toolkit/ui/skeleton";
-import {
-	ChevronLeftIcon,
-	ChevronRightIcon,
-	ChevronsUpDown,
-	Filter,
-	Search,
-} from "lucide-react";
-import { Button } from "@hr-toolkit/ui/button";
-import {
-	DoubleArrowLeftIcon,
-	DoubleArrowRightIcon,
-} from "@radix-ui/react-icons";
+
 import { TableLoader } from "./components/table/table-loading";
 
 
