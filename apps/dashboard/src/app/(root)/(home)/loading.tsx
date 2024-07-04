@@ -1,8 +1,10 @@
 import { Card } from "@hr-toolkit/ui/card";
-import { ClockInOutSkeleton, WelcomeMessageSkeleton } from "./page";
+
 import { Skeleton } from "@hr-toolkit/ui/skeleton";
 import UpcomingEventsHeader from "./_components/events/upcoming-events-header";
 import { CalendarSkeleton } from "./_components/events";
+import { WelcomeMessageSkeleton } from "./_components/loading/welcome-message";
+import { ClockInOutSkeleton } from "./_components/loading/clock-in-out";
 
 export default function DashboardLoading() {
 	return (

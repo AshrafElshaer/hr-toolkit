@@ -5,6 +5,8 @@ import ClockInOut from "./_components/clock-in-out";
 import { env } from "@hr-toolkit/env";
 import UpcomingEvents from "./_components/events";
 import WelcomeMessage from "./_components/welcome";
+import { WelcomeMessageSkeleton } from "./_components/loading/welcome-message";
+import { ClockInOutSkeleton } from "./_components/loading/clock-in-out";
 
 export default async function IndexPage({
 	params,
@@ -42,23 +44,4 @@ export default async function IndexPage({
 		</main>
 	);
 }
-export function WelcomeMessageSkeleton() {
-	return (
-		<div className="flex flex-col p-4 gap-2 w-full sm:w-80 h-fit ">
-			<Skeleton className="h-8 2/3 " />
-			<Skeleton className="h-3 w-40" />
-			<Skeleton className="h-3 w-32" />
-		</div>
-	);
-}
-export function ClockInOutSkeleton() {
-	return (
-		<Card className=" ml-auto flex flex-col p-4 gap-4 w-full sm:w-80 h-fit ">
-			<div className="flex items-center justify-between">
-				<h3 className="text-foreground/70 font-semibold">Clock In/Out</h3>
-				<Skeleton className="h-4 w-20" />
-			</div>
-			<Skeleton className="h-8 w-full " />
-		</Card>
-	);
-}
+
