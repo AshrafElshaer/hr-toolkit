@@ -47,7 +47,7 @@ export default function EmployeeNavigation({ params }: Props) {
   );
 }
 
-const employeeDetailsNavigation = [
+export const employeeDetailsNavigation = [
   {
     title: "General",
     path: "/",
