@@ -11,7 +11,6 @@ export const metadata: Metadata = {
 	description: "Manage your employees",
 };
 async function EmployeesPage() {
-	await new Promise((resolve) => setTimeout(resolve, 10000));
 	return (
 		<main className="flex flex-col items-center justify-start h-full p-4 gap-4">
 			<EmployeesHeader />
