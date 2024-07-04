@@ -18,6 +18,7 @@ import {
 } from "@radix-ui/react-icons";
 import { TableLoader } from "./components/table/table-loading";
 
+
 export const metadata: Metadata = {
 	title: "Departments",
 	description: "Manage your departments",

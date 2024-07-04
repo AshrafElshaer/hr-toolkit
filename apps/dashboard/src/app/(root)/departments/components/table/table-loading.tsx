@@ -14,7 +14,7 @@ import {
 
 export function TableLoader() {
 	return (
-		<section className="w-full flex flex-col flex-grow gap-2">
+		<section className="w-full flex flex-col gap-4 flex-grow ">
 			<div className="flex  items-center gap-2 h-9 w-full sm:max-w-xs mr-auto rounded-md  border bg-transparent px-2 py-1 text-base md:text-sm cursor-not-allowed opacity-50 animate-pulse">
 				<Search size={18} />
 				Filter Departments by name

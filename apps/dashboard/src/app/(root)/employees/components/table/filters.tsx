@@ -16,10 +16,7 @@ import { Checkbox } from "@hr-toolkit/ui/checkbox";
 import { cn } from "@hr-toolkit/ui/utils";
 import { capitalize } from "lodash";
 
-type Props = {
-  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-  table: Table<any>;
-};
+
 interface DataTableFiltersProps<TData> {
   table: Table<TData>;
 }
