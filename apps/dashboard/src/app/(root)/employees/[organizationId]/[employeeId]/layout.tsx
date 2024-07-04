@@ -4,7 +4,7 @@ import { getEmployeeById } from "@hr-toolkit/supabase/user-queries";
 import type { Metadata, ResolvingMetadata } from "next";
 
 import EmployeeNavigation from "./employee-navigation";
-import { wait } from "@/lib/utils";
+
 
 type Props = {
 	children: React.ReactNode;
@@ -26,7 +26,6 @@ export default async function EmployeeDetailsLayout({
 	children,
 	params,
 }: Props) {
-	await wait(7000);
 	return (
 		<main className="flex flex-col h-full ">
 			<EmployeeNavigation params={params} />
