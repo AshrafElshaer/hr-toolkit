@@ -1,8 +1,13 @@
 import React from "react";
 import { getAttendanceByDate } from "@hr-toolkit/supabase/attendance-queries";
 import { createServerClient } from "@hr-toolkit/supabase/server";
+import HoursBreakdown from "../hours-breakdown";
 
 import { endOfWeek, format, startOfWeek, subDays } from "date-fns";
+import HoursBreakdownLoading from "../loading/hours-breakdown-loading";
+import { DataTable } from "./data-table";
+import { columns } from "./columns";
+import AttendanceFilter from "../attendance-filter";
 
 type Props = {
 	employeeId: string;
@@ -33,21 +38,12 @@ async function AttendanceTable({ employeeId, searchParams }: Props) {
 	}, 0);
 
 	return (
-		<div>
-			{dateRange.startDate} - {dateRange.endDate}
-			{data?.map((attendance) => (
-				<div key={attendance.id}>
-					{/* <p>{attendance.status}</p> */}
-					<p> Hours worked {getHoursFromMinutes(attendance.total_time ?? 0)}</p>
-				</div>
-			))}
-			total hours: {getHoursFromMinutes(totalHours ?? 0)}
-		</div>
+		<section className="flex flex-col gap-4 w-full h-full ">
+			<HoursBreakdown attendances={data} dateRange={dateRange} />
+			<AttendanceFilter />
+			<DataTable data={data ?? []} columns={columns} />
+		</section>
 	);
 }
 
 export default AttendanceTable;
-
-function getHoursFromMinutes(minutes: number) {
-	return (minutes / 60).toFixed(2);
-}
