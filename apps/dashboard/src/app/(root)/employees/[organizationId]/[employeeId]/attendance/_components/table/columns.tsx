@@ -18,7 +18,7 @@ export const columns: ColumnDef<Attendance>[] = [
 				dateValue && Object.keys(dateValue).length > 0
 					? new Date(dateValue)
 					: new Date();
-			return format(addDays(date, 1), "dd MMM ,yy (EEE)");
+			return format(addDays(date, 1), "dd MMM ,yy ( EEE )");
 		},
 	},
 	{
