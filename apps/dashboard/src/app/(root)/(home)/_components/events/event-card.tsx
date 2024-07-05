@@ -100,7 +100,7 @@ export default function EventCard({ event }: Props) {
 					<div className="flex items-center gap-2 px-4">
 						<LayoutTemplate className="w-4 h-4" />
 						<p>
-							{event.department.name} - {event.department.description}{" "}
+							{event?.department?.name} - {event?.department?.description}{" "}
 						</p>
 					</div>
 					<div className="flex items-center gap-2 px-4">
