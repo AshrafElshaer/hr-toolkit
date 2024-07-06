@@ -23,7 +23,7 @@ export default function HoursBreakdown({ attendances, dateRange }: Props) {
 
 	return (
 		<Card className="px-4 py-2 w-full  flex flex-col items-start sm:flex-row sm:items-center sm:gap-20 justify-between ">
-			<div className="flex items-center justify-between w-full sm:w-1/2">
+			<div className="flex items-center justify-between w-full sm:w-1/2 *:grid *:gap-2">
 				<div>
 					<span className="text-sm text-muted-foreground ">Work Schedule</span>
 					<div className="flex items-center gap-2">
@@ -36,8 +36,8 @@ export default function HoursBreakdown({ attendances, dateRange }: Props) {
 				</div>
 			</div>
 
-			<div>
-				<span className="text-sm text-muted-foreground">Overtime</span>
+			<div className="grid gap-2">
+				<span className="text-sm text-muted-foreground ">Overtime</span>
 				<p>{overtime < 0 ? 0 : overtime.toFixed(2)} Hours</p>
 			</div>
 		</Card>
