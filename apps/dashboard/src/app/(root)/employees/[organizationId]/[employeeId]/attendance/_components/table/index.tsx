@@ -10,40 +10,40 @@ import { columns } from "./columns";
 import AttendanceFilter from "../attendance-filter";
 
 type Props = {
-  employeeId: string;
-  searchParams?: { [key: string]: string | undefined };
+	employeeId: string;
+	searchParams?: { [key: string]: string | undefined };
 };
 
 async function AttendanceTable({ employeeId, searchParams }: Props) {
-  const supabase = createServerClient();
+	const supabase = createServerClient();
 
-  const from =
-    searchParams?.from ??
-    format(
-      startOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 }),
-      "yyyy-MM-dd",
-    );
+	const from =
+		searchParams?.from ??
+		format(
+			startOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 }),
+			"yyyy-MM-dd",
+		);
 
-  const dateRange = {
-    startDate: from,
-    endDate:
-      searchParams?.to ??
-      format(endOfWeek(new Date(), { weekStartsOn: 1 }), "yyyy-MM-dd"),
-  };
+	const dateRange = {
+		startDate: from,
+		endDate:
+			searchParams?.to ??
+			format(endOfWeek(new Date(), { weekStartsOn: 1 }), "yyyy-MM-dd"),
+	};
 
-  const { data } = await getAttendanceByDate(supabase, employeeId, dateRange);
+	const { data } = await getAttendanceByDate(supabase, employeeId, dateRange);
 
-  const totalHours = data?.reduce((acc, attendance) => {
-    return acc + (attendance.total_time ?? 0);
-  }, 0);
+	const totalHours = data?.reduce((acc, attendance) => {
+		return acc + (attendance.total_time ?? 0);
+	}, 0);
 
-  return (
-    <section className="flex flex-col gap-4 w-full h-full ">
-      <HoursBreakdown attendances={data} dateRange={dateRange} />
-      <AttendanceFilter />
-      <DataTable data={data ?? []} columns={columns} />
-    </section>
-  );
+	return (
+		<section className="flex flex-col gap-4 w-full max-h-[calc(100%_-_145px)] ">
+			<HoursBreakdown attendances={data} dateRange={dateRange} />
+			<AttendanceFilter />
+			<DataTable data={data ?? []} columns={columns} />
+		</section>
+	);
 }
 
 export default AttendanceTable;

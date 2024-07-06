@@ -18,7 +18,7 @@ type PageProps = {
 
 async function EmployeeAttendance({ params, searchParams }: PageProps) {
   return (
-    <section className="flex flex-col gap-4 justify-start  ">
+    <section className="flex flex-col gap-4 justify-start h-full ">
       {/* <AttendanceFilter /> */}
       <Suspense fallback={<InfoLoading />}>
         <EmployeeInfo employeeId={params.employeeId} />
