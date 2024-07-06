@@ -4,11 +4,11 @@ import { InfoLoading } from "./_components/loading/info";
 import Main from "@/components/main";
 
 export default function EmployeeAttendanceLoading() {
-  return (
-    <Main className="flex flex-col gap-4 justify-start  ">
-      <AttendanceFilter />
-      <InfoLoading />
-      <div>Loading table...</div>
-    </Main>
-  );
+	return (
+		<section className="flex flex-col gap-4 justify-start  ">
+			<AttendanceFilter />
+			<InfoLoading />
+			<div>Loading table...</div>
+		</section>
+	);
 }
