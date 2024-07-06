@@ -52,20 +52,17 @@ export const clockOutAction = action(
   },
 );
 
-export const createEventAction = action(
-  createEventSchema,
-  async (payload) => {
-    const supabase = createServerClient();
+export const createEventAction = action(createEventSchema, async (payload) => {
+  const supabase = createServerClient();
 
-    const { data, error } = await createEvent(supabase, payload);
+  const { data, error } = await createEvent(supabase, payload);
 
-    if (error) {
-      throw new Error(error.message);
-    }
-    revalidatePath("/");
-    return data;
-  },
-);
+  if (error) {
+    throw new Error(error.message);
+  }
+  revalidatePath("/");
+  return data;
+});
 
 export const updateEventAction = action(
   createEventSchema.extend({
@@ -84,16 +81,13 @@ export const updateEventAction = action(
   },
 );
 
-export const deleteEventAction = action(
-  z.string().min(1),
-  async (id) => {
-    const supabase = createServerClient();
+export const deleteEventAction = action(z.string().min(1), async (id) => {
+  const supabase = createServerClient();
 
-    const { error } = await deleteEvent(supabase, id);
+  const { error } = await deleteEvent(supabase, id);
 
-    if (error) {
-      throw Error(error.message);
-    }
-    revalidatePath("/");
-  },
-);
+  if (error) {
+    throw Error(error.message);
+  }
+  revalidatePath("/");
+});

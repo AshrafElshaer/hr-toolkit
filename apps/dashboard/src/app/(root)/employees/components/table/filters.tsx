@@ -16,7 +16,6 @@ import { Checkbox } from "@hr-toolkit/ui/checkbox";
 import { cn } from "@hr-toolkit/ui/utils";
 import { capitalize } from "lodash";
 
-
 interface DataTableFiltersProps<TData> {
   table: Table<TData>;
 }

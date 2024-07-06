@@ -10,62 +10,62 @@ import { Clock, FileText, NotebookTabs } from "lucide-react";
 import { HiOutlineBanknotes } from "react-icons/hi2";
 
 type Props = {
-	params: { organizationId: string; employeeId: string };
+  params: { organizationId: string; employeeId: string };
 };
 
 export default function EmployeeNavigation({ params }: Props) {
-	const pathname = usePathname();
-	const employeeId = params.employeeId;
-	const organizationId = params.organizationId;
+  const pathname = usePathname();
+  const employeeId = params.employeeId;
+  const organizationId = params.organizationId;
 
-	return (
-		<section className=" w-full flex items-center gap-2 overflow-x-scroll overflow-y-clip scrollbar-hide py-5 sm:py-3 ">
-			<BackButton />
-			{employeeDetailsNavigation.map((route) => {
-				const isActivePath =
-					(route.path === "/" &&
-						pathname === `/employees/${organizationId}/${employeeId}`) ||
-					(route.path !== "/" && pathname.includes(route.path));
+  return (
+    <section className=" w-full flex items-center gap-2 overflow-x-scroll overflow-y-clip scrollbar-hide py-5 sm:py-3 ">
+      <BackButton />
+      {employeeDetailsNavigation.map((route) => {
+        const isActivePath =
+          (route.path === "/" &&
+            pathname === `/employees/${organizationId}/${employeeId}`) ||
+          (route.path !== "/" && pathname.includes(route.path));
 
-				return (
-					<Link
-						href={`/employees/${organizationId}/${employeeId}${route.path}`}
-						key={`/employees/${organizationId}/${employeeId}${route.path}`}
-						className={cn(
-							buttonVariants({
-								variant: isActivePath ? "secondary" : "ghost",
-								className: "gap-2",
-							}),
-						)}
-					>
-						{route.icon}
-						{route.title}
-					</Link>
-				);
-			})}
-		</section>
-	);
+        return (
+          <Link
+            href={`/employees/${organizationId}/${employeeId}${route.path}`}
+            key={`/employees/${organizationId}/${employeeId}${route.path}`}
+            className={cn(
+              buttonVariants({
+                variant: isActivePath ? "secondary" : "ghost",
+                className: "gap-2",
+              }),
+            )}
+          >
+            {route.icon}
+            {route.title}
+          </Link>
+        );
+      })}
+    </section>
+  );
 }
 
 export const employeeDetailsNavigation = [
-	{
-		title: "General",
-		path: "/",
-		icon: <NotebookTabs className="w-4 h-4" />,
-	},
-	{
-		title: "Attendance",
-		path: "/attendance",
-		icon: <Clock className="w-4 h-4" />,
-	},
-	{
-		title: "Payroll",
-		path: "/payroll",
-		icon: <HiOutlineBanknotes className="w-4 h-4" />,
-	},
-	{
-		title: "Documents",
-		path: "/documents",
-		icon: <FileText className="w-4 h-4" />,
-	},
+  {
+    title: "General",
+    path: "/",
+    icon: <NotebookTabs className="w-4 h-4" />,
+  },
+  {
+    title: "Attendance",
+    path: "/attendance",
+    icon: <Clock className="w-4 h-4" />,
+  },
+  {
+    title: "Payroll",
+    path: "/payroll",
+    icon: <HiOutlineBanknotes className="w-4 h-4" />,
+  },
+  {
+    title: "Documents",
+    path: "/documents",
+    icon: <FileText className="w-4 h-4" />,
+  },
 ];

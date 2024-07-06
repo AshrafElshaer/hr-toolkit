@@ -7,23 +7,23 @@ import { WelcomeMessageSkeleton } from "./_components/loading/welcome-message";
 import { ClockInOutSkeleton } from "./_components/loading/clock-in-out";
 
 export default function DashboardLoading() {
-	return (
-		<main className="flex flex-col gap-4 h-full p-4 ">
-			<div className="flex gap-4 flex-col lg:flex-row">
-				<WelcomeMessageSkeleton />
+  return (
+    <main className="flex flex-col gap-4 h-full p-4 ">
+      <div className="flex gap-4 flex-col lg:flex-row">
+        <WelcomeMessageSkeleton />
 
-				<ClockInOutSkeleton />
-			</div>
-			<Card className="p-4 w-full flex flex-col gap-4">
-				<UpcomingEventsHeader />
-				<CalendarSkeleton />
-			</Card>
-			<div>
-				<Card className="flex flex-col p-4 gap-4 w-full sm:w-80 h-fit ">
-					<h3 className="text-foreground/70 font-semibold">Todo</h3>
-					<Skeleton className="h-8 w-full " />
-				</Card>
-			</div>
-		</main>
-	);
+        <ClockInOutSkeleton />
+      </div>
+      <Card className="p-4 w-full flex flex-col gap-4">
+        <UpcomingEventsHeader />
+        <CalendarSkeleton />
+      </Card>
+      <div>
+        <Card className="flex flex-col p-4 gap-4 w-full sm:w-80 h-fit ">
+          <h3 className="text-foreground/70 font-semibold">Todo</h3>
+          <Skeleton className="h-8 w-full " />
+        </Card>
+      </div>
+    </main>
+  );
 }

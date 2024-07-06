@@ -34,7 +34,6 @@ export function handleDateSearch(
   router.replace(`${pathname}?${params.toString()}`);
 }
 
-
 export function getHoursFromMinutes(minutes: number) {
-	return (minutes / 60).toFixed(2);
+  return (minutes / 60).toFixed(2);
 }

@@ -9,28 +9,28 @@ import { InfoLoading } from "./_components/loading/info";
 import Main from "@/components/main";
 
 type PageProps = {
-	params: {
-		organizationId: string;
-		employeeId: string;
-	};
-	searchParams?: { [key: string]: string | undefined };
+  params: {
+    organizationId: string;
+    employeeId: string;
+  };
+  searchParams?: { [key: string]: string | undefined };
 };
 
 async function EmployeeAttendance({ params, searchParams }: PageProps) {
-	return (
-		<section className="flex flex-col gap-4 justify-start  ">
-			{/* <AttendanceFilter /> */}
-			<Suspense fallback={<InfoLoading />}>
-				<EmployeeInfo employeeId={params.employeeId} />
-			</Suspense>
-			<Suspense fallback={<div>Loading table...</div>}>
-				<AttendanceTable
-					employeeId={params.employeeId}
-					searchParams={searchParams}
-				/>
-			</Suspense>
-		</section>
-	);
+  return (
+    <section className="flex flex-col gap-4 justify-start  ">
+      {/* <AttendanceFilter /> */}
+      <Suspense fallback={<InfoLoading />}>
+        <EmployeeInfo employeeId={params.employeeId} />
+      </Suspense>
+      <Suspense fallback={<div>Loading table...</div>}>
+        <AttendanceTable
+          employeeId={params.employeeId}
+          searchParams={searchParams}
+        />
+      </Suspense>
+    </section>
+  );
 }
 
 export default EmployeeAttendance;

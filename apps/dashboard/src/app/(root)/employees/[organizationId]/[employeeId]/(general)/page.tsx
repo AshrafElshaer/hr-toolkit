@@ -7,23 +7,21 @@ import Address from "./components/address";
 import Emergency from "./components/emergency";
 
 export default async function EmployeeDetails({
-	params,
+  params,
 }: { params: { organizationId: string; employeeId: string } }) {
-	const employeeId = params.employeeId;
+  const employeeId = params.employeeId;
 
-	const supabase = createServerClient();
-	const employee = await getEmployeeById(supabase, employeeId);
+  const supabase = createServerClient();
+  const employee = await getEmployeeById(supabase, employeeId);
 
-	return (
-
-		<section className="gap-4 flex flex-col h-full sm:flex-row pb-4 sm:pb-0">
-			<BasicInfo employee={employee} />
-			<div className="flex flex-col gap-4 w-full flex-grow justify-between">
-				<PersonalInfo employee={employee} />
-				<Address employee={employee} />
-				<Emergency employee={employee} />
-			</div>
-		</section>
-
-	);
+  return (
+    <section className="gap-4 flex flex-col h-full sm:flex-row pb-4 sm:pb-0">
+      <BasicInfo employee={employee} />
+      <div className="flex flex-col gap-4 w-full flex-grow justify-between">
+        <PersonalInfo employee={employee} />
+        <Address employee={employee} />
+        <Emergency employee={employee} />
+      </div>
+    </section>
+  );
 }

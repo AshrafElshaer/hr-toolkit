@@ -7,7 +7,7 @@ import { format } from "date-fns";
 import ClockInOut from "./clock-in-out";
 
 export default async function ClockInOutIndex() {
-	const { data: currentAttendance } = await getCurrentAttendance(null);
+  const { data: currentAttendance } = await getCurrentAttendance(null);
 
-	return <ClockInOut currentAttendance={currentAttendance} />;
+  return <ClockInOut currentAttendance={currentAttendance} />;
 }

@@ -8,19 +8,19 @@ import { Analytics } from "@vercel/analytics/react";
 import { env } from "@hr-toolkit/env";
 
 export function Providers({ children }: { children: React.ReactNode }) {
-	return (
-		<ReactQuery>
-			<ThemeProvider
-				attribute="class"
-				defaultTheme="system"
-				enableSystem
-				disableTransitionOnChange
-			>
-				{children}
-				<Toaster richColors position="top-right" duration={5000} />
-				<Analytics />
-				{env.NEXT_PUBLIC_NODE_ENV === "production" && <SpeedInsights />}
-			</ThemeProvider>
-		</ReactQuery>
-	);
+  return (
+    <ReactQuery>
+      <ThemeProvider
+        attribute="class"
+        defaultTheme="system"
+        enableSystem
+        disableTransitionOnChange
+      >
+        {children}
+        <Toaster richColors position="top-right" duration={5000} />
+        <Analytics />
+        {env.NEXT_PUBLIC_NODE_ENV === "production" && <SpeedInsights />}
+      </ThemeProvider>
+    </ReactQuery>
+  );
 }

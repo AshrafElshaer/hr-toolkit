@@ -7,29 +7,29 @@ import EmployeeNavigation from "./employee-navigation";
 import Main from "@/components/main";
 
 type Props = {
-	children: React.ReactNode;
-	params: { organizationId: string; employeeId: string };
+  children: React.ReactNode;
+  params: { organizationId: string; employeeId: string };
 };
 
 export async function generateMetadata(
-	{ params }: Props,
-	parent: ResolvingMetadata,
+  { params }: Props,
+  parent: ResolvingMetadata,
 ): Promise<Metadata> {
-	const supabase = createServerClient();
-	const employee = await getEmployeeById(supabase, params.employeeId);
-	return {
-		title: `${employee.first_name} ${employee.last_name}`,
-	};
+  const supabase = createServerClient();
+  const employee = await getEmployeeById(supabase, params.employeeId);
+  return {
+    title: `${employee.first_name} ${employee.last_name}`,
+  };
 }
 
 export default async function EmployeeDetailsLayout({
-	children,
-	params,
+  children,
+  params,
 }: Props) {
-	return (
-		<Main className="flex flex-col gap-4">
-			<EmployeeNavigation params={params} />
-			{children}
-		</Main>
-	);
+  return (
+    <Main className="flex flex-col gap-4">
+      <EmployeeNavigation params={params} />
+      {children}
+    </Main>
+  );
 }

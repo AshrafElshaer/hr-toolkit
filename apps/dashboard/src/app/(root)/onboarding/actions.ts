@@ -6,7 +6,6 @@ import { updateUserInfo } from "@hr-toolkit/supabase/user-mutations";
 import { createOrganization } from "@hr-toolkit/supabase/organization-mutations";
 import { organizationFormSchema } from "./validations";
 
-
 export const onboardingPersonal = action(personalInfoSchema, async (data) => {
   const supabase = createServerClient();
 

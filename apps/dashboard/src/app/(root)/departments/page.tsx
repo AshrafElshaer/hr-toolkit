@@ -8,17 +8,17 @@ import { TableLoader } from "./components/table/table-loading";
 import Main from "@/components/main";
 
 export const metadata: Metadata = {
-	title: "Departments",
-	description: "Manage your departments",
+  title: "Departments",
+  description: "Manage your departments",
 };
 
 export default function DepartmentsPage() {
-	return (
-		<Main className="flex flex-col gap-4 items-center justify-start  ">
-			<DepartmentsHeader />
-			<Suspense fallback={<TableLoader />}>
-				<DepartmentTable />
-			</Suspense>
-		</Main>
-	);
+  return (
+    <Main className="flex flex-col gap-4 items-center justify-start  ">
+      <DepartmentsHeader />
+      <Suspense fallback={<TableLoader />}>
+        <DepartmentTable />
+      </Suspense>
+    </Main>
+  );
 }

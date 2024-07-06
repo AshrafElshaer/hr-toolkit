@@ -4,10 +4,10 @@ import { format } from "date-fns";
 import useCurrentTime from "@/hooks/use-current-time";
 
 export default function CurrentTime() {
-	const { fullDay } = useCurrentTime();
-	return (
-		<h4 className="  text-sm font-semibold  text-secondary-foreground/80 w-fit">
-			{fullDay}
-		</h4>
-	);
+  const { fullDay } = useCurrentTime();
+  return (
+    <h4 className="  text-sm font-semibold  text-secondary-foreground/80 w-fit">
+      {fullDay}
+    </h4>
+  );
 }
