@@ -21,7 +21,7 @@ function MainSidebar({
 	const pathname = usePathname();
 
 	return (
-		<nav className="w-full h-full">
+		<nav className=" hidden md:block shadow-md w-[3.3rem] border-r border-t fixed h-[calc(100%_-_50px)] top-[50px] hover:w-[185px] transition-all group z-40 bg-background">
 			<ul className="flex flex-col items-start justify-start h-full gap-1 p-2">
 				{roleBasedNavigations(currentUser.role ?? "").map((route, idx) => {
 					const isActivePath =
@@ -35,9 +35,9 @@ function MainSidebar({
 								className={cn(
 									buttonVariants({
 										variant: isActivePath ? "secondary" : "ghost",
-										className: "w-full justify-start gap-2 relative",
+										className: "w-full justify-start p-2 gap-2 relative ",
 									}),
-									idx === 6 && "mt-6",
+									route.path === "/projects" && "mt-6",
 									isActivePath && "font-semibold",
 								)}
 								onClick={() => {
@@ -45,9 +45,11 @@ function MainSidebar({
 								}}
 							>
 								{route.icon}
-								{route.title}
+								<div className="min-w-20 opacity-0 group-hover:opacity-100 transition-opacity delay-[25ms] absolute left-8">
+									{route.title}
+								</div>
 								{isActivePath ? (
-									<div className="absolute right-0 top-1 bottom-1 w-[3px] rounded-l bg-primary" />
+									<div className="absolute right-0 top-1 bottom-1 w-[3px] rounded-l bg-primary opacity-0 group-hover:opacity-100 transition-opacity delay-[25ms]" />
 								) : null}
 							</Link>
 						</li>

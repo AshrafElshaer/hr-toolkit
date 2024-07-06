@@ -5,6 +5,7 @@ import EmployeesHeader from "./components/employees-header";
 import EmployeeTable from "./components/table";
 
 import { TableLoader } from "./components/table/table-loading";
+import Main from "@/components/main";
 
 export const metadata: Metadata = {
 	title: "Employees",
@@ -12,12 +13,12 @@ export const metadata: Metadata = {
 };
 async function EmployeesPage() {
 	return (
-		<main className="flex flex-col items-center justify-start h-full p-4 gap-4">
+		<Main className="flex flex-col items-center justify-start gap-4">
 			<EmployeesHeader />
 			<Suspense fallback={<TableLoader />}>
 				<EmployeeTable />
 			</Suspense>
-		</main>
+		</Main>
 	);
 }
 

@@ -5,6 +5,7 @@ import DepartmentsHeader from "./components/departments-header";
 import DepartmentTable from "./components/table";
 
 import { TableLoader } from "./components/table/table-loading";
+import Main from "@/components/main";
 
 export const metadata: Metadata = {
 	title: "Departments",
@@ -13,11 +14,11 @@ export const metadata: Metadata = {
 
 export default function DepartmentsPage() {
 	return (
-		<main className="flex flex-col gap-4 items-center justify-start h-full p-4 ">
+		<Main className="flex flex-col gap-4 items-center justify-start  ">
 			<DepartmentsHeader />
 			<Suspense fallback={<TableLoader />}>
 				<DepartmentTable />
 			</Suspense>
-		</main>
+		</Main>
 	);
 }

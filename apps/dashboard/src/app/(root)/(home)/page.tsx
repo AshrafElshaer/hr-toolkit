@@ -7,6 +7,7 @@ import UpcomingEvents from "./_components/events";
 import WelcomeMessage from "./_components/welcome";
 import { WelcomeMessageSkeleton } from "./_components/loading/welcome-message";
 import { ClockInOutSkeleton } from "./_components/loading/clock-in-out";
+import Main from "@/components/main";
 
 export default async function IndexPage({
 	params,
@@ -16,7 +17,7 @@ export default async function IndexPage({
 	searchParams?: { [key: string]: string | string[] | undefined };
 }) {
 	return (
-		<main className="flex flex-col gap-4 h-full p-4 ">
+		<Main className="flex flex-col gap-4">
 			<div className="flex gap-4 flex-col lg:flex-row">
 				<Suspense fallback={<WelcomeMessageSkeleton />}>
 					{env.NEXT_PUBLIC_NODE_ENV === "development" ? (
@@ -40,8 +41,11 @@ export default async function IndexPage({
 					<h3 className="text-foreground/70 font-semibold">Todo</h3>
 					<Skeleton className="h-8 w-full " />
 				</Card>
+				<Card className="flex flex-col p-4 gap-4 w-full sm:w-80 h-fit ">
+					<h3 className="text-foreground/70 font-semibold">Todo</h3>
+					<Skeleton className="h-8 w-full " />
+				</Card>
 			</div>
-		</main>
+		</Main>
 	);
 }
-

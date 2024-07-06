@@ -6,6 +6,7 @@ import AttendanceTable from "./_components/table";
 import { Skeleton } from "@hr-toolkit/ui/skeleton";
 import { Card } from "@hr-toolkit/ui/card";
 import { InfoLoading } from "./_components/loading/info";
+import Main from "@/components/main";
 
 type PageProps = {
 	params: {
@@ -17,7 +18,7 @@ type PageProps = {
 
 async function EmployeeAttendance({ params, searchParams }: PageProps) {
 	return (
-		<main className="flex flex-col gap-4 justify-start h-full p-4 ">
+		<section className="flex flex-col gap-4 justify-start  ">
 			{/* <AttendanceFilter /> */}
 			<Suspense fallback={<InfoLoading />}>
 				<EmployeeInfo employeeId={params.employeeId} />
@@ -28,7 +29,7 @@ async function EmployeeAttendance({ params, searchParams }: PageProps) {
 					searchParams={searchParams}
 				/>
 			</Suspense>
-		</main>
+		</section>
 	);
 }
 

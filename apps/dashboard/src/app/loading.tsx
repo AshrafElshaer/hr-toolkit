@@ -39,7 +39,7 @@ export default function AppShellLoading() {
 				<ResizablePanelGroup direction="horizontal">
 					<ResizablePanel
 						defaultSize={1}
-						className="border-r min-w-[185px] hidden md:block shadow-md"
+						className="border-r min-w-[52.5px] hidden md:block shadow-md"
 					>
 						<div className="flex flex-col items-start justify-start h-full gap-1 p-2">
 							{Array.from({ length: 8 }).map((_, index) => (

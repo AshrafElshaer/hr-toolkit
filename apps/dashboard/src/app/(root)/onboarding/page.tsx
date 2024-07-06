@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import OnboardingForm from "./components/onboarding";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
+import Main from "@/components/main";
 
 export default function OnboardingPage() {
 	const [isAnimating, setIsAnimating] = useState(true);
@@ -19,7 +20,7 @@ export default function OnboardingPage() {
 	}, []);
 
 	return (
-		<main className="flex flex-col items-center justify-center min-h-screen px-4 py-8">
+		<Main className="flex flex-col items-center justify-center   py-8">
 			<AnimatePresence mode="wait">
 				{isAnimating ? (
 					<motion.div
@@ -46,6 +47,6 @@ export default function OnboardingPage() {
 					</motion.div>
 				)}
 			</AnimatePresence>
-		</main>
+		</Main>
 	);
 }

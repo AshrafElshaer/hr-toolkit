@@ -1,9 +1,10 @@
+import Main from "@/components/main";
 import React from "react";
 
 export default function SettingPage() {
-  return (
-    <main className="flex flex-col items-center justify-center h-full ">
-      SettingPage
-    </main>
-  );
+	return (
+		<Main className="flex flex-col items-center justify-center  ">
+			SettingPage
+		</Main>
+	);
 }
