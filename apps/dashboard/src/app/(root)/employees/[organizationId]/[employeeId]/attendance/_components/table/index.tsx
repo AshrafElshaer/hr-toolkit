@@ -38,7 +38,7 @@ async function AttendanceTable({ employeeId, searchParams }: Props) {
 	}, 0);
 
 	return (
-		<section className="flex flex-col gap-4 w-full max-h-[calc(100%_-_145px)] ">
+		<section className="flex flex-col gap-4 w-full max-h-full ">
 			<HoursBreakdown attendances={data} dateRange={dateRange} />
 			<AttendanceFilter />
 			<DataTable data={data ?? []} columns={columns} />
