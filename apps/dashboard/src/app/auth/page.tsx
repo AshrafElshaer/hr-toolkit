@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [userEmail, setUserEmail] = React.useState<string | null>(null);
 
   return (
-    <Main className="grid place-items-center min-h-screen ">
+    <Main className="grid place-items-center h-[100svh] ">
       <AnimatePresence mode="wait">
         {userEmail ? (
           <motion.div

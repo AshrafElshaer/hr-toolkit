@@ -7,8 +7,7 @@ CREATE TYPE event_type_enum AS ENUM(
 
 CREATE TYPE recurrence_pattern_enum AS ENUM('daily', 'weekly', 'monthly', 'yearly');
 
-create table
-  public.events (
+create table public.events (
     id uuid not null default gen_random_uuid (),
     event_name text not null,
     event_date date not null,
@@ -23,20 +22,21 @@ create table
     start_time text not null,
     end_time text not null,
     constraint events_pkey primary key (id),
-    constraint events_department_id_fkey foreign key (department_id) references departments (id) on delete set null,
-    constraint events_organization_id_fkey foreign key (organization_id) references organizations (id) on delete cascade,
-    constraint events_organizer_id_fkey foreign key (organizer_id) references users (id) on delete set null
-  ) tablespace pg_default;
+    constraint events_department_id_fkey foreign key (department_id) references departments (id) on delete
+    set
+        null,
+        constraint events_organization_id_fkey foreign key (organization_id) references organizations (id) on delete cascade,
+        constraint events_organizer_id_fkey foreign key (organizer_id) references users (id) on delete
+    set
+        null
+) tablespace pg_default;
 
 CREATE POLICY events_select_policy ON public.events FOR
 SELECT
     USING (
         organizer_id = auth.uid ()
         or department_id = current_user_department_id ()
-        or (
-            current_user_role () = 'owner'
-            and organization_id = current_user_organization_id ()
-        )
+        or organization_id = current_user_organization_id ()
     );
 
 CREATE POLICY events_insert_policy ON public.events FOR
