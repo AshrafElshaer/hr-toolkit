@@ -62,7 +62,7 @@ export default function EventCard({ event }: Props) {
         className="text-sm px-0 py-2 min-w-72"
         side={isMobile ? "top" : "right"}
         align={isMobile ? "center" : "start"}
-        sideOffset={isMobile ? 16 : 8}
+        sideOffset={isMobile ? 16 : 6}
       >
         <div className="flex flex-col gap-2 ">
           <div className="px-4 text-base flex items-center justify-between">
