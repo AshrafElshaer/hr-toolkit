@@ -2,7 +2,8 @@ import React from "react";
 import { Card } from "@hr-toolkit/ui/card";
 import type { Attendance } from "@hr-toolkit/supabase/types";
 import { getHoursFromMinutes } from "@/lib/date";
-import { differenceInBusinessDays } from "date-fns";
+import { differenceInBusinessDays } from "@/lib/date";
+import { addDays } from "date-fns";
 
 type Props = {
 	attendances: Attendance[] | null;
@@ -13,10 +14,10 @@ export default function HoursBreakdown({ attendances, dateRange }: Props) {
 		return acc + (attendance.total_time ?? 0);
 	}, 0);
 	const workDays = differenceInBusinessDays(
-		new Date(dateRange.endDate),
-		new Date(dateRange.startDate),
+		addDays(new Date(dateRange.startDate), 1),
+		addDays(new Date(dateRange.endDate), 1),
 	);
-	const workSchedule = (workDays || 1) * 8;
+	const workSchedule = workDays * 8;
 
 	const overtime =
 		Number(getHoursFromMinutes(totalHours ?? 0)) - Number(workSchedule);

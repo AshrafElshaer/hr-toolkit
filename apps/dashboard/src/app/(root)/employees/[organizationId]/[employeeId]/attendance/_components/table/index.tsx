@@ -33,9 +33,7 @@ async function AttendanceTable({ employeeId, searchParams }: Props) {
 
 	const { data } = await getAttendanceByDate(supabase, employeeId, dateRange);
 
-	const totalHours = data?.reduce((acc, attendance) => {
-		return acc + (attendance.total_time ?? 0);
-	}, 0);
+	
 
 	return (
 		<section className="flex flex-col gap-4 w-full h-full ">
