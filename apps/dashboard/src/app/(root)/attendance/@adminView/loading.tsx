@@ -5,7 +5,7 @@ import InputLoading from "@/components/loaders/input-loading";
 import { Search } from "lucide-react";
 import PaginationLoader from "@/components/loaders/pagination-loader";
 import { Skeleton } from "@hr-toolkit/ui/skeleton";
-import AttendanceFilter from "../employees/[organizationId]/[employeeId]/attendance/_components/attendance-filter";
+import AttendanceFilter from "../../employees/[organizationId]/[employeeId]/attendance/_components/attendance-filter";
 
 export default function AttendancePageLoading() {
 	return (
