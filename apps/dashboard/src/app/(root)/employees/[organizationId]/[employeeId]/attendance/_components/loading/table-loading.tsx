@@ -1,7 +1,7 @@
 import { Skeleton } from "@hr-toolkit/ui/skeleton";
 import AttendanceFilter from "../attendance-filter";
 import HoursBreakdownLoading from "./hours-breakdown-loading";
-import PaginationLoader from "@/app/(root)/employees/components/loaders/pagination-loader";
+import PaginationLoader from "@/components/loaders/pagination-loader";
 
 export default function AttendanceTableLoading() {
 	return (

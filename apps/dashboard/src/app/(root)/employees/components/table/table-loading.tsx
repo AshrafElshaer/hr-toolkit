@@ -11,7 +11,7 @@ import {
 	Filter,
 	Search,
 } from "lucide-react";
-import PaginationLoader from "../loaders/pagination-loader";
+import PaginationLoader from "../../../../../components/loaders/pagination-loader";
 
 export function TableLoader() {
 	return (

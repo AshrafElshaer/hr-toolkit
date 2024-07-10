@@ -67,8 +67,8 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<section className="w-full flex-grow flex flex-col gap-4">
-			<div className="flex items-center w-full justify-between">
-				<div className=" max-w-sm">
+			<div className="flex items-start flex-col-reverse sm:flex-row gap-4 w-full justify-between">
+				<div className="w-full sm:max-w-52">
 					<Input
 						placeholder="Filter By Name ..."
 						startIcon={Search}
@@ -80,7 +80,7 @@ export function DataTable<TData, TValue>({
 						}
 					/>
 				</div>
-				<AttendanceFilter />
+				<AttendanceFilter className="ml-auto" />
 			</div>
 			<div className=" flex-grow overflow-scroll scrollbar-muted">
 				<Table>

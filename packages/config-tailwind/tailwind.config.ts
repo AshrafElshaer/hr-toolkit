@@ -23,6 +23,9 @@ const config = {
         sans: ["var(--font-geist-sans)"],
         mono: ["var(--font-geist-mono)"],
       },
+      screens: {
+        "2xl": "1400px",
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
