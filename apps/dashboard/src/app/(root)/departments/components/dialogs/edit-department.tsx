@@ -19,6 +19,7 @@ import type { User } from "@hr-toolkit/supabase/types";
 
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogHeader,
@@ -54,6 +55,7 @@ import { Loader } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@hr-toolkit/ui/avatar";
 import { useUser } from "@/hooks/use-user";
+import { useDepartments } from "@/hooks/use-departments";
 
 type props = {
 	department: DepartmentColumn | null;
@@ -103,6 +105,7 @@ function UpdateForm({
 	}
 
 	const { user } = useUser();
+	const { updateDepartment, isUpdating, updateError } = useDepartments({});
 	const { data: organizationManagers, error: managersError } = useQuery({
 		queryKey: ["managers"],
 		queryFn: () => getAllManagers(supabase),
@@ -117,30 +120,16 @@ function UpdateForm({
 	});
 
 	async function onSubmit(values: z.infer<typeof departmentSchema>) {
-		const { data, serverError, validationError } = await editDepartment({
-			...values,
-			id: department?.id,
+		toast.promise(() => updateDepartment(values), {
+			loading: "Updating department...",
+			success: () => {
+				onClose();
+				return "Department updated successfully.";
+			},
+			error:
+				updateError?.message ??
+				"An error occurred while updating the department.",
 		});
-		if (serverError) {
-			toast.error("An error occurred while updating the department.", {
-				description: serverError,
-			});
-			return;
-		}
-		if (validationError) {
-			toast.error("Validation error", {
-				description:
-					validationError.departmentDescription ||
-					validationError.departmentName,
-			});
-			return;
-		}
-
-		toast.success("Department updated successfully.");
-		queryClient.invalidateQueries({
-			queryKey: ["departments"],
-		});
-		onClose();
 	}
 
 	return (
@@ -168,7 +157,7 @@ function UpdateForm({
 					name="departmentDescription"
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Department Descriptipn</FormLabel>
+							<FormLabel>Department Description</FormLabel>
 							<FormControl>
 								<Input placeholder="Information Technology" {...field} />
 							</FormControl>
@@ -233,37 +222,14 @@ function UpdateForm({
 						</FormItem>
 					)}
 				/>
-				<AnimatePresence mode="wait" initial={false}>
-					<Button
-						type="submit"
-						className="w-full"
-						disabled={form.formState.isSubmitting}
-					>
-						{form.formState.isSubmitting ? (
-							<motion.span
-								key="submitting"
-								initial={{ opacity: 0, y: 10 }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, y: -10 }}
-								transition={{ duration: 0.2 }}
-								className="flex items-center"
-							>
-								<Loader className="h-4 w-4 mr-2 animate-spin" />
-								Updating ...
-							</motion.span>
-						) : (
-							<motion.span
-								key="submit"
-								initial={{ opacity: 0, y: 10 }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, y: -10 }}
-								transition={{ duration: 0.2 }}
-							>
-								Update Department
-							</motion.span>
-						)}
+				<div className="flex items-center justify-end gap-2 w-full">
+					<DialogClose asChild>
+						<Button variant="outline">Cancel</Button>
+					</DialogClose>
+					<Button type="submit" disabled={isUpdating}>
+						Save
 					</Button>
-				</AnimatePresence>
+				</div>
 			</form>
 		</Form>
 	);

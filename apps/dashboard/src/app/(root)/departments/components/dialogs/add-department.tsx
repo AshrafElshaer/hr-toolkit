@@ -7,6 +7,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { Button } from "@hr-toolkit/ui/button";
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogHeader,
@@ -116,6 +117,7 @@ import {
 import { ScrollArea } from "@hr-toolkit/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@hr-toolkit/ui/avatar";
 import { useUser } from "@/hooks/use-user";
+import { useDepartments } from "@/hooks/use-departments";
 
 function NewDepartmentForm({
 	className,
@@ -123,6 +125,7 @@ function NewDepartmentForm({
 }: React.ComponentProps<"form"> & { setOpen: ReactSetState<boolean> }) {
 	const supabase = createClient();
 	const { user } = useUser();
+	const { createDepartment, isCreating, createError } = useDepartments({});
 
 	const { data: organizationManagers, error: managersError } = useQuery({
 		queryKey: ["managers"],
@@ -136,35 +139,16 @@ function NewDepartmentForm({
 	});
 
 	async function onSubmit(values: z.infer<typeof departmentSchema>) {
-		const {
-			data: newDepartment,
-			serverError,
-			validationError,
-		} = await createNewDepartment(values);
-
-		if (serverError) {
-			toast.error("An error occurred while creating the department.", {
-				description: serverError,
-			});
-			return;
-		}
-
-		if (validationError) {
-			toast.error("Validation error", {
-				description:
-					validationError.departmentDescription ||
-					validationError.departmentName,
-			});
-			return;
-		}
-
-		if (newDepartment) {
-			toast.success("Department created successfully.");
-			queryClient.invalidateQueries({
-				queryKey: ["departments"],
-			});
-			setOpen(false);
-		}
+		toast.promise(() => createDepartment(values), {
+			loading: "Creating department...",
+			success: () => {
+				setOpen(false);
+				return "Department created successfully.";
+			},
+			error:
+				createError?.message ??
+				"An error occurred while creating the department.",
+		});
 	}
 
 	if (managersError) {
@@ -262,37 +246,14 @@ function NewDepartmentForm({
 						</FormItem>
 					)}
 				/>
-				<AnimatePresence mode="wait" initial={false}>
-					<Button
-						type="submit"
-						className="w-full"
-						disabled={form.formState.isSubmitting}
-					>
-						{form.formState.isSubmitting ? (
-							<motion.span
-								key="submitting"
-								initial={{ opacity: 0, y: 10 }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, y: -10 }}
-								transition={{ duration: 0.2 }}
-								className="flex items-center"
-							>
-								<Loader className="h-4 w-4 mr-2 animate-spin" />
-								creating ...
-							</motion.span>
-						) : (
-							<motion.span
-								key="submit"
-								initial={{ opacity: 0, y: 10 }}
-								animate={{ opacity: 1, y: 0 }}
-								exit={{ opacity: 0, y: -10 }}
-								transition={{ duration: 0.2 }}
-							>
-								Create Department
-							</motion.span>
-						)}
+				<div className="flex items-center justify-end gap-2 w-full">
+					<DialogClose asChild>
+						<Button variant="outline">Cancel</Button>
+					</DialogClose>
+					<Button type="submit" disabled={isCreating}>
+						Create
 					</Button>
-				</AnimatePresence>
+				</div>
 			</form>
 		</Form>
 	);
