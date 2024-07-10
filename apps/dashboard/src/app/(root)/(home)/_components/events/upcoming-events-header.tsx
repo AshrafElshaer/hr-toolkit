@@ -13,97 +13,89 @@ import { DatePickerWithRange } from "@hr-toolkit/ui/date-range-picker";
 import { Separator } from "@hr-toolkit/ui/separator";
 import CreateEvent from "./create-events";
 import { handleDateSearch } from "@/lib/date";
+import { useUser } from "@/hooks/use-user";
 
 const dateRangeOptions: DateRangeOption[] = [
-  {
-    title: "Next 7 Days",
-    range: {
-      from: new Date(),
-      to: addDays(new Date(), 6),
-    },
-  },
-  {
-    title: "This Week",
-    range: {
-      from: startOfWeek(new Date(), { weekStartsOn: 1 }),
-      to: endOfWeek(new Date(), { weekStartsOn: 1 }),
-    },
-  },
-  {
-    title: "Last Week",
-    range: {
-      from: startOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 }),
-      to: endOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 }),
-    },
-  },
-  {
-    title: "Next Week",
-    range: {
-      from: startOfWeek(addDays(new Date(), 7), { weekStartsOn: 1 }),
-      to: endOfWeek(addDays(new Date(), 7), { weekStartsOn: 1 }),
-    },
-  },
+	{
+		title: "Next 7 Days",
+		range: {
+			from: new Date(),
+			to: addDays(new Date(), 6),
+		},
+	},
+	{
+		title: "This Week",
+		range: {
+			from: startOfWeek(new Date(), { weekStartsOn: 1 }),
+			to: endOfWeek(new Date(), { weekStartsOn: 1 }),
+		},
+	},
+	{
+		title: "Last Week",
+		range: {
+			from: startOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 }),
+			to: endOfWeek(subDays(new Date(), 7), { weekStartsOn: 1 }),
+		},
+	},
+	{
+		title: "Next Week",
+		range: {
+			from: startOfWeek(addDays(new Date(), 7), { weekStartsOn: 1 }),
+			to: endOfWeek(addDays(new Date(), 7), { weekStartsOn: 1 }),
+		},
+	},
 ];
 
 export default function UpcomingEventsHeader() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-  const { data: user } = useQuery({
-    queryKey: ["user"],
-    queryFn: async () => {
-      const supabase = createClient();
-      const { error, user } = await getUser(supabase);
-      if (error) {
-        throw Error(error.message);
-      }
-      return user;
-    },
-  });
+	const router = useRouter();
+	const searchParams = useSearchParams();
+	const pathname = usePathname();
+  
+	const { user } = useUser();
 
-  const from = searchParams.get("events-from");
-  const to = searchParams.get("events-to");
+	const from = searchParams.get("events-from");
+	const to = searchParams.get("events-to");
 
-  const [date, setDate] = React.useState<DateRange>({
-    from: from ? addDays(new Date(from), 1) : new Date(),
-    to: to
-      ? addDays(new Date(to), 1)
-      : from
-        ? undefined
-        : addDays(new Date(), 6),
-  });
+	const [date, setDate] = React.useState<DateRange>({
+		from: from ? addDays(new Date(from), 1) : new Date(),
+		to: to
+			? addDays(new Date(to), 1)
+			: from
+				? undefined
+				: addDays(new Date(), 6),
+	});
 
-  return (
-    <div className="flex sm:items-center items-start gap-4 flex-col sm:flex-row">
-      <h3 className="text-foreground/70 font-semibold mr-auto">
-        Upcoming Events
-      </h3>
-      <div className="flex items-center h-full gap-4">
-        <DatePickerWithRange
-          className=" w-64"
-          date={date}
-          dateRangeOptions={dateRangeOptions}
-          onSelect={(date) => {
-            setDate(date as DateRange);
-            handleDateSearch(
-              date as DateRange,
-              searchParams,
-              router,
-              pathname,
-              "events",
-            );
-          }}
-          numberOfMonths={1}
-          max={7}
-          min={0}
-        />
-        {user?.role !== "employee" ? (
-          <>
-            <Separator orientation="vertical" />
-            <CreateEvent />
-          </>
-        ) : null}
-      </div>
-    </div>
-  );
+	return (
+		<div className="flex sm:items-center items-start gap-4 flex-col sm:flex-row">
+			<h3 className="text-foreground/70 font-semibold mr-auto">
+				Upcoming Events
+			</h3>
+			<div className="flex items-center h-full gap-4">
+				<DatePickerWithRange
+					className=" w-64"
+					date={date}
+					dateRangeOptions={dateRangeOptions}
+					onSelect={(date) => {
+						setDate(date as DateRange);
+						handleDateSearch(
+							date as DateRange,
+							searchParams,
+							router,
+							pathname,
+							"events",
+						);
+					}}
+					numberOfMonths={1}
+					max={7}
+					min={0}
+				/>
+				{user?.role !== "employee" ? (
+					<>
+						<Separator orientation="vertical" />
+						<CreateEvent />
+					</>
+				) : null}
+			</div>
+		</div>
+	);
 }
