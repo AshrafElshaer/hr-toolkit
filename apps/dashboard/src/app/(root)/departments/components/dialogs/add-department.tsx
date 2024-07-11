@@ -7,6 +7,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { Button } from "@hr-toolkit/ui/button";
 import {
 	Dialog,
+	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogHeader,
