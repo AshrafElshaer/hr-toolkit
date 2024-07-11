@@ -36,7 +36,7 @@ export function DataTable<TData, TValue>({
 
 	return (
 		<>
-			<div className=" flex-grow  overflow-scroll scrollbar-muted">
+			<div className=" flex-grow  overflow-scroll scrollbar-muted max-h-96">
 				<Table>
 					<TableHeader>
 						{table.getHeaderGroups().map((headerGroup) => (

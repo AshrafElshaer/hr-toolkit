@@ -3,11 +3,9 @@ import { getUser } from "@hr-toolkit/supabase/user-queries";
 import type { ReactNode } from "react";
 
 export default async function AttendancesPageLayout({
-	children,
 	adminView,
 	employeeView,
 }: {
-	children: ReactNode;
 	adminView: ReactNode;
 	employeeView: ReactNode;
 }) {
