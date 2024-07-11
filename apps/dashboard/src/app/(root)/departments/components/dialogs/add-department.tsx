@@ -7,7 +7,6 @@ import { useMediaQuery } from "usehooks-ts";
 import { Button } from "@hr-toolkit/ui/button";
 import {
 	Dialog,
-	DialogClose,
 	DialogContent,
 	DialogDescription,
 	DialogHeader,
@@ -117,7 +116,6 @@ import {
 import { ScrollArea } from "@hr-toolkit/ui/scroll-area";
 import { Avatar, AvatarFallback, AvatarImage } from "@hr-toolkit/ui/avatar";
 import { useUser } from "@/hooks/use-user";
-import { useDepartments } from "@/hooks/use-departments";
 
 function NewDepartmentForm({
 	className,
@@ -125,7 +123,6 @@ function NewDepartmentForm({
 }: React.ComponentProps<"form"> & { setOpen: ReactSetState<boolean> }) {
 	const supabase = createClient();
 	const { user } = useUser();
-	const { createDepartment, isCreating, createError } = useDepartments({});
 
 	const { data: organizationManagers, error: managersError } = useQuery({
 		queryKey: ["managers"],
@@ -139,16 +136,35 @@ function NewDepartmentForm({
 	});
 
 	async function onSubmit(values: z.infer<typeof departmentSchema>) {
-		toast.promise(() => createDepartment(values), {
-			loading: "Creating department...",
-			success: () => {
-				setOpen(false);
-				return "Department created successfully.";
-			},
-			error:
-				createError?.message ??
-				"An error occurred while creating the department.",
-		});
+		const {
+			data: newDepartment,
+			serverError,
+			validationError,
+		} = await createNewDepartment(values);
+
+		if (serverError) {
+			toast.error("An error occurred while creating the department.", {
+				description: serverError,
+			});
+			return;
+		}
+
+		if (validationError) {
+			toast.error("Validation error", {
+				description:
+					validationError.departmentDescription ||
+					validationError.departmentName,
+			});
+			return;
+		}
+
+		if (newDepartment) {
+			toast.success("Department created successfully.");
+			queryClient.invalidateQueries({
+				queryKey: ["departments"],
+			});
+			setOpen(false);
+		}
 	}
 
 	if (managersError) {
@@ -250,7 +266,10 @@ function NewDepartmentForm({
 					<DialogClose asChild>
 						<Button variant="outline">Cancel</Button>
 					</DialogClose>
-					<Button type="submit" disabled={isCreating}>
+					<Button type="submit" disabled={form.formState.isSubmitting}>
+						{form.formState.isSubmitting && (
+							<Loader className="h-4 w-4 mr-2 animate-spin" />
+						)}
 						Create
 					</Button>
 				</div>

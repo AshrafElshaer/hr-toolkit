@@ -27,7 +27,7 @@ import {
   TableRow,
 } from "@hr-toolkit/ui/table";
 
-import EditDepartmetn from "../dialogs/edit-department";
+import EditDepartment from "../dialogs/edit-department";
 import { DeleteDepartment } from "../dialogs/delete-department";
 import DepartmentFilters from "./filters";
 import { DataTablePagination } from "@/components/table-pagination";
@@ -143,7 +143,7 @@ export function DataTable<TData, TValue>({
         </Table>
       </div>
       <DataTablePagination table={table} />
-      <EditDepartmetn
+      <EditDepartment
         isEdit={isEdit}
         toggleIsEdit={toggleIsEdit}
         supabase={supabase}
