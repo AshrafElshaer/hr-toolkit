@@ -1,5 +1,3 @@
-import { createServerClient } from "@hr-toolkit/supabase/server";
-import { getUser } from "@hr-toolkit/supabase/user-queries";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -9,22 +7,8 @@ import type { ReactNode } from "react";
 import MainSidebar from "@/components/sidebar/main-sidebar";
 
 async function DashboardLayout({ children }: { children: ReactNode }) {
-	const supabase = createServerClient();
-	const pathname = headers().get("x-pathname");
-	const { user } = await getUser(supabase);
-
-	if (!user || (user === null && pathname !== "/auth")) {
-		redirect("/auth");
-	}
-
 	return (
-		<div className="w-full  h-[100svh] max-w-[1440px] mx-auto">
-			<DashboardHeader currentUser={user} />
-
-			<MainSidebar currentUser={user} />
-
-			{children}
-		</div>
+		<div className="w-full  h-[100svh] max-w-[1440px] mx-auto">{children}</div>
 	);
 
 	// 	<ResizablePanelGroup

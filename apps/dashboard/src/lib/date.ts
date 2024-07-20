@@ -11,20 +11,20 @@ export function amPm(time: string) {
 }
 
 export function differenceInBusinessDays(startDate: Date, endDate: Date) {
-	const start = new Date(startDate);
-	const end = new Date(endDate);
-	let count = 0;
-	const currentDate = new Date(start); // Use a separate variable for iteration
+  const start = new Date(startDate);
+  const end = new Date(endDate);
+  let count = 0;
+  const currentDate = new Date(start); // Use a separate variable for iteration
 
-	while (currentDate <= end) {
-		const day = currentDate.getDay();
-		if (day !== 0 && day !== 6) {
-			// Check if the day is not Sunday (0) or Saturday (6)
-			count++;
-		}
-		currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
-	}
-	return count;
+  while (currentDate <= end) {
+    const day = currentDate.getDay();
+    if (day !== 0 && day !== 6) {
+      // Check if the day is not Sunday (0) or Saturday (6)
+      count++;
+    }
+    currentDate.setDate(currentDate.getDate() + 1); // Move to the next day
+  }
+  return count;
 }
 
 export function handleDateSearch(

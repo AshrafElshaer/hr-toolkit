@@ -4,7 +4,6 @@
 	"private": true,
 	"license": "MIT",
 	"dependencies": {
-		"@hr-toolkit/env": "workspace:*",
 		"@supabase/ssr": "^0.3.0",
 		"@supabase/supabase-js": "^2.44.3",
 		"date-fns": "^3.6.0",
@@ -19,9 +18,7 @@
 		"typescript": "^5.4.5"
 	},
 	"exports": {
-		"./server": "./src/client/server.ts",
-		"./client": "./src/client/client.ts",
-		"./middleware": "./src/client/middleware.ts",
+
 		"./types": "./src/types/index.ts",
 		"./user-queries": "./src/queries/user/index.ts",
 		"./user-mutations": "./src/mutations/user/index.ts",

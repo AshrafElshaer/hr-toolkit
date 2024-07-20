@@ -19,5 +19,5 @@
   "engines": {
     "node": ">=18"
   },
-  "name": "hr-master"
+  "name": "hr-toolkit"
 }
