@@ -30,4 +30,5 @@ export async function GET(req: Request, res: Response) {
   // return new Response(data, {
   //   headers: responseHeaders,
   // });
+  return new Response("Hello World", {});
 }

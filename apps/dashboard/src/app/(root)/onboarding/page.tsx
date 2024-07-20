@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 // import OnboardingForm from "./components/onboarding";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
-import Main from "@/components/main";
+
 import { OrganizationForm } from "./_components/organization-form";
 
 export default function OnboardingPage() {

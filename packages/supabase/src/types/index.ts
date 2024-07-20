@@ -1,5 +1,5 @@
 import type { SupabaseClient as ClientType } from "@supabase/supabase-js";
-import { createServerClient } from "../client/server";
+
 import type { Database } from "./db";
 export * from "./db";
 
