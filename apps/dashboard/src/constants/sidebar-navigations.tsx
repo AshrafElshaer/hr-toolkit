@@ -4,7 +4,7 @@ import { HiOutlineBanknotes } from "react-icons/hi2";
 import { LuLayoutGrid } from "react-icons/lu";
 import { IoChatbubblesOutline } from "react-icons/io5";
 
-export const sidebarNavigations = [
+export const sidebarNavigation = [
   {
     title: "Dashboard",
     path: "/",
@@ -47,16 +47,16 @@ export const sidebarNavigations = [
   },
 ];
 
-export const roleBasedNavigations = (role: string) => {
+export const roleBasedNavigation = (role: string) => {
   switch (role) {
     case "owner":
-      return sidebarNavigations;
+      return sidebarNavigation;
     case "manager":
-      return sidebarNavigations.filter(
+      return sidebarNavigation.filter(
         (route) => route.path !== "/departments",
       );
     case "employee":
-      return sidebarNavigations.filter(
+      return sidebarNavigation.filter(
         (route) => route.path !== "/departments" && route.path !== "/employees",
       );
     default:

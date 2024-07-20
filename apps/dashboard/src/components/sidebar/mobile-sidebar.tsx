@@ -13,7 +13,7 @@ import { PanelLeftOpen, X } from "lucide-react";
 import LogoSVG from "../logo-svg";
 
 import type { User } from "@hr-toolkit/supabase/types";
-import { roleBasedNavigations } from "@/constants/sidebar-navigations";
+import { roleBasedNavigation } from "@/constants/sidebar-navigations";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { cn } from "@hr-toolkit/ui/utils";
@@ -41,7 +41,7 @@ export default function MobileSidebar({ currentUser }: { currentUser: User }) {
         </SheetHeader>
         <nav className="w-full h-full">
           <ul className="flex flex-col items-start justify-start h-full gap-1 p-2">
-            {roleBasedNavigations(currentUser.role ?? "").map((route, idx) => {
+            {roleBasedNavigation(currentUser.role ?? "").map((route, idx) => {
               const isActivePath =
                 pathname === route.path ||
                 route.path === pathname.split("/").slice(0, 2).join("/");

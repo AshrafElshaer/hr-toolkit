@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { usePathname } from "next/navigation";
-import { roleBasedNavigations } from "@/constants/sidebar-navigations";
+import { roleBasedNavigation } from "@/constants/sidebar-navigations";
 import { cn } from "@hr-toolkit/ui/utils";
 
 import type { ReactSetState } from "@/types";
@@ -23,7 +23,7 @@ function MainSidebar({
 	return (
 		<nav className=" hidden md:block shadow-md w-[3.3rem] border-r border-t fixed h-[calc(100%_-_50px)] top-[50px] hover:w-[185px] transition-all group z-40 bg-background">
 			<ul className="flex flex-col items-start justify-start h-full gap-1 p-2">
-				{roleBasedNavigations(currentUser.role ?? "").map((route, idx) => {
+				{roleBasedNavigation(currentUser.role ?? "").map((route, idx) => {
 					const isActivePath =
 						pathname === route.path ||
 						route.path === pathname.split("/").slice(0, 2).join("/");
