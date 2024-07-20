@@ -1,4 +1,4 @@
-import { createClient } from "@hr-toolkit/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { getUser } from "@hr-toolkit/supabase/user-queries";
 import { useQuery } from "@tanstack/react-query";
 

@@ -1,6 +1,6 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
-import { createClient } from "@hr-toolkit/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { getDepartments } from "@hr-toolkit/supabase/departments-queries";
 
 import {

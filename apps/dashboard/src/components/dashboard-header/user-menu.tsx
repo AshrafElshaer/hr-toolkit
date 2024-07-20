@@ -11,7 +11,7 @@ import {
 } from "@hr-toolkit/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@hr-toolkit/ui/avatar";
 import { useQuery } from "@tanstack/react-query";
-import { createClient } from "@hr-toolkit/supabase/client";
+import { createClient } from "@/lib/supabase/client";
 import { getUser } from "@hr-toolkit/supabase/user-queries";
 import Link from "next/link";
 import { LogOutIcon, MessageSquarePlus, Settings } from "lucide-react";
