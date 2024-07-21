@@ -19,17 +19,6 @@
 	},
 	"exports": {
 		"./types": "./src/types/index.ts",
-		"./user-queries": "./src/queries/user/index.ts",
-		"./user-mutations": "./src/mutations/user/index.ts",
-		"./organization-queries": "./src/queries/organization/index.ts",
-		"./organizations-mutations": "./src/mutations/organizations.ts",
-		"./departments-mutations": "./src/mutations/departments/index.ts",
-		"./departments-queries": "./src/queries/departments/index.ts",
-		"./storage-queries": "./src/queries/storage/index.ts",
-		"./storage-mutations": "./src/mutations/storage/index.ts",
-		"./attendance-queries": "./src/queries/attendance/index.ts",
-		"./attendance-mutations": "./src/mutations/attendance/index.ts",
-		"./events-queries": "./src/queries/events/index.ts",
-		"./events-mutations": "./src/mutations/events/index.ts"
+		"./organizations-mutations": "./src/mutations/organizations.ts"
 	}
 }
