@@ -1,7 +1,7 @@
 import React from "react";
 import { Img } from "@react-email/components";
 
-const baseUrl = "https://hr-toolkit-dashboard.vercel.app";
+const baseUrl = "https://dashboard.hrtoolkit.app";
 
 export default function Logo() {
 	return (

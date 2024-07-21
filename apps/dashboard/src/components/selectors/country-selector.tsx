@@ -1,5 +1,5 @@
 import type * as RPNInput from "react-phone-number-input";
-import type { CountrySelectProps } from "./phone-input";
+import type { CountrySelectProps } from "../phone-input";
 import React from "react";
 import {
   Popover,
@@ -58,7 +58,7 @@ export const CountrySelector = ({
         </Button>
       </PopoverTrigger>
       <PopoverContentWithoutPortal
-        className="w-[300px] p-0"
+        className="p-0"
         align="end"
         sideOffset={12}
       >

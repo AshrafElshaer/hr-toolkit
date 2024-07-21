@@ -14,7 +14,7 @@ import {
 import { colors } from "../components/colors";
 import Logo from "../components/logo";
 
-const baseUrl = "https://hr-toolkit-dashboard.vercel.app";
+const baseUrl = "https://dashboard.hrtoolkit.app";
 
 export function NewEmployeeEmail({
 	name,

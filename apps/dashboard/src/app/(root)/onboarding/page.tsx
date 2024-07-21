@@ -5,49 +5,29 @@ import { motion, AnimatePresence } from "framer-motion";
 // import OnboardingForm from "./components/onboarding";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
 
-import { OrganizationForm } from "./_components/organization-form";
+import {
+	OrganizationForm,
+	OrganizationOnboarding,
+} from "./_components/organization-form";
+import { useCounter } from "usehooks-ts";
+import { OwnerOnboarding } from "./_components/owner-form";
 
 export default function OnboardingPage() {
-	const [isAnimating, setIsAnimating] = useState(true);
-
-	useEffect(() => {
-		const timeout = setTimeout(() => {
-			setIsAnimating(false);
-		}, 5000);
-
-		return () => {
-			clearTimeout(timeout);
-		};
-	}, []);
-
+	const { count: step, increment: nextStep } = useCounter(1);
+	console.log({ step });
 	return (
-		<main className="flex flex-col items-center justify-center h-[100svh]  py-8">
-			<AnimatePresence mode="wait">
-				{isAnimating ? (
-					<motion.div
-						key={"welcome-message"}
-						initial={{ opacity: 0, y: 10 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: -10 }}
-						transition={{ duration: 0.4 }}
-					>
-						<TextGenerateEffect
-							words="Welcome to HR Toolkit! We're thrilled to have you onboard. Next, we need more information to set you up for success."
-							className="max-w-2xl"
-						/>
-					</motion.div>
+		<main className=" min-h-[100svh]  py-8 px-4">
+			<div className="w-full max-w-xl mx-auto">
+				{step === 1 ? (
+					<OrganizationOnboarding nextStep={nextStep} />
+				) : step === 2 ? (
+					<OwnerOnboarding nextStep={nextStep} />
 				) : (
-					<motion.div
-						key={"onboarding-form"}
-						initial={{ opacity: 0, y: 10 }}
-						animate={{ opacity: 1, y: 0 }}
-						exit={{ opacity: 0, y: -10 }}
-						transition={{ duration: 0.4 }}
-					>
-						<OrganizationForm />
-					</motion.div>
+					<div>
+						<TextGenerateEffect words="hello" className="max-w-2xl" />
+					</div>
 				)}
-			</AnimatePresence>
+			</div>
 		</main>
 	);
 }

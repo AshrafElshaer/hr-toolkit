@@ -9,157 +9,48 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      attendance: {
+      addresses: {
         Row: {
-          clock_in: string
-          clock_out: string | null
-          date: string | null
+          address_1: string
+          address_2: string | null
+          city: string
+          country: string
           id: string
-          organization_id: string
-          status: string
-          total_time: number | null
-          user_id: string
+          owner_id: string
+          state: string
+          zip_code: string
         }
         Insert: {
-          clock_in: string
-          clock_out?: string | null
-          date?: string | null
+          address_1: string
+          address_2?: string | null
+          city: string
+          country: string
           id?: string
-          organization_id: string
-          status: string
-          total_time?: number | null
-          user_id: string
+          owner_id: string
+          state: string
+          zip_code: string
         }
         Update: {
-          clock_in?: string
-          clock_out?: string | null
-          date?: string | null
+          address_1?: string
+          address_2?: string | null
+          city?: string
+          country?: string
           id?: string
-          organization_id?: string
-          status?: string
-          total_time?: number | null
-          user_id?: string
+          owner_id?: string
+          state?: string
+          zip_code?: string
         }
         Relationships: [
           {
-            foreignKeyName: "attendance_organization_id_fkey"
-            columns: ["organization_id"]
+            foreignKeyName: "addresses_organizations_owner_id_fkey"
+            columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "organizations"
             referencedColumns: ["id"]
           },
           {
-            foreignKeyName: "attendance_user_id_fkey"
-            columns: ["user_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      departments: {
-        Row: {
-          description: string | null
-          id: string
-          name: string
-          organization_id: string
-          person_in_charge_id: string
-        }
-        Insert: {
-          description?: string | null
-          id?: string
-          name: string
-          organization_id: string
-          person_in_charge_id: string
-        }
-        Update: {
-          description?: string | null
-          id?: string
-          name?: string
-          organization_id?: string
-          person_in_charge_id?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "departments_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "departments_person_in_charge_id_fkey"
-            columns: ["person_in_charge_id"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      events: {
-        Row: {
-          created_at: string | null
-          department_id: string | null
-          end_time: string
-          event_date: string
-          event_description: string | null
-          event_name: string
-          event_type: Database["public"]["Enums"]["event_type_enum"]
-          id: string
-          location: string | null
-          organization_id: string
-          organizer_id: string
-          start_time: string
-          updated_at: string | null
-        }
-        Insert: {
-          created_at?: string | null
-          department_id?: string | null
-          end_time: string
-          event_date: string
-          event_description?: string | null
-          event_name: string
-          event_type: Database["public"]["Enums"]["event_type_enum"]
-          id?: string
-          location?: string | null
-          organization_id: string
-          organizer_id: string
-          start_time: string
-          updated_at?: string | null
-        }
-        Update: {
-          created_at?: string | null
-          department_id?: string | null
-          end_time?: string
-          event_date?: string
-          event_description?: string | null
-          event_name?: string
-          event_type?: Database["public"]["Enums"]["event_type_enum"]
-          id?: string
-          location?: string | null
-          organization_id?: string
-          organizer_id?: string
-          start_time?: string
-          updated_at?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "events_department_id_fkey"
-            columns: ["department_id"]
-            isOneToOne: false
-            referencedRelation: "departments"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "events_organization_id_fkey"
-            columns: ["organization_id"]
-            isOneToOne: false
-            referencedRelation: "organizations"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "events_organizer_id_fkey"
-            columns: ["organizer_id"]
+            foreignKeyName: "addresses_users_owner_id_fkey"
+            columns: ["owner_id"]
             isOneToOne: false
             referencedRelation: "users"
             referencedColumns: ["id"]
@@ -168,49 +59,46 @@ export type Database = {
       }
       organizations: {
         Row: {
-          address: string
-          city: string
           contact_email: string
           contact_name: string
           contact_number: string
-          country: string
+          created_at: string
           employees_count: number
           id: string
           name: string
-          owner_id: string | null
-          state: string
+          owner_id: string
+          payroll_pattern: Database["public"]["Enums"]["payroll_pattern_enum"]
+          payroll_start_day: number
           type: string
-          zip_code: string
+          updated_at: string
         }
         Insert: {
-          address: string
-          city: string
           contact_email: string
           contact_name: string
           contact_number: string
-          country: string
-          employees_count: number
+          created_at?: string
+          employees_count?: number
           id?: string
           name: string
-          owner_id?: string | null
-          state: string
+          owner_id: string
+          payroll_pattern: Database["public"]["Enums"]["payroll_pattern_enum"]
+          payroll_start_day: number
           type: string
-          zip_code: string
+          updated_at?: string
         }
         Update: {
-          address?: string
-          city?: string
           contact_email?: string
           contact_name?: string
           contact_number?: string
-          country?: string
+          created_at?: string
           employees_count?: number
           id?: string
           name?: string
-          owner_id?: string | null
-          state?: string
+          owner_id?: string
+          payroll_pattern?: Database["public"]["Enums"]["payroll_pattern_enum"]
+          payroll_start_day?: number
           type?: string
-          zip_code?: string
+          updated_at?: string
         }
         Relationships: [
           {
@@ -224,101 +112,81 @@ export type Database = {
       }
       users: {
         Row: {
-          address: string | null
           avatar_url: string | null
-          city: string | null
-          country: string | null
+          created_at: string | null
           date_of_birth: string | null
-          department_id: string | null
-          email: string
-          emergency_email: string | null
-          emergency_name: string | null
-          emergency_phone_number: string | null
-          emergency_relation: string | null
-          employment_status: string | null
+          email: string | null
+          employment_status:
+            | Database["public"]["Enums"]["employment_status_enum"]
+            | null
+          employment_type:
+            | Database["public"]["Enums"]["employment_type_enum"]
+            | null
           first_name: string | null
           gender: string | null
           hire_date: string | null
           id: string
+          job_title: string | null
           last_name: string | null
+          leave_date: string | null
           organization_id: string | null
           phone_number: string | null
-          position: string | null
           role: Database["public"]["Enums"]["role_enum"] | null
-          salary: number | null
-          state: string | null
+          salary_per_hour: number | null
           updated_at: string | null
-          zip_code: string | null
+          work_hours_per_week: number | null
         }
         Insert: {
-          address?: string | null
           avatar_url?: string | null
-          city?: string | null
-          country?: string | null
+          created_at?: string | null
           date_of_birth?: string | null
-          department_id?: string | null
-          email: string
-          emergency_email?: string | null
-          emergency_name?: string | null
-          emergency_phone_number?: string | null
-          emergency_relation?: string | null
-          employment_status?: string | null
-          first_name?: string | null
-          gender?: string | null
-          hire_date?: string | null
-          id: string
-          last_name?: string | null
-          organization_id?: string | null
-          phone_number?: string | null
-          position?: string | null
-          role?: Database["public"]["Enums"]["role_enum"] | null
-          salary?: number | null
-          state?: string | null
-          updated_at?: string | null
-          zip_code?: string | null
-        }
-        Update: {
-          address?: string | null
-          avatar_url?: string | null
-          city?: string | null
-          country?: string | null
-          date_of_birth?: string | null
-          department_id?: string | null
-          email?: string
-          emergency_email?: string | null
-          emergency_name?: string | null
-          emergency_phone_number?: string | null
-          emergency_relation?: string | null
-          employment_status?: string | null
+          email?: string | null
+          employment_status?:
+            | Database["public"]["Enums"]["employment_status_enum"]
+            | null
+          employment_type?:
+            | Database["public"]["Enums"]["employment_type_enum"]
+            | null
           first_name?: string | null
           gender?: string | null
           hire_date?: string | null
           id?: string
+          job_title?: string | null
           last_name?: string | null
+          leave_date?: string | null
           organization_id?: string | null
           phone_number?: string | null
-          position?: string | null
           role?: Database["public"]["Enums"]["role_enum"] | null
-          salary?: number | null
-          state?: string | null
+          salary_per_hour?: number | null
           updated_at?: string | null
-          zip_code?: string | null
+          work_hours_per_week?: number | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          date_of_birth?: string | null
+          email?: string | null
+          employment_status?:
+            | Database["public"]["Enums"]["employment_status_enum"]
+            | null
+          employment_type?:
+            | Database["public"]["Enums"]["employment_type_enum"]
+            | null
+          first_name?: string | null
+          gender?: string | null
+          hire_date?: string | null
+          id?: string
+          job_title?: string | null
+          last_name?: string | null
+          leave_date?: string | null
+          organization_id?: string | null
+          phone_number?: string | null
+          role?: Database["public"]["Enums"]["role_enum"] | null
+          salary_per_hour?: number | null
+          updated_at?: string | null
+          work_hours_per_week?: number | null
         }
         Relationships: [
-          {
-            foreignKeyName: "users_department_id_fkey"
-            columns: ["department_id"]
-            isOneToOne: false
-            referencedRelation: "departments"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "users_id_fkey"
-            columns: ["id"]
-            isOneToOne: true
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          },
           {
             foreignKeyName: "users_organization_id_fkey"
             columns: ["organization_id"]
@@ -333,332 +201,26 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      current_user_department_id: {
+      get_organization_employees_count: {
         Args: Record<PropertyKey, never>
-        Returns: string
+        Returns: number
       }
-      current_user_organization_id: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      current_user_role: {
+      get_user_organization_id: {
         Args: Record<PropertyKey, never>
         Returns: string
       }
     }
     Enums: {
-      event_type_enum: "meeting" | "birthday" | "anniversary" | "conference"
-      recurrence_pattern_enum: "daily" | "weekly" | "monthly" | "yearly"
-      role_enum: "owner" | "manager" | "employee"
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
-  }
-  storage: {
-    Tables: {
-      buckets: {
-        Row: {
-          allowed_mime_types: string[] | null
-          avif_autodetection: boolean | null
-          created_at: string | null
-          file_size_limit: number | null
-          id: string
-          name: string
-          owner: string | null
-          owner_id: string | null
-          public: boolean | null
-          updated_at: string | null
-        }
-        Insert: {
-          allowed_mime_types?: string[] | null
-          avif_autodetection?: boolean | null
-          created_at?: string | null
-          file_size_limit?: number | null
-          id: string
-          name: string
-          owner?: string | null
-          owner_id?: string | null
-          public?: boolean | null
-          updated_at?: string | null
-        }
-        Update: {
-          allowed_mime_types?: string[] | null
-          avif_autodetection?: boolean | null
-          created_at?: string | null
-          file_size_limit?: number | null
-          id?: string
-          name?: string
-          owner?: string | null
-          owner_id?: string | null
-          public?: boolean | null
-          updated_at?: string | null
-        }
-        Relationships: []
-      }
-      migrations: {
-        Row: {
-          executed_at: string | null
-          hash: string
-          id: number
-          name: string
-        }
-        Insert: {
-          executed_at?: string | null
-          hash: string
-          id: number
-          name: string
-        }
-        Update: {
-          executed_at?: string | null
-          hash?: string
-          id?: number
-          name?: string
-        }
-        Relationships: []
-      }
-      objects: {
-        Row: {
-          bucket_id: string | null
-          created_at: string | null
-          id: string
-          last_accessed_at: string | null
-          metadata: Json | null
-          name: string | null
-          owner: string | null
-          owner_id: string | null
-          path_tokens: string[] | null
-          updated_at: string | null
-          version: string | null
-        }
-        Insert: {
-          bucket_id?: string | null
-          created_at?: string | null
-          id?: string
-          last_accessed_at?: string | null
-          metadata?: Json | null
-          name?: string | null
-          owner?: string | null
-          owner_id?: string | null
-          path_tokens?: string[] | null
-          updated_at?: string | null
-          version?: string | null
-        }
-        Update: {
-          bucket_id?: string | null
-          created_at?: string | null
-          id?: string
-          last_accessed_at?: string | null
-          metadata?: Json | null
-          name?: string | null
-          owner?: string | null
-          owner_id?: string | null
-          path_tokens?: string[] | null
-          updated_at?: string | null
-          version?: string | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "objects_bucketId_fkey"
-            columns: ["bucket_id"]
-            isOneToOne: false
-            referencedRelation: "buckets"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      s3_multipart_uploads: {
-        Row: {
-          bucket_id: string
-          created_at: string
-          id: string
-          in_progress_size: number
-          key: string
-          owner_id: string | null
-          upload_signature: string
-          version: string
-        }
-        Insert: {
-          bucket_id: string
-          created_at?: string
-          id: string
-          in_progress_size?: number
-          key: string
-          owner_id?: string | null
-          upload_signature: string
-          version: string
-        }
-        Update: {
-          bucket_id?: string
-          created_at?: string
-          id?: string
-          in_progress_size?: number
-          key?: string
-          owner_id?: string | null
-          upload_signature?: string
-          version?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "s3_multipart_uploads_bucket_id_fkey"
-            columns: ["bucket_id"]
-            isOneToOne: false
-            referencedRelation: "buckets"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      s3_multipart_uploads_parts: {
-        Row: {
-          bucket_id: string
-          created_at: string
-          etag: string
-          id: string
-          key: string
-          owner_id: string | null
-          part_number: number
-          size: number
-          upload_id: string
-          version: string
-        }
-        Insert: {
-          bucket_id: string
-          created_at?: string
-          etag: string
-          id?: string
-          key: string
-          owner_id?: string | null
-          part_number: number
-          size?: number
-          upload_id: string
-          version: string
-        }
-        Update: {
-          bucket_id?: string
-          created_at?: string
-          etag?: string
-          id?: string
-          key?: string
-          owner_id?: string | null
-          part_number?: number
-          size?: number
-          upload_id?: string
-          version?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "s3_multipart_uploads_parts_bucket_id_fkey"
-            columns: ["bucket_id"]
-            isOneToOne: false
-            referencedRelation: "buckets"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "s3_multipart_uploads_parts_upload_id_fkey"
-            columns: ["upload_id"]
-            isOneToOne: false
-            referencedRelation: "s3_multipart_uploads"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      can_insert_object: {
-        Args: {
-          bucketid: string
-          name: string
-          owner: string
-          metadata: Json
-        }
-        Returns: undefined
-      }
-      extension: {
-        Args: {
-          name: string
-        }
-        Returns: string
-      }
-      filename: {
-        Args: {
-          name: string
-        }
-        Returns: string
-      }
-      foldername: {
-        Args: {
-          name: string
-        }
-        Returns: string[]
-      }
-      get_size_by_bucket: {
-        Args: Record<PropertyKey, never>
-        Returns: {
-          size: number
-          bucket_id: string
-        }[]
-      }
-      list_multipart_uploads_with_delimiter: {
-        Args: {
-          bucket_id: string
-          prefix_param: string
-          delimiter_param: string
-          max_keys?: number
-          next_key_token?: string
-          next_upload_token?: string
-        }
-        Returns: {
-          key: string
-          id: string
-          created_at: string
-        }[]
-      }
-      list_objects_with_delimiter: {
-        Args: {
-          bucket_id: string
-          prefix_param: string
-          delimiter_param: string
-          max_keys?: number
-          start_after?: string
-          next_token?: string
-        }
-        Returns: {
-          name: string
-          id: string
-          metadata: Json
-          updated_at: string
-        }[]
-      }
-      operation: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      search: {
-        Args: {
-          prefix: string
-          bucketname: string
-          limits?: number
-          levels?: number
-          offsets?: number
-          search?: string
-          sortcolumn?: string
-          sortorder?: string
-        }
-        Returns: {
-          name: string
-          id: string
-          updated_at: string
-          created_at: string
-          last_accessed_at: string
-          metadata: Json
-        }[]
-      }
-    }
-    Enums: {
-      [_ in never]: never
+      employment_status_enum: "active" | "on_hold" | "terminated"
+      employment_type_enum: "full_time" | "part_time" | "contractor"
+      organization_type_enum: "public" | "private" | "non-profit"
+      payroll_pattern_enum: "weekly" | "biweekly" | "monthly"
+      role_enum:
+        | "admin"
+        | "department_manager"
+        | "hr_manager"
+        | "team- lead"
+        | "staff"
     }
     CompositeTypes: {
       [_ in never]: never

@@ -4,7 +4,7 @@
 	"private": true,
 	"license": "MIT",
 	"dependencies": {
-		"@supabase/ssr": "^0.3.0",
+		"@supabase/ssr": "^0.4.0",
 		"@supabase/supabase-js": "^2.44.3",
 		"date-fns": "^3.6.0",
 		"next": "^14.2.4",
@@ -18,12 +18,11 @@
 		"typescript": "^5.4.5"
 	},
 	"exports": {
-
 		"./types": "./src/types/index.ts",
 		"./user-queries": "./src/queries/user/index.ts",
 		"./user-mutations": "./src/mutations/user/index.ts",
 		"./organization-queries": "./src/queries/organization/index.ts",
-		"./organization-mutations": "./src/mutations/organization/index.ts",
+		"./organizations-mutations": "./src/mutations/organizations.ts",
 		"./departments-mutations": "./src/mutations/departments/index.ts",
 		"./departments-queries": "./src/queries/departments/index.ts",
 		"./storage-queries": "./src/queries/storage/index.ts",

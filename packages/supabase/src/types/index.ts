@@ -1,23 +1,15 @@
 import type { SupabaseClient as ClientType } from "@supabase/supabase-js";
+import type { createServerClient } from "@supabase/ssr";
 
 import type { Database } from "./db";
 export * from "./db";
 
-export type SupabaseClient = ClientType<Database>;
+export type SupabaseClient = ReturnType<typeof createServerClient<Database>>;
 
 export type User = Database["public"]["Tables"]["users"]["Row"];
-export type Department = Database["public"]["Tables"]["departments"]["Row"];
-export type Organization = Database["public"]["Tables"]["organizations"]["Row"];
-export interface UserWithDepartment extends User {
-  department: Department & { person_in_charge: User };
-}
-export interface UserWithOrdanization extends User {
-  organization: Organization;
-}
-export interface UserWithDepartmentAndOrganization extends User {
-  department: Department;
-  organization: Organization;
-}
+export type Organization = Database["public"]["Tables"]["organizations"];
+
+export type Addresses = Database["public"]["Tables"]["addresses"];
 
 type StorageListFunction = SupabaseClient["storage"]["from"];
 type ListFunctionReturn = ReturnType<StorageListFunction>;
@@ -27,14 +19,6 @@ type StorageFilePromise = Awaited<
 type StorageFileType = Pick<StorageFilePromise, "data">["data"];
 export type StorageFile = NonNullable<StorageFileType>[number];
 
-export type Attendance = Database["public"]["Tables"]["attendance"]["Row"];
-export interface AttendanceWithUser extends Attendance {
-  user: User;
-}
-export interface AttendanceWithOrganization extends Attendance {
-  organization: Organization;
-}
-
 export enum AttendanceStatus {
   CLOCKED_IN = "clocked_in",
   PENDING = "pending",
@@ -42,11 +26,3 @@ export enum AttendanceStatus {
   APPROVED = "approved",
   REJECTED = "rejected",
 }
-export type Event = Database["public"]["Tables"]["events"]["Row"];
-export type EventInsert = Database["public"]["Tables"]["events"]["Insert"];
-export type EventUpdate = Database["public"]["Tables"]["events"]["Update"];
-export type EventTypeEnum = Database["public"]["Enums"]["event_type_enum"];
-export type EventWithOrganizerAndDepartment = Event & {
-  organizer: User;
-  department: Department;
-};

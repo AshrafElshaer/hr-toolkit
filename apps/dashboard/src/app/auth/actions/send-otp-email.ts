@@ -33,7 +33,7 @@ export const sendOtpEmail = action
 
     const { data: emailResponse, error: emailError } = await resend.emails.send(
       {
-        from: "HR Toolkit <onboarding@fxresearch.app>",
+        from: "HR Toolkit <onboarding@hrtoolkit.app>",
         to: [email],
         subject: "HR Toolkit OTP Access",
         react: OtpEmail({

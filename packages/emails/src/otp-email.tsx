@@ -13,7 +13,7 @@ import {
 import * as React from "react";
 // import Logo from "./copmonents/logo";
 import { colors } from "./components/colors";
-const baseUrl = "https://fxresearch.app";
+const baseUrl = "https://hrtoolkit.app";
 export function OtpEmail({ otpCode }: { otpCode: string }) {
 	return (
 		<Html>
@@ -80,9 +80,8 @@ export function OtpEmail({ otpCode }: { otpCode: string }) {
 						<Text
 							className={`text-[14px] text-[${colors.lightTheme.foreground}] dark:text-[${colors.darkTheme.foreground}] `}
 						>
-							If you didn&apos;t request this code, no worries – your
-							account is safe and sound. Someone might have mistyped their email
-							address.
+							If you didn&apos;t request this code, no worries – your account is
+							safe and sound. Someone might have mistyped their email address.
 						</Text>
 
 						<Section className="mt-[16px] text-center">

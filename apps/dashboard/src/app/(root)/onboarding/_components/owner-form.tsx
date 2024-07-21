@@ -18,10 +18,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
 import { createOrganizationSchema } from "@/lib/validations/organizations";
 
-export function OrganizationOnboarding({ nextStep }: { nextStep: () => void }) {
+export function OwnerOnboarding({ nextStep }: { nextStep: () => void }) {
 	const [count, { startCountdown, stopCountdown, resetCountdown }] =
 		useCountdown({
-			countStart: 5,
+			countStart: 3,
 			intervalMs: 1000,
 		});
 	useEffect(() => {
@@ -40,7 +40,7 @@ export function OrganizationOnboarding({ nextStep }: { nextStep: () => void }) {
 					className="h-[100svh] grid place-content-center"
 				>
 					<TextGenerateEffect
-						words="Welcome to HR Toolkit! We're thrilled to have you onboard. Next, we need more information to set you up for success."
+						words="Awesome! your organization is ready . Next, we need more information about you."
 						className="max-w-2xl"
 					/>
 				</motion.div>
@@ -53,7 +53,7 @@ export function OrganizationOnboarding({ nextStep }: { nextStep: () => void }) {
 					exit={{ opacity: 0, y: -10 }}
 					transition={{ duration: 0.4 }}
 				>
-					<OrganizationForm nextStep={nextStep} />
+					<OwnerForm nextStep={nextStep} />
 				</motion.div>
 			)}
 		</AnimatePresence>
@@ -81,7 +81,7 @@ import { Loader } from "lucide-react";
 
 const organizationTypes = ["private", "public", "non-profit"] as const;
 
-export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
+export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 	const form = useForm<z.infer<typeof createOrganizationSchema>>({
 		resolver: zodResolver(createOrganizationSchema),
 		defaultValues: {
@@ -109,16 +109,15 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 			});
 			return;
 		}
-
-		nextStep();
+		if (result?.data) {
+			nextStep();
+		}
 	}
 
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="full space-y-4">
-				<h3 className="text-lg font-semibold text-center">
-					Organization Information
-				</h3>
+				<h3 className="text-lg font-semibold text-center">Owner Information</h3>
 				<div className="w-full flex gap-4">
 					<FormField
 						control={form.control}
@@ -127,7 +126,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 							<FormItem className="w-full">
 								<FormLabel>Organization Name</FormLabel>
 								<FormControl>
-									<Input placeholder="Space X" {...field} />
+									<Input placeholder="Private" {...field} />
 								</FormControl>
 
 								<FormMessage />
