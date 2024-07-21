@@ -16,18 +16,16 @@ export default function OnboardingPage() {
 	const { count: step, increment: nextStep } = useCounter(1);
 	console.log({ step });
 	return (
-		<main className=" min-h-[100svh]  py-8 px-4">
-			<div className="w-full max-w-xl mx-auto">
-				{step === 1 ? (
-					<OrganizationOnboarding nextStep={nextStep} />
-				) : step === 2 ? (
-					<OwnerOnboarding nextStep={nextStep} />
-				) : (
-					<div>
-						<TextGenerateEffect words="hello" className="max-w-2xl" />
-					</div>
-				)}
-			</div>
+		<main className=" min-h-[100svh] flex  py-8 px-4 w-full max-w-xl mx-auto">
+			{step === 1 ? (
+				<OrganizationOnboarding nextStep={nextStep} />
+			) : step === 2 ? (
+				<OwnerOnboarding nextStep={nextStep} />
+			) : (
+				<div>
+					<TextGenerateEffect words="hello" className="max-w-2xl" />
+				</div>
+			)}
 		</main>
 	);
 }

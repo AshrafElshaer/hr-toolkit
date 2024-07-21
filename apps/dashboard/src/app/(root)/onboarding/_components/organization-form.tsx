@@ -37,7 +37,7 @@ export function OrganizationOnboarding({ nextStep }: { nextStep: () => void }) {
 					animate={{ opacity: 1, y: 0 }}
 					exit={{ opacity: 0, y: -10 }}
 					transition={{ duration: 0.4 }}
-					className="h-full grid place-content-center"
+					className="flex-grow grid place-content-center"
 				>
 					<TextGenerateEffect
 						words="Welcome to HR Toolkit! We're thrilled to have you onboard. Next, we need more information to set you up for success."
