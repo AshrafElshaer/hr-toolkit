@@ -157,7 +157,7 @@ export function OtpConfirmation({
 			<CardFooter className="w-full grid ">
 				<Button
 					disabled={isVerifying || resendTimer !== 0 || isResending}
-					onClick={void resendOtp}
+					onClick={resendOtp}
 					variant="secondary"
 				>
 					<AnimatePresence initial={false} mode="wait">
