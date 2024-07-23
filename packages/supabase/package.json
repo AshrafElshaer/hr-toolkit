@@ -19,7 +19,7 @@
 	},
 	"exports": {
 		"./types": "./src/types/index.ts",
-
+		"./user-queries": "./src/queries/users.ts",
 		"./user-mutations": "./src/mutations/users.ts",
 		"./organization-mutations": "./src/mutations/organizations.ts"
 	}

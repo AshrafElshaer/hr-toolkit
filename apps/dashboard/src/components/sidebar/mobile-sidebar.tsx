@@ -19,7 +19,7 @@ import Link from "next/link";
 import { cn } from "@hr-toolkit/ui/utils";
 import { buttonVariants } from "@hr-toolkit/ui/button";
 
-export default function MobileSidebar({ currentUser }: { currentUser: User }) {
+export default function MobileSidebar({ currentUser }: { currentUser: User["Row"] }) {
   const [isOpen, setIsOpen] = React.useState(false);
   const pathname = usePathname();
   return (

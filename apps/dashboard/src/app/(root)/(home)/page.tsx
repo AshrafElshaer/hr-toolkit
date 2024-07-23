@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
 export default function HomePage() {
-  return (
-    <div>
-        HomePage
-    </div>
-  )
+	return (
+		<main className="w-full md:w-[calc(100%_-_3.3rem)] p-4 ml-auto">
+			HomePage
+		</main>
+	);
 }

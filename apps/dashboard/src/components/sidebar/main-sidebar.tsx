@@ -10,18 +10,25 @@ import type { User } from "@hr-toolkit/supabase/types";
 import { buttonVariants } from "@hr-toolkit/ui/button";
 import { Separator } from "@hr-toolkit/ui/separator";
 import Link from "next/link";
+import LogoSVG from "../logo-svg";
 
 function MainSidebar({
 	setIsMobileOpen,
 	currentUser,
 }: {
 	setIsMobileOpen?: ReactSetState<boolean>;
-	currentUser: User;
+	currentUser: User["Row"];
 }) {
 	const pathname = usePathname();
 
 	return (
-		<nav className=" hidden md:block shadow-md w-[3.3rem] border-r border-t fixed h-[calc(100%_-_50px)] top-[50px] hover:w-[185px] transition-all group z-40 bg-background">
+		<nav className=" hidden md:block shadow-md w-[3.3rem] border-r border-t fixed top-0 bottom-0 left-0 hover:w-[185px] transition-all group z-40 bg-background">
+			<div className="flex items-center justify-start  p-3 relative w-full">
+				<LogoSVG className="text-foreground fill-current size-7" />
+				<div className="w-full font-semibold opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity delay-[25ms] absolute left-12">
+					Hr ToolKit
+				</div>
+			</div>
 			<ul className="flex flex-col items-start justify-start h-full gap-1 p-2">
 				{roleBasedNavigation(currentUser.role ?? "").map((route, idx) => {
 					const isActivePath =

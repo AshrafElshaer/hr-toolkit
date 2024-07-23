@@ -20,7 +20,7 @@ import { BiMessageRoundedAdd } from "react-icons/bi";
 import { MdSupportAgent } from "react-icons/md";
 import type { User } from "@hr-toolkit/supabase/types";
 
-export default function UserMenu({ currentUser }: { currentUser: User }) {
+export default function UserMenu({ currentUser }: { currentUser: User["Row"] }) {
   const supabase = createClient();
   const router = useRouter();
 

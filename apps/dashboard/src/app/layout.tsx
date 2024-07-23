@@ -53,7 +53,7 @@ export default async function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+		<html lang="en" className={`${GeistSans.variable} ${GeistMono.variable} scrollbar-muted`}>
 			<body>
 				<Providers>{children}</Providers>
 			</body>
