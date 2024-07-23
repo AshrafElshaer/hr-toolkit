@@ -27,7 +27,7 @@ export default function MobileSidebar({ currentUser }: { currentUser: User["Row"
       <SheetTrigger className="h-full">
         <PanelLeftOpen size={20} />
       </SheetTrigger>
-      <SheetContent side="left" className="w-[20rem]">
+      <SheetContent side="left" className="w-[230px]">
         <SheetHeader className="mb-4 p-4">
           <section className="flex justify-between items-center">
             <SheetTitle className="flex items-center gap-2">

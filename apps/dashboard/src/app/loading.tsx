@@ -15,7 +15,7 @@ export default function AppShellLoading() {
 			{" "}
 			<ResizablePanel
 				defaultSize={1}
-				className="border-r min-w-[3.3rem] hidden md:block shadow-md"
+				className="border-r min-w-[3.2rem] hidden md:block shadow-md"
 			>
 				<div className="w-full grid place-content-center p-3">
 					<LogoSVG className="text-foreground fill-current size-7" />
