@@ -19,11 +19,10 @@ import { TextGenerateEffect } from "@/components/text-generate-effect";
 import { createOrganizationSchema } from "@/lib/validations/organizations";
 
 export function OwnerOnboarding({ nextStep }: { nextStep: () => void }) {
-	const [count, { startCountdown, stopCountdown, resetCountdown }] =
-		useCountdown({
-			countStart: 3,
-			intervalMs: 1000,
-		});
+	const [count, { startCountdown }] = useCountdown({
+		countStart: 5,
+		intervalMs: 1000,
+	});
 	useEffect(() => {
 		startCountdown();
 	}, [startCountdown]);
@@ -37,11 +36,11 @@ export function OwnerOnboarding({ nextStep }: { nextStep: () => void }) {
 					animate={{ opacity: 1, y: 0 }}
 					exit={{ opacity: 0, y: -10 }}
 					transition={{ duration: 0.4 }}
-					className="flex-grow grid place-content-center"
+					className="flex-grow grid place-content-center w-full  p-4"
 				>
 					<TextGenerateEffect
 						words="Awesome! your organization is ready . Next, we need more information about you."
-						className="max-w-2xl"
+						className="w-full "
 					/>
 				</motion.div>
 			) : (
@@ -76,40 +75,68 @@ import { capitalize } from "lodash";
 import { CountrySelector } from "@/components/selectors/country-selector";
 import { COUNTRIES } from "@/constants/countries";
 import { PhoneInputSimple } from "@/components/phone-input";
-import { createOrganizationAction } from "../actions";
-import { Loader } from "lucide-react";
+import {
+	createOrganizationAction,
+	createOrganizationOwnerAction,
+} from "../actions";
+import { CircleDollarSign, Clock, Loader } from "lucide-react";
+import { createUserSchema } from "@/lib/validations/users";
+import { DateOfBirthPicker } from "@hr-toolkit/ui/date-of-birth-picker";
+import { subYears } from "date-fns";
+import { useSession } from "@/hooks/use-session";
 
 const organizationTypes = ["private", "public", "non-profit"] as const;
+const formSchema = createUserSchema.omit({
+	department_id: true,
+	organization_id: true,
+	owner_id: true,
+});
 
 export function OwnerForm({ nextStep }: { nextStep: () => void }) {
-	const form = useForm<z.infer<typeof createOrganizationSchema>>({
-		resolver: zodResolver(createOrganizationSchema),
+	const session = useSession();
+
+	const form = useForm<z.infer<typeof formSchema>>({
+		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: "",
-			type: "private",
+			email: "",
+			first_name: "",
+			last_name: "",
+			avatar_url: null,
+			phone_number: "",
+			date_of_birth: new Date(subYears(new Date(), 18)),
+			employment_status: "active",
+			employment_type: "full_time",
+			gender: "male",
+			hire_date: new Date(),
+			leave_date: null,
+			job_title: "CEO",
+			salary_per_hour: 0,
+			work_hours_per_week: 40,
 			address_1: "",
 			address_2: null,
 			city: "",
 			state: "",
 			zip_code: "",
 			country: "US",
-			contact_name: "",
-			contact_email: "",
-			contact_number: "",
-			payroll_pattern: "monthly",
-			payroll_start_day: 1,
+			role: "admin",
 		},
 	});
 
-	async function onSubmit(data: z.infer<typeof createOrganizationSchema>) {
-		const result = await createOrganizationAction(data);
+	useEffect(() => {
+		if (session) {
+			form.setValue("email", session.user.email as string);
+		}
+	}, [session, form.setValue]);
+
+	async function onSubmit(data: z.infer<typeof formSchema>) {
+		const result = await createOrganizationOwnerAction(data);
 		if (result?.serverError) {
 			toast.error(result.serverError, {
 				position: "top-center",
 			});
 			return;
 		}
-		if (result?.data) {
+		if (!result?.serverError && !result?.validationErrors) {
 			nextStep();
 		}
 	}
@@ -117,16 +144,18 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="full space-y-4">
-				<h3 className="text-lg font-semibold text-center">Owner Information</h3>
+				<h3 className="text-lg font-semibold text-center text-muted-foreground">
+					Personal Information
+				</h3>
 				<div className="w-full flex gap-4">
 					<FormField
 						control={form.control}
-						name="name"
+						name="first_name"
 						render={({ field }) => (
 							<FormItem className="w-full">
-								<FormLabel>Organization Name</FormLabel>
+								<FormLabel>First Name</FormLabel>
 								<FormControl>
-									<Input placeholder="Private" {...field} />
+									<Input placeholder="John" {...field} />
 								</FormControl>
 
 								<FormMessage />
@@ -135,32 +164,146 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 					/>
 					<FormField
 						control={form.control}
-						name="type"
+						name="last_name"
 						render={({ field }) => (
 							<FormItem className="w-full">
-								<FormLabel>Organization Type</FormLabel>
+								<FormLabel>Last Name</FormLabel>
+								<FormControl>
+									<Input placeholder="Doe" {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
+
+				<div className="w-full flex gap-4">
+					<FormField
+						control={form.control}
+						name="email"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>Email Address</FormLabel>
+								<FormControl>
+									<Input placeholder="example@domain.com" disabled {...field} />
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+
+					<FormField
+						control={form.control}
+						name="gender"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>Gender</FormLabel>
 								<Select
 									onValueChange={field.onChange}
 									defaultValue={field.value}
 								>
 									<FormControl>
 										<SelectTrigger>
-											<SelectValue placeholder="Select a type" />
+											<SelectValue placeholder="Select a gender" />
 										</SelectTrigger>
 									</FormControl>
 									<SelectContent>
-										{organizationTypes.map((type) => (
-											<SelectItem key={type} value={type}>
-												{capitalize(type)}
-											</SelectItem>
-										))}
+										<SelectItem value="male">Male</SelectItem>
+										<SelectItem value="female">Female</SelectItem>
 									</SelectContent>
 								</Select>
+
 								<FormMessage />
 							</FormItem>
 						)}
 					/>
 				</div>
+				<div className="w-full flex gap-4">
+					<FormField
+						control={form.control}
+						name="date_of_birth"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>Date of Birth</FormLabel>
+
+								<DateOfBirthPicker
+									date={field.value}
+									onSelect={field.onChange}
+									className="w-full"
+									toDate={new Date(subYears(new Date(), 18))}
+								/>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="phone_number"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>Phone Number</FormLabel>
+								<FormControl>
+									<PhoneInputSimple
+										onChange={(value: RPNInput.Value) => {
+											field.onChange(value);
+										}}
+										value={field.value as RPNInput.Value}
+										defaultCountry={form.watch("country") as RPNInput.Country}
+										disabled={!form.getValues().country}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
+				<div className="w-full flex gap-4">
+					<FormField
+						control={form.control}
+						name="work_hours_per_week"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>Work Hours / Week</FormLabel>
+								<FormControl>
+									<Input
+										placeholder="40"
+										{...field}
+										onChange={(e) => field.onChange(Number(e.target.value))}
+										value={
+											Number.isNaN(field.value) ? "" : field.value.toString()
+										}
+										startIcon={Clock}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="salary_per_hour"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>Salary / Hour</FormLabel>
+								<FormControl>
+									<Input
+										placeholder="100"
+										{...field}
+										onChange={(e) => field.onChange(Number(e.target.value))}
+										value={
+											Number.isNaN(field.value) ? "" : field.value.toString()
+										}
+										startIcon={CircleDollarSign}
+									/>
+								</FormControl>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
+				<h3 className="text-lg font-semibold text-muted-foreground text-center">
+					Mailing Address
+				</h3>
 				<FormField
 					control={form.control}
 					name="address_1"
@@ -168,9 +311,8 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 						<FormItem className="w-full">
 							<FormLabel>Street Address</FormLabel>
 							<FormControl>
-								<Input placeholder="123 Main st" {...field} />
+								<Input placeholder="123 Main St" {...field} />
 							</FormControl>
-
 							<FormMessage />
 						</FormItem>
 					)}
@@ -196,6 +338,7 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 						</FormItem>
 					)}
 				/>
+
 				<div className="w-full flex gap-4">
 					<FormField
 						control={form.control}
@@ -204,9 +347,8 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 							<FormItem className="w-full">
 								<FormLabel>City</FormLabel>
 								<FormControl>
-									<Input placeholder="San Francisco" {...field} />
+									<Input placeholder="New York" {...field} />
 								</FormControl>
-
 								<FormMessage />
 							</FormItem>
 						)}
@@ -218,9 +360,8 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 							<FormItem className="w-full">
 								<FormLabel>State</FormLabel>
 								<FormControl>
-									<Input placeholder="CA" {...field} />
+									<Input placeholder="NY" {...field} />
 								</FormControl>
-
 								<FormMessage />
 							</FormItem>
 						)}
@@ -232,11 +373,10 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 						name="zip_code"
 						render={({ field }) => (
 							<FormItem className="w-full">
-								<FormLabel>Zip</FormLabel>
+								<FormLabel>Zip Code</FormLabel>
 								<FormControl>
-									<Input placeholder="94107" {...field} />
+									<Input placeholder="10001" {...field} />
 								</FormControl>
-
 								<FormMessage />
 							</FormItem>
 						)}
@@ -247,7 +387,6 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 						render={({ field }) => (
 							<FormItem className="w-full">
 								<FormLabel>Country</FormLabel>
-
 								<CountrySelector
 									onChange={(value: string) => {
 										form.setValue("country", value);
@@ -255,108 +394,6 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 									value={field.value as RPNInput.Country}
 									options={COUNTRIES}
 								/>
-
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-				</div>
-				<div className="w-full flex gap-4">
-					<FormField
-						control={form.control}
-						name="contact_name"
-						render={({ field }) => (
-							<FormItem className="w-full">
-								<FormLabel>Contact Name</FormLabel>
-								<FormControl>
-									<Input placeholder="John Doe" {...field} />
-								</FormControl>
-
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="contact_email"
-						render={({ field }) => (
-							<FormItem className="w-full">
-								<FormLabel>Contact Email</FormLabel>
-								<FormControl>
-									<Input placeholder="example@domain.com" {...field} />
-								</FormControl>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="contact_number"
-						render={({ field }) => (
-							<FormItem className="w-full">
-								<FormLabel>Contact Number</FormLabel>
-
-								<PhoneInputSimple
-									country={form.watch("country") as RPNInput.Country}
-									onChange={(number) => field.onChange(number)}
-								/>
-
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-				</div>
-
-				<div className="w-full flex gap-4">
-					<FormField
-						control={form.control}
-						name="payroll_pattern"
-						render={({ field }) => (
-							<FormItem className="w-full">
-								<FormLabel>Payroll Pattern</FormLabel>
-								<Select
-									onValueChange={field.onChange}
-									defaultValue={field.value}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder="Select a pattern" />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent>
-										<SelectItem value="weekly">Weekly</SelectItem>
-										<SelectItem value="biweekly">Bi Weekly</SelectItem>
-										<SelectItem value="monthly">Monthly</SelectItem>
-									</SelectContent>
-								</Select>
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="payroll_start_day"
-						render={({ field }) => (
-							<FormItem className="w-full">
-								<FormLabel>Payroll Start Day</FormLabel>
-								<Select
-									value={field.value.toString()}
-									onValueChange={(value) => field.onChange(Number(value))}
-								>
-									<FormControl>
-										<SelectTrigger>
-											<SelectValue placeholder="Select a day" />
-										</SelectTrigger>
-									</FormControl>
-									<SelectContent className="max-h-40 ">
-										{Array.from({ length: 31 }, (_, i) => i + 1).map((day) => (
-											<SelectItem key={day} value={day.toString()}>
-												{day}
-											</SelectItem>
-										))}
-									</SelectContent>
-								</Select>
-
 								<FormMessage />
 							</FormItem>
 						)}
@@ -367,7 +404,7 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 					<Button
 						type="submit"
 						className="ml-auto"
-						disabled={!form.formState.isValid || form.formState.isSubmitting}
+						disabled={form.formState.isSubmitting || !form.formState.isValid}
 					>
 						{form.formState.isSubmitting ? (
 							<Loader className="size-4 animate-spin mr-2" />

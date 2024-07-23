@@ -12,18 +12,17 @@ import {
 } from "@hr-toolkit/ui/form";
 import { Input } from "@hr-toolkit/ui/input";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCountdown } from "usehooks-ts";
 import { AnimatePresence, motion } from "framer-motion";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
 import { createOrganizationSchema } from "@/lib/validations/organizations";
 
 export function OrganizationOnboarding({ nextStep }: { nextStep: () => void }) {
-	const [count, { startCountdown, stopCountdown, resetCountdown }] =
-		useCountdown({
-			countStart: 5,
-			intervalMs: 1000,
-		});
+	const [count, { startCountdown }] = useCountdown({
+		countStart: 5,
+		intervalMs: 1000,
+	});
 	useEffect(() => {
 		startCountdown();
 	}, [startCountdown]);
@@ -37,11 +36,11 @@ export function OrganizationOnboarding({ nextStep }: { nextStep: () => void }) {
 					animate={{ opacity: 1, y: 0 }}
 					exit={{ opacity: 0, y: -10 }}
 					transition={{ duration: 0.4 }}
-					className="flex-grow grid place-content-center"
+					className="flex-grow grid place-content-center p-4 w-full"
 				>
 					<TextGenerateEffect
 						words="Welcome to HR Toolkit! We're thrilled to have you onboard. Next, we need more information to set you up for success."
-						className="max-w-2xl"
+						className="w-full"
 					/>
 				</motion.div>
 			) : (
@@ -98,6 +97,9 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 			contact_number: "",
 			payroll_pattern: "monthly",
 			payroll_start_day: 1,
+			registration_number: "",
+			tax_id: "",
+			employees_count: 0,
 		},
 	});
 
@@ -116,7 +118,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 	return (
 		<Form {...form}>
 			<form onSubmit={form.handleSubmit(onSubmit)} className="full space-y-4">
-				<h3 className="text-lg font-semibold text-center">
+				<h3 className="text-lg font-semibold text-center text-muted-foreground">
 					Organization Information
 				</h3>
 				<div className="w-full flex gap-4">
@@ -162,6 +164,10 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 						)}
 					/>
 				</div>
+
+				<h3 className="text-lg font-semibold text-muted-foreground text-center">
+					Mailing Address
+				</h3>
 				<FormField
 					control={form.control}
 					name="address_1"
@@ -298,8 +304,14 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 								<FormLabel>Contact Number</FormLabel>
 
 								<PhoneInputSimple
-									country={form.watch("country") as RPNInput.Country}
-									onChange={(number) => field.onChange(number)}
+								
+									onChange={(value: RPNInput.Value) => {
+										field.onChange(value);
+									}}
+									value={field.value as RPNInput.Value}
+									defaultCountry={form.watch("country") as RPNInput.Country}
+									placeholder="(214) 876-7876"
+									disabled={!form.getValues().country}
 								/>
 
 								<FormMessage />
@@ -363,12 +375,42 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 						)}
 					/>
 				</div>
+				<div className="w-full flex gap-4">
+					<FormField
+						control={form.control}
+						name="registration_number"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>Registration Number</FormLabel>
+								<FormControl>
+									<Input placeholder="123456" {...field} />
+								</FormControl>
+
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="tax_id"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>Tax ID</FormLabel>
+								<FormControl>
+									<Input placeholder="123-45-6789" {...field} />
+								</FormControl>
+
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
 
 				<div className="w-full grid place-content-e">
 					<Button
 						type="submit"
 						className="ml-auto"
-						disabled={!form.formState.isValid || form.formState.isSubmitting}
+						disabled={form.formState.isSubmitting || !form.formState.isValid}
 					>
 						{form.formState.isSubmitting ? (
 							<Loader className="size-4 animate-spin mr-2" />

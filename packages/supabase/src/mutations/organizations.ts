@@ -1,51 +1,63 @@
-import type { Addresses, Organization, SupabaseClient } from "../types";
+import type {
+  Addresses,
+  CreateAddress,
+  Organization,
+  SupabaseClient,
+} from "../types";
 
 type CreateOrganization = Organization["Insert"];
 
 type UpdateOrganization = Organization["Update"];
-type CreateAddress = Addresses["Insert"];
 
 export async function createOrganizationMutation(
   supabase: SupabaseClient,
-  input: CreateOrganization,
-  address: Omit<CreateAddress, "owner_id">,
+  org: CreateOrganization,
 ) {
   const { data: orgCreated, error: orgError } = await supabase.from(
     "organizations",
   ).insert({
-    name: input.name,
-    type: input.type,
-    employees_count: input.employees_count,
-    contact_name: input.contact_name,
-    contact_email: input.contact_email,
-    contact_number: input.contact_number,
-    payroll_pattern: input.payroll_pattern,
-    payroll_start_day: input.payroll_start_day,
-    owner_id: input.owner_id,
+    name: org.name,
+    type: org.type,
+    employees_count: org.employees_count,
+    contact_name: org.contact_name,
+    contact_email: org.contact_email,
+    contact_number: org.contact_number,
+    payroll_pattern: org.payroll_pattern,
+    payroll_start_day: org.payroll_start_day,
+    registration_number: org.registration_number,
+    tax_id: org.tax_id,
+    owner_id: org.owner_id,
+    address_1: org.address_1,
+    address_2: org.address_2,
+    city: org.city,
+    state: org.state,
+    country: org.country,
+    zip_code: org.zip_code,
   })
     .select("*")
     .single();
 
-  if (orgError || !orgCreated) {
+  if (orgError || !orgCreated.id || !orgCreated.owner_id) {
     throw new Error(orgError?.message);
   }
 
-  await supabase.auth.admin.updateUserById(orgCreated.owner_id, {
+  await supabase.from(
+    "users",
+  ).update({
+    organization_id: orgCreated.id,
     role: "admin",
-    user_metadata: {
+  })
+    .eq("id", orgCreated.owner_id);
+
+  await supabase.auth.updateUser({
+    data: {
       organization_id: orgCreated.id,
     },
   });
 
-  const { data: addressCreated, error: addressError } = await supabase.from(
-    "addresses",
-  ).insert({
-    owner_id: orgCreated.id,
-    ...address,
-  });
-  if (addressError || !addressCreated) {
-    throw new Error(addressError?.message);
-  }
-
   return orgCreated;
 }
+
+export default {
+  create: createOrganizationMutation,
+};

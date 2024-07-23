@@ -19,6 +19,8 @@
 	},
 	"exports": {
 		"./types": "./src/types/index.ts",
-		"./organizations-mutations": "./src/mutations/organizations.ts"
+
+		"./user-mutations": "./src/mutations/users.ts",
+		"./organization-mutations": "./src/mutations/organizations.ts"
 	}
 }

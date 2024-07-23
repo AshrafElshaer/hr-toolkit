@@ -1,23 +1,33 @@
 import { z } from "zod";
 import { isValidPhoneNumber } from "libphonenumber-js";
-export const createOrganizationSchema = z.object({
-  name: z.string().min(2, {
-    message: "Must be at least 2 characters.",
-  }),
+import { createAddressSchema } from "./address";
+
+export const organizationSchema = z.object({
+  id: z.string().uuid(),
+  owner_id: z.string().uuid(),
+  name: z.string(),
   type: z.enum(["private", "public", "non-profit"]),
-  employees_count: z.number().int().default(0),
-  contact_name: z.string().min(2, {
-    message: "Must be at least 2 characters.",
-  }),
+  employees_count: z.number().int(),
+  contact_name: z.string(),
   contact_email: z.string().email(),
-  contact_number: z.string()
-    .refine(isValidPhoneNumber, { message: "Invalid phone number" }),
+  contact_number: z.string().refine(isValidPhoneNumber, {
+    message: "Invalid phone number",
+  }),
   payroll_pattern: z.enum(["weekly", "biweekly", "monthly"]),
-  payroll_start_day: z.number().int().min(1).max(31),
-  address_1: z.string().min(2, {}),
-  address_2: z.string().nullable(),
-  city: z.string().min(2, {}),
-  state: z.string().min(2, {}),
-  zip_code: z.string().min(2, {}),
-  country: z.string().min(2, {}),
+  payroll_start_day: z.number().int(),
+  registration_number: z.string(),
+  tax_id: z.string(),
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
+export const createOrganizationSchema = organizationSchema.merge(
+  createAddressSchema,
+).omit({
+  id: true,
+  created_at: true,
+  updated_at: true,
+  owner_id: true,
+  organization_id: true,
+  
 });

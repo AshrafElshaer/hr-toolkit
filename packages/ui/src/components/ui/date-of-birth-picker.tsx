@@ -116,7 +116,7 @@ export function DateOfBirthPicker({
 }
 
 const yearOptions = Array.from(
-	{ length: 100 },
+	{ length: 65 },
 	(_, i) => Number(subYears(new Date(), 18).getFullYear()) - i,
 );
 const monthsOptions = [
