@@ -7,7 +7,6 @@ export const env = createEnv({
     RESEND_API_KEY: z.string(),
   },
   client: {
-
     NEXT_PUBLIC_SUPABASE_URL: z.string().url(),
     NEXT_PUBLIC_SUPABASE_ANON_KEY: z.string(),
     NEXT_PUBLIC_SUPABASE_SERVICE_ROLE_KEY: z.string(),
@@ -22,4 +21,5 @@ export const env = createEnv({
 
     RESEND_API_KEY: process.env.RESEND_API_KEY,
   },
+  skipValidation: true,
 });
