@@ -4,7 +4,7 @@ import { Button } from "@hr-toolkit/ui/button";
 import {
 	Form,
 	FormControl,
-	FormDescription,
+
 	FormField,
 	FormItem,
 	FormLabel,
@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 import { useCountdown } from "usehooks-ts";
 import { AnimatePresence, motion } from "framer-motion";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
-import { createOrganizationSchema } from "@/lib/validations/organizations";
+
 
 export function OwnerOnboarding({ nextStep }: { nextStep: () => void }) {
 	const [count, { startCountdown }] = useCountdown({
@@ -76,7 +76,7 @@ import { CountrySelector } from "@/components/selectors/country-selector";
 import { COUNTRIES } from "@/constants/countries";
 import { PhoneInputSimple } from "@/components/phone-input";
 import {
-	createOrganizationAction,
+
 	createOrganizationOwnerAction,
 } from "../actions";
 import { CircleDollarSign, Clock, Loader } from "lucide-react";
@@ -85,7 +85,7 @@ import { DateOfBirthPicker } from "@hr-toolkit/ui/date-of-birth-picker";
 import { subYears } from "date-fns";
 import { useSession } from "@/hooks/use-session";
 
-const organizationTypes = ["private", "public", "non-profit"] as const;
+
 const formSchema = createUserSchema.omit({
 	department_id: true,
 	organization_id: true,

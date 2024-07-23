@@ -112,7 +112,9 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 			return;
 		}
 
-		nextStep();
+		if (!result?.serverError || !result?.validationErrors) {
+			nextStep();
+		}
 	}
 
 	return (
@@ -304,7 +306,6 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 								<FormLabel>Contact Number</FormLabel>
 
 								<PhoneInputSimple
-								
 									onChange={(value: RPNInput.Value) => {
 										field.onChange(value);
 									}}
@@ -385,6 +386,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 								<FormControl>
 									<Input placeholder="123456" {...field} />
 								</FormControl>
+								<FormDescription>Required for tax purposes.</FormDescription>
 
 								<FormMessage />
 							</FormItem>
@@ -399,7 +401,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 								<FormControl>
 									<Input placeholder="123-45-6789" {...field} />
 								</FormControl>
-
+								<FormDescription>Required for tax purposes.</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}

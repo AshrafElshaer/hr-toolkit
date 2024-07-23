@@ -1,13 +1,12 @@
-import { headers } from "next/headers";
+
+import { createServerClient } from "@/lib/supabase/server";
+import { getCurrentUser } from "@hr-toolkit/supabase/user-queries";
 import { redirect } from "next/navigation";
 
-import DashboardHeader from "@/components/dashboard-header/dashboard-header";
-import { getCurrentUser } from "@hr-toolkit/supabase/user-queries";
-
 import type { ReactNode } from "react";
+
+import DashboardHeader from "@/components/dashboard-header/dashboard-header";
 import MainSidebar from "@/components/sidebar/main-sidebar";
-import { createServerClient } from "@/lib/supabase/server";
-import AppShellLoading from "../loading";
 
 async function DashboardLayout({ children }: { children: ReactNode }) {
 	const supabase = createServerClient();
@@ -17,9 +16,7 @@ async function DashboardLayout({ children }: { children: ReactNode }) {
 		redirect("/auth");
 		return null;
 	}
-	return (
-		<AppShellLoading />
-	)
+
 	return (
 		<>
 			<MainSidebar currentUser={user} />
