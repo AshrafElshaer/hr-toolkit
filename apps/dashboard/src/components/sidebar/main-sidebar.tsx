@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useMemo } from "react";
 import { usePathname } from "next/navigation";
 import { roleBasedNavigation } from "@/constants/sidebar-navigations";
 import { cn } from "@hr-toolkit/ui/utils";
@@ -20,6 +20,9 @@ function MainSidebar({
 	currentUser: User["Row"];
 }) {
 	const pathname = usePathname();
+	const allowedNavigation = useMemo(() => {
+		return roleBasedNavigation(currentUser.role ?? "");
+	}, [currentUser.role]);
 
 	return (
 		<nav className=" hidden md:block shadow-md w-[3.3rem] border-r border-t fixed top-0 bottom-0 left-0 hover:w-[185px] transition-all group z-40 bg-background">
@@ -30,7 +33,7 @@ function MainSidebar({
 				</div>
 			</div>
 			<ul className="flex flex-col items-start justify-start h-full gap-1 p-2">
-				{roleBasedNavigation(currentUser.role ?? "").map((route, idx) => {
+				{allowedNavigation.map((route) => {
 					const isActivePath =
 						pathname === route.path ||
 						route.path === pathname.split("/").slice(0, 2).join("/");

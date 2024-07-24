@@ -8,7 +8,10 @@ export default function Main({
 }: React.ComponentProps<"main">) {
 	return (
 		<main
-			className={cn("w-full md:w-[calc(100%_-_3.3rem)] p-4 ml-auto", className)}
+			className={cn(
+				"w-full md:w-[calc(100%_-_3.3rem)] p-4 ml-auto h-full",
+				className,
+			)}
 			{...props}
 		>
 			{children}
