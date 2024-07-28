@@ -680,7 +680,7 @@ create policy "delete_project_team" on public.project_team for delete using (
  TASKS RLS POLICIES
  */
 alter table
-    public.projects enable row level security;
+    public.tasks enable row level security;
 
 create policy "select_tasks" on public.tasks for
 select

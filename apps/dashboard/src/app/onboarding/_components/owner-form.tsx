@@ -4,7 +4,6 @@ import { Button } from "@hr-toolkit/ui/button";
 import {
 	Form,
 	FormControl,
-
 	FormField,
 	FormItem,
 	FormLabel,
@@ -12,13 +11,12 @@ import {
 } from "@hr-toolkit/ui/form";
 import { Input } from "@hr-toolkit/ui/input";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useCountdown } from "usehooks-ts";
 import { AnimatePresence, motion } from "framer-motion";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
 
-
-export function OwnerOnboarding({ nextStep }: { nextStep: () => void }) {
+export function OwnerOnboarding() {
 	const [count, { startCountdown }] = useCountdown({
 		countStart: 5,
 		intervalMs: 1000,
@@ -52,7 +50,7 @@ export function OwnerOnboarding({ nextStep }: { nextStep: () => void }) {
 					exit={{ opacity: 0, y: -10 }}
 					transition={{ duration: 0.4 }}
 				>
-					<OwnerForm nextStep={nextStep} />
+					<OwnerForm />
 				</motion.div>
 			)}
 		</AnimatePresence>
@@ -75,24 +73,21 @@ import { capitalize } from "lodash";
 import { CountrySelector } from "@/components/selectors/country-selector";
 import { COUNTRIES } from "@/constants/countries";
 import { PhoneInputSimple } from "@/components/phone-input";
-import {
-
-	createOrganizationOwnerAction,
-} from "../actions";
+import { createOrganizationOwnerAction } from "../actions";
 import { CircleDollarSign, Clock, Loader } from "lucide-react";
 import { createUserSchema } from "@/lib/validations/users";
 import { DateOfBirthPicker } from "@hr-toolkit/ui/date-of-birth-picker";
 import { subYears } from "date-fns";
 import { useSession } from "@/hooks/use-session";
-
+import { useRouter } from "next/navigation";
 
 const formSchema = createUserSchema.omit({
 	department_id: true,
 	organization_id: true,
-	owner_id: true,
 });
 
-export function OwnerForm({ nextStep }: { nextStep: () => void }) {
+export function OwnerForm() {
+	const router = useRouter();
 	const session = useSession();
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -103,11 +98,11 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 			last_name: "",
 			avatar_url: null,
 			phone_number: "",
-			date_of_birth: new Date(subYears(new Date(), 18)),
+			date_of_birth: new Date(subYears(new Date(), 18)).toISOString(),
 			employment_status: "active",
 			employment_type: "full_time",
 			gender: "male",
-			hire_date: new Date(),
+			hire_date: new Date().toISOString(),
 			leave_date: null,
 			job_title: "CEO",
 			salary_per_hour: 0,
@@ -118,7 +113,7 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 			state: "",
 			zip_code: "",
 			country: "US",
-			role: "admin",
+			user_role: "admin",
 		},
 	});
 
@@ -137,7 +132,7 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 			return;
 		}
 		if (!result?.serverError && !result?.validationErrors) {
-			nextStep();
+			router.push("/onboarding/congrats");
 		}
 	}
 
@@ -227,8 +222,10 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 								<FormLabel>Date of Birth</FormLabel>
 
 								<DateOfBirthPicker
-									date={field.value}
-									onSelect={field.onChange}
+									date={new Date(field.value)}
+									onSelect={(value) => {
+										field.onChange(value?.toISOString() || "");
+									}}
 									className="w-full"
 									toDate={new Date(subYears(new Date(), 18))}
 								/>
@@ -291,7 +288,9 @@ export function OwnerForm({ nextStep }: { nextStep: () => void }) {
 										{...field}
 										onChange={(e) => field.onChange(Number(e.target.value))}
 										value={
-											Number.isNaN(field.value) ? "" : field.value.toString()
+											field.value && Number.isNaN(field.value)
+												? ""
+												: field?.value?.toString() ?? ""
 										}
 										startIcon={CircleDollarSign}
 									/>

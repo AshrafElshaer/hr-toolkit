@@ -1,16 +1,11 @@
-import { createServerClient } from "@/lib/supabase/server";
-import { getCurrentUser } from "@hr-toolkit/supabase/user-queries";
-import { redirect } from "next/navigation";
 import type { ReactNode } from "react";
 
 export default async function OnboardingLayout({
 	children,
 }: { children: ReactNode }) {
-	const supabase = createServerClient();
-	const { user } = await getCurrentUser(supabase);
-
-	if (user?.organization_id) {
-		redirect("/");
-	}
-	return <>{children}</>;
+	return (
+		<main className=" min-h-[100svh] flex  py-8 px-4 w-full max-w-3xl mx-auto">
+			{children}
+		</main>
+	);
 }

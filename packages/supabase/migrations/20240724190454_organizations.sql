@@ -5,18 +5,30 @@ grant usage on schema "public" to authenticated;
 GRANT
 SELECT
 ,
-INSERT
-,
-UPDATE
-  ON ALL TABLES IN SCHEMA "public" TO authenticated;
+  INSERT,
+UPDATE ON ALL TABLES IN SCHEMA "public" TO authenticated;
 
 GRANT
 SELECT
 ,
-INSERT
-,
-UPDATE
-  ON ALL TABLES IN SCHEMA "public" TO anon;
+  INSERT,
+UPDATE ON ALL TABLES IN SCHEMA "public" TO anon;
+
+CREATE SCHEMA IF NOT EXISTS "auth";
+
+CREATE SCHEMA IF NOT EXISTS "extensions";
+
+create extension if not exists "uuid-ossp"
+with
+  schema extensions;
+
+create extension if not exists pgcrypto
+with
+  schema extensions;
+
+create extension if not exists pgjwt
+with
+  schema extensions;
 
 grant usage on schema public to postgres,
 anon,
@@ -42,6 +54,25 @@ grant all privileges on all sequences in schema public to postgres,
 anon,
 authenticated,
 service_role;
+
+alter default privileges in schema public
+grant all on tables to postgres,
+anon,
+authenticated,
+service_role;
+
+alter default privileges in schema public
+grant all on functions to postgres,
+anon,
+authenticated,
+service_role;
+
+alter default privileges in schema public
+grant all on sequences to postgres,
+anon,
+authenticated,
+service_role;
+
 
 create type organization_type_enum as enum('public', 'private', 'non-profit');
 

@@ -4,7 +4,6 @@ import { Button } from "@hr-toolkit/ui/button";
 import {
 	Form,
 	FormControl,
-	FormDescription,
 	FormField,
 	FormItem,
 	FormLabel,
@@ -18,7 +17,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { TextGenerateEffect } from "@/components/text-generate-effect";
 import { createOrganizationSchema } from "@/lib/validations/organizations";
 
-export function OrganizationOnboarding({ nextStep }: { nextStep: () => void }) {
+export function OrganizationOnboarding() {
 	const [count, { startCountdown }] = useCountdown({
 		countStart: 5,
 		intervalMs: 1000,
@@ -52,7 +51,7 @@ export function OrganizationOnboarding({ nextStep }: { nextStep: () => void }) {
 					exit={{ opacity: 0, y: -10 }}
 					transition={{ duration: 0.4 }}
 				>
-					<OrganizationForm nextStep={nextStep} />
+					<OrganizationForm />
 				</motion.div>
 			)}
 		</AnimatePresence>
@@ -76,11 +75,29 @@ import { CountrySelector } from "@/components/selectors/country-selector";
 import { COUNTRIES } from "@/constants/countries";
 import { PhoneInputSimple } from "@/components/phone-input";
 import { createOrganizationAction } from "../actions";
-import { Loader } from "lucide-react";
+import { Check, ChevronsUpDown, Loader } from "lucide-react";
+import { currentTimezone } from "@/lib/date";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@hr-toolkit/ui/popover";
+import {
+	Command,
+	CommandEmpty,
+	CommandGroup,
+	CommandInput,
+	CommandItem,
+	CommandList,
+} from "@hr-toolkit/ui/command";
+import { cn } from "@hr-toolkit/ui/utils";
+import { useRouter } from "next/navigation";
 
 const organizationTypes = ["private", "public", "non-profit"] as const;
+const timezonesOptions = Intl.supportedValuesOf("timeZone");
 
-export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
+export function OrganizationForm() {
+	const router = useRouter();
 	const form = useForm<z.infer<typeof createOrganizationSchema>>({
 		resolver: zodResolver(createOrganizationSchema),
 		defaultValues: {
@@ -97,9 +114,10 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 			contact_number: "",
 			payroll_pattern: "monthly",
 			payroll_start_day: 1,
-			registration_number: "",
-			tax_id: "",
-			employees_count: 0,
+			time_zone: currentTimezone(),
+			website: null,
+			employees_count: 1,
+			logo_url: null,
 		},
 	});
 
@@ -113,7 +131,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 		}
 
 		if (!result?.serverError || !result?.validationErrors) {
-			nextStep();
+			router.push("/onboarding/user");
 		}
 	}
 
@@ -123,7 +141,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 				<h3 className="text-lg font-semibold text-center text-muted-foreground">
 					Organization Information
 				</h3>
-				<div className="w-full flex gap-4">
+				<div className="w-full flex flex-col sm:flex-row gap-4">
 					<FormField
 						control={form.control}
 						name="name"
@@ -161,6 +179,90 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 										))}
 									</SelectContent>
 								</Select>
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+				</div>
+				<div className="w-full flex flex-col sm:flex-row gap-4">
+					<FormField
+						control={form.control}
+						name="website"
+						render={({ field }) => (
+							<FormItem className="w-full">
+								<FormLabel>
+									Website
+									<span className="text-muted-foreground"> (optional)</span>
+								</FormLabel>
+								<FormControl>
+									<Input
+										placeholder="example.com"
+										{...field}
+										value={field.value ?? ""}
+									/>
+								</FormControl>
+
+								<FormMessage />
+							</FormItem>
+						)}
+					/>
+					<FormField
+						control={form.control}
+						name="time_zone"
+						render={({ field }) => (
+							<FormItem className=" w-full">
+								<FormLabel>Timezone</FormLabel>
+								<Popover>
+									<PopoverTrigger asChild>
+										<FormControl>
+											<Button
+												variant="outline"
+												role="combobox"
+												className={cn(
+													"w-full justify-between",
+													!field.value && "text-muted-foreground",
+												)}
+											>
+												{field.value
+													? timezonesOptions.find(
+															(timezone) => timezone === field.value,
+														)
+													: "Select a timezone"}
+												<ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+											</Button>
+										</FormControl>
+									</PopoverTrigger>
+									<PopoverContent className="w-full p-0" align="start">
+										<Command>
+											<CommandInput placeholder="Search time zone..." />
+											<CommandList>
+												<CommandEmpty>No time zone found.</CommandEmpty>
+												<CommandGroup>
+													{timezonesOptions.map((timezone) => (
+														<CommandItem
+															value={timezone}
+															key={timezone}
+															onSelect={() => {
+																form.setValue("time_zone", timezone);
+															}}
+														>
+															{timezone}
+															<Check
+																className={cn(
+																	"ml-auto h-4 w-4",
+																	timezone === field.value
+																		? "opacity-100"
+																		: "opacity-0",
+																)}
+															/>
+														</CommandItem>
+													))}
+												</CommandGroup>
+											</CommandList>
+										</Command>
+									</PopoverContent>
+								</Popover>
+
 								<FormMessage />
 							</FormItem>
 						)}
@@ -205,7 +307,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 						</FormItem>
 					)}
 				/>
-				<div className="w-full flex gap-4">
+				<div className="w-full flex flex-col sm:flex-row gap-4">
 					<FormField
 						control={form.control}
 						name="city"
@@ -235,7 +337,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 						)}
 					/>
 				</div>
-				<div className="w-full flex gap-4">
+				<div className="w-full flex flex-col sm:flex-row gap-4">
 					<FormField
 						control={form.control}
 						name="zip_code"
@@ -270,7 +372,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 						)}
 					/>
 				</div>
-				<div className="w-full flex gap-4">
+				<div className="w-full flex flex-col sm:flex-row gap-4">
 					<FormField
 						control={form.control}
 						name="contact_name"
@@ -321,7 +423,7 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 					/>
 				</div>
 
-				<div className="w-full flex gap-4">
+				<div className="w-full flex flex-col sm:flex-row gap-4">
 					<FormField
 						control={form.control}
 						name="payroll_pattern"
@@ -371,37 +473,6 @@ export function OrganizationForm({ nextStep }: { nextStep: () => void }) {
 									</SelectContent>
 								</Select>
 
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-				</div>
-				<div className="w-full flex gap-4">
-					<FormField
-						control={form.control}
-						name="registration_number"
-						render={({ field }) => (
-							<FormItem className="w-full">
-								<FormLabel>Registration Number</FormLabel>
-								<FormControl>
-									<Input placeholder="123456" {...field} />
-								</FormControl>
-								<FormDescription>Required for tax purposes.</FormDescription>
-
-								<FormMessage />
-							</FormItem>
-						)}
-					/>
-					<FormField
-						control={form.control}
-						name="tax_id"
-						render={({ field }) => (
-							<FormItem className="w-full">
-								<FormLabel>Tax ID</FormLabel>
-								<FormControl>
-									<Input placeholder="123-45-6789" {...field} />
-								</FormControl>
-								<FormDescription>Required for tax purposes.</FormDescription>
 								<FormMessage />
 							</FormItem>
 						)}

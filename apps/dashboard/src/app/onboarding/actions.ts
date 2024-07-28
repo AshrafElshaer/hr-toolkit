@@ -10,7 +10,9 @@ import userMutations from "@hr-toolkit/supabase/user-mutations";
 export const createOrganizationAction = authAction
   .schema(createOrganizationSchema)
   .action(async ({ parsedInput, ctx: { user } }) => {
-    const supabase = createServerClient();
+    const supabase = createServerClient({
+      isAdmin: true,
+    });
 
     const newOrg = await organizationMutations.create(supabase, {
       name: parsedInput.name,
@@ -21,8 +23,7 @@ export const createOrganizationAction = authAction
       contact_number: parsedInput.contact_number,
       payroll_pattern: parsedInput.payroll_pattern,
       payroll_start_day: parsedInput.payroll_start_day,
-      registration_number: parsedInput.registration_number,
-      tax_id: parsedInput.tax_id,
+      time_zone: parsedInput.time_zone,
       owner_id: user.id,
       address_1: parsedInput.address_1,
       address_2: parsedInput.address_2,
@@ -30,17 +31,15 @@ export const createOrganizationAction = authAction
       state: parsedInput.state,
       country: parsedInput.country,
       zip_code: parsedInput.zip_code,
-      
-    }, );
+    });
 
     return newOrg;
   });
 
-  const formSchema = createUserSchema.omit({
-    department_id: true,
-    organization_id: true,
-    owner_id: true,
-  });
+const formSchema = createUserSchema.omit({
+  department_id: true,
+  organization_id: true,
+});
 export const createOrganizationOwnerAction = authAction
   .schema(formSchema)
   .action(async ({ parsedInput, ctx: { user } }) => {
@@ -49,12 +48,31 @@ export const createOrganizationOwnerAction = authAction
     });
 
     const newUser = await userMutations.createOwner(supabase, {
-      ...parsedInput,
-      organization_id: user.user_metadata.organization_id as string,
       id: user.id,
-      date_of_birth: parsedInput.date_of_birth.toISOString(), // Convert date_of_birth to string
-      hire_date: parsedInput.hire_date.toISOString(), // Convert hire_date to string
-      leave_date: parsedInput.leave_date?.toISOString(), // Convert leave_date to string
+      organization_id: user.user_metadata.organization_id,
+      email: parsedInput.email,
+      first_name: parsedInput.first_name,
+      last_name: parsedInput.last_name,
+      phone_number: parsedInput.phone_number,
+      salary_per_hour: parsedInput.salary_per_hour,
+      work_hours_per_week: parsedInput.work_hours_per_week,
+      date_of_birth: new Date(parsedInput.date_of_birth).toISOString(),
+      hire_date: new Date(parsedInput.hire_date).toISOString(),
+      leave_date: parsedInput.leave_date
+        ? new Date(parsedInput.leave_date).toISOString()
+        : null,
+      employment_status: parsedInput.employment_status,
+      employment_type: parsedInput.employment_type,
+      address_1: parsedInput.address_1,
+      address_2: parsedInput.address_2,
+      city: parsedInput.city,
+      state: parsedInput.state,
+      country: parsedInput.country,
+      zip_code: parsedInput.zip_code,
+
+      avatar_url: parsedInput?.avatar_url ?? undefined,
+      gender: parsedInput.gender,
+      job_title: parsedInput.job_title,
     });
 
     return newUser;

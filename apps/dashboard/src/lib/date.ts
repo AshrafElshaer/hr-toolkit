@@ -1,7 +1,9 @@
 import { format } from "date-fns";
 import type { useRouter } from "next/navigation";
 import type { DateRange } from "react-day-picker";
-
+export function currentTimezone() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone;
+}
 export function amPm(time: string) {
   const [hours, minutes] = time.split(":");
   const hoursInt = Number(hours);

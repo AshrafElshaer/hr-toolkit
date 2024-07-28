@@ -3,7 +3,9 @@ import type { CreateAddress, SupabaseClient, User } from "../types";
 type CreateUser = User["Insert"];
 
 interface CreateOrganizationOwner
-  extends Omit<CreateUser, "id">, Omit<CreateAddress, "organization_id"> {}
+  extends
+    Omit<CreateUser, "id">,
+    Omit<CreateAddress, "organization_id"| "user_id"> {}
 
 export async function createOrganizationOwner(
   supabase: SupabaseClient,
@@ -45,7 +47,6 @@ export async function createOrganizationOwner(
       gender: user.gender,
       job_title: user.job_title,
       organization_id: user.organization_id,
-      role: "admin",
     }).eq("id", user.id).select("*").single();
 
   if (newUserError || !newUser.id) {

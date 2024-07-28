@@ -13,4 +13,5 @@
 11. projects
 12. tasks
 13. functions
-14. rls-policies
+14. triggers
+15. rls-policies

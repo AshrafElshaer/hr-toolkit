@@ -21,8 +21,8 @@ function MainSidebar({
 }) {
 	const pathname = usePathname();
 	const allowedNavigation = useMemo(() => {
-		return roleBasedNavigation(currentUser.role ?? "");
-	}, [currentUser.role]);
+		return roleBasedNavigation(currentUser.user_role ?? "");
+	}, [currentUser.user_role]);
 
 	return (
 		<nav className=" hidden md:block shadow-md w-[3.3rem] border-r border-t fixed top-0 bottom-0 left-0 hover:w-[185px] transition-all group z-40 bg-background">

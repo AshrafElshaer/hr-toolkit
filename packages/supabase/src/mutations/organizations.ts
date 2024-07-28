@@ -24,8 +24,7 @@ export async function createOrganizationMutation(
     contact_number: org.contact_number,
     payroll_pattern: org.payroll_pattern,
     payroll_start_day: org.payroll_start_day,
-    registration_number: org.registration_number,
-    tax_id: org.tax_id,
+    time_zone: org.time_zone,
     owner_id: org.owner_id,
     address_1: org.address_1,
     address_2: org.address_2,
@@ -45,7 +44,7 @@ export async function createOrganizationMutation(
     "users",
   ).update({
     organization_id: orgCreated.id,
-    role: "admin",
+    user_role: "admin",
   })
     .eq("id", orgCreated.owner_id);
 

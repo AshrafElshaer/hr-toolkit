@@ -16,7 +16,7 @@ export const organizationSchema = z.object({
   employees_count: z.number().int(),
   logo_url: z.string().nullable(),
   time_zone: z.string(),
-  website: z.string().nullable(),
+  website: z.string().url().nullable(),
   contact_name: z.string().min(3, {
     message: "Must be at least 3 characters",
   }),
@@ -26,7 +26,7 @@ export const organizationSchema = z.object({
   }),
   payroll_pattern: z.nativeEnum(PayrollPatternEnum).default("monthly"),
   payroll_start_day: z.number().int().min(1).max(31),
-  address_1: z.string().min(5,{
+  address_1: z.string().min(5, {
     message: "Must be at least 5 characters",
   }),
   address_2: z.string().nullable(),
@@ -45,5 +45,4 @@ export const createOrganizationSchema = organizationSchema.merge(
   created_at: true,
   updated_at: true,
   owner_id: true,
-  organization_id: true,
 });

@@ -78,6 +78,12 @@ export function OtpConfirmation({
 			});
 			return;
 		}
+		if (result?.data) {
+			toast.success("OTP verified successfully", {
+				position: "top-center",
+			});
+		}
+		return;
 	}
 
 	async function resendOtp() {

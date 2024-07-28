@@ -21,4 +21,6 @@ export const createAddressSchema = addressSchema.omit({
   id: true,
   created_at: true,
   updated_at: true,
+  user_id: true,
+  organization_id: true,
 });

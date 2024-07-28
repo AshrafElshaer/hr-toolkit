@@ -24,10 +24,11 @@ export const verifyOtp = action
     }
 
     const organizationId = data.user?.user_metadata.organization_id as string;
-    if (!organizationId) {
-      redirect("/onboarding");
-    }
-    if (data.session && data.user) {
-      redirect("/");
-    }
+    redirect("/onboarding");
+    // if (!organizationId) {
+    //   redirect("/onboarding");
+    // }
+    // if (data.session && data.user) {
+    //   redirect("/");
+    // }
   });

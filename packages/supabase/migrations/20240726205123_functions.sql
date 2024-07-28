@@ -1,10 +1,10 @@
 --  ORGANIZATION FUNCTIONS
 -- INCREMENT ORGANIZATION EMPLOYEES COUNT ON USER INSERT
-create
-or replace function public.increment_organization_employees_count() returns trigger language plpgsql security definer as $$ begin
-/*
- check if organization with the given id exists if not do nothing
- */
+CREATE
+OR REPLACE FUNCTION public.increment_organization_employees_count () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER AS $ $ begin if new.organization_id is null then return new;
+
+end if;
+
 if not exists (
     select
         1
@@ -25,11 +25,14 @@ where
 
 return new;
 
-end $$;
+end $ $;
 
 -- DECREMENT ORGANIZATION EMPLOYEES COUNT ON USER DELETE
 create
-or replace function public.decrement_organization_employees_count() returns trigger language plpgsql security definer as $$ begin
+or replace function public.decrement_organization_employees_count() returns trigger language plpgsql security definer as $ $ begin if old.organization_id is null then return old;
+
+end if;
+
 update
     organizations
 set
@@ -39,27 +42,22 @@ where
 
 return old;
 
-end $$;
+end $ $;
 
 -- USER FUNCTIONS
 create
-or REPLACE function public.on_create_user() returns trigger language plpgsql security definer as $$ begin
+or REPLACE function public.on_create_user() returns trigger language plpgsql security definer as $ $ begin
 insert into
-    public.users (id, email, created_at, updated_at)
+    public.users (id, email)
 values
-    (
-        new.id,
-        new.email,
-        new.created_at,
-        new.updated_at
-    );
+    (new.id, new.email);
 
 return new;
 
-end $$;
+end $ $;
 
 create
-or REPLACE function public.get_user_organization_id() returns uuid language plpgsql security invoker as $$ begin return (
+or REPLACE function public.get_user_organization_id() returns uuid language plpgsql security invoker as $ $ begin return (
     select
         organization_id
     from
@@ -68,10 +66,10 @@ or REPLACE function public.get_user_organization_id() returns uuid language plpg
         id = auth.uid()
 );
 
-end $$;
+end $ $;
 
 create
-or REPLACE function public.get_user_department_id() returns uuid language plpgsql security invoker as $$ begin return (
+or REPLACE function public.get_user_department_id() returns uuid language plpgsql security invoker as $ $ begin return (
     select
         department_id
     from
@@ -80,10 +78,10 @@ or REPLACE function public.get_user_department_id() returns uuid language plpgsq
         id = auth.uid()
 );
 
-end $$;
+end $ $;
 
 create
-or REPLACE function public.get_user_role() returns public.user_roles_enum language plpgsql security invoker as $$ begin return (
+or REPLACE function public.get_user_role() returns public.user_roles_enum language plpgsql security invoker as $ $ begin return (
     select
         user_role
     from
@@ -92,10 +90,10 @@ or REPLACE function public.get_user_role() returns public.user_roles_enum langua
         id = auth.uid()
 );
 
-end $$;
+end $ $;
 
 create
-or replace function public.is_user_team_member(team_id uuid) returns boolean language plpgsql security definer as $$ begin return exists (
+or replace function public.is_user_team_member(team_id uuid) returns boolean language plpgsql security definer as $ $ begin return exists (
     select
         1
     from
@@ -105,10 +103,10 @@ or replace function public.is_user_team_member(team_id uuid) returns boolean lan
         and tm.user_id = auth.uid()
 );
 
-end $$;
+end $ $;
 
 create
-or replace function public.is_user_team_leader(user_id uuid) returns boolean language plpgsql security definer as $$ begin return exists (
+or replace function public.is_user_team_leader(user_id uuid) returns boolean language plpgsql security definer as $ $ begin return exists (
     select
         1
     from
@@ -117,10 +115,10 @@ or replace function public.is_user_team_leader(user_id uuid) returns boolean lan
         leader_id = user_id
 );
 
-end $$;
+end $ $;
 
 create
-or replace function public.get_team_leader_id(team_id uuid) returns uuid language plpgsql security definer as $$ begin return (
+or replace function public.get_team_leader_id(team_id uuid) returns uuid language plpgsql security definer as $ $ begin return (
     select
         leader_id
     from
@@ -129,10 +127,10 @@ or replace function public.get_team_leader_id(team_id uuid) returns uuid languag
         id = team_id
 );
 
-end $$;
+end $ $;
 
 create
-or replace function public.is_user_project_member(project_id uuid) returns boolean language plpgsql security invoker as $$ begin return exists (
+or replace function public.is_user_project_member(project_id uuid) returns boolean language plpgsql security invoker as $ $ begin return exists (
     select
         1
     from
@@ -143,23 +141,28 @@ or replace function public.is_user_project_member(project_id uuid) returns boole
         and tm.user_id = auth.uid()
 );
 
-end $$;
+end $ $;
 
 -- DEPARTMENT FUNCTIONS
 -- INCREMENT DEPARTMENT EMPLOYEES COUNT ON USER INSERT
 CREATE
-OR REPLACE FUNCTION public.increment_department_employees_count() RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
+OR REPLACE FUNCTION public.increment_department_employees_count () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-    search_path = public AS $$ BEGIN -- Check if the new user's manager_id is the same as any organization's owner_id
-    IF EXISTS (
-        SELECT
-            1
-        FROM
-            organizations
-        WHERE
-            owner_id = NEW.manager_id
-    ) THEN -- If manager_id is an organization owner_id, do nothing
-    RETURN NEW;
+    search_path = public AS $ $ BEGIN -- Check if the new user's department_id is null
+    if NEW.department_id is null then return NEW;
+
+end if;
+
+-- Check if the manager_id is an organization owner_id
+IF EXISTS (
+    SELECT
+        1
+    FROM
+        organizations
+    WHERE
+        owner_id = NEW.id
+) THEN -- If manager_id is an organization owner_id, do nothing
+RETURN NEW;
 
 END IF;
 
@@ -174,29 +177,32 @@ WHERE
 
 RETURN NEW;
 
-END $$;
+END $ $;
 
 -- DECREMENT DEPARTMENT EMPLOYEES COUNT ON USER DELETE
 CREATE
-OR REPLACE FUNCTION public.decrement_department_employees_count() RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
+OR REPLACE FUNCTION public.decrement_department_employees_count () RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-    search_path = public AS $$ BEGIN
+    search_path = public AS $ $ BEGIN IF OLD.department_id IS NULL THEN RETURN OLD;
+
+END IF;
+
 UPDATE
     departments
 SET
-    employees_count = greatest(0, employees_count - 1)
+    employees_count = GREATEST(0, employees_count - 1)
 WHERE
     id = OLD.department_id;
 
 RETURN OLD;
 
-END $$;
+END $ $;
 
 -- UPDATE DEPARTMENT EMPLOYEES COUNT ON USER DEPARTMENT_ID UPDATE
 CREATE
 OR REPLACE FUNCTION public.update_department_employees_count() RETURNS TRIGGER LANGUAGE plpgsql SECURITY DEFINER
 SET
-    search_path = public AS $$ BEGIN -- If department_id hasn't changed, do nothing
+    search_path = public AS $ $ BEGIN -- If department_id hasn't changed, do nothing
     IF NEW.department_id = OLD.department_id THEN RETURN NEW;
 
 END IF;
@@ -221,4 +227,4 @@ RETURN NEW;
 
 END;
 
-$$;
+$ $;
