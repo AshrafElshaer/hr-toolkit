@@ -3,6 +3,9 @@
 	"version": "0.0.0",
 	"private": true,
 	"license": "MIT",
+	"scripts": {
+		"db:up": "supabase migrate up ./migrations/20240724190454_organizations.sql ./migrations/20240724192621_users.sql ./migrations/20240727143402_addresses.sql ./migrations/20240727144014_emergency_contacts.sql ./migrations/20240726212539_departments.sql ./migrations/20240727144354_attendances.sql ./migrations/20240727145154_time_offs.sql ./migrations/20240727150440_payrolls.sql ./migrations/20240727151717_events.sql ./migrations/20240727151932_teams.sql ./migrations/20240727215632_projects.sql ./migrations/20240727220738_tasks.sql ./migrations/20240726205123_functions.sql ./migrations/20240726205727_triggers.sql ./migrations/20240726211533_rls-policies.sql"
+	},
 	"dependencies": {
 		"@supabase/ssr": "^0.4.0",
 		"@supabase/supabase-js": "^2.44.3",
