@@ -9,10 +9,16 @@ import userMutations from "@hr-toolkit/supabase/user-mutations";
 
 export const createOrganizationAction = authAction
   .schema(createOrganizationSchema)
-  .action(async ({ parsedInput, ctx: { user } }) => {
+  .action(async ({ parsedInput }) => {
     const supabase = createServerClient({
       isAdmin: true,
     });
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
 
     const newOrg = await organizationMutations.create(supabase, {
       name: parsedInput.name,
@@ -42,10 +48,16 @@ const formSchema = createUserSchema.omit({
 });
 export const createOrganizationOwnerAction = authAction
   .schema(formSchema)
-  .action(async ({ parsedInput, ctx: { user } }) => {
+  .action(async ({ parsedInput }) => {
     const supabase = createServerClient({
       isAdmin: true,
     });
+
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (!user) {
+      throw new Error("User not found");
+    }
 
     const newUser = await userMutations.createOwner(supabase, {
       id: user.id,

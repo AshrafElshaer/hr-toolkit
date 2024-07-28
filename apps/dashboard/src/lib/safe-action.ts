@@ -1,5 +1,6 @@
 import { createSafeActionClient } from "next-safe-action";
 import { createServerClient } from "./supabase/server";
+import { getCurrentUser } from "@hr-toolkit/supabase/user-queries";
 
 export const action = createSafeActionClient({
   handleReturnedServerError(e) {
@@ -9,9 +10,7 @@ export const action = createSafeActionClient({
 
 export const authAction = action.use(async ({ next }) => {
   const supabase = createServerClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { user } = await getCurrentUser(supabase);
   if (!user) {
     throw new Error("Session is not valid!");
   }

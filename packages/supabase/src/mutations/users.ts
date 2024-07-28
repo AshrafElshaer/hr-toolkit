@@ -5,7 +5,7 @@ type CreateUser = User["Insert"];
 interface CreateOrganizationOwner
   extends
     Omit<CreateUser, "id">,
-    Omit<CreateAddress, "organization_id"| "user_id"> {}
+    Omit<CreateAddress, "organization_id" | "user_id"> {}
 
 export async function createOrganizationOwner(
   supabase: SupabaseClient,
@@ -22,11 +22,10 @@ export async function createOrganizationOwner(
     description: "Executive Department",
     organization_id: user.organization_id,
     manager_id: user.id,
-    employees_count: 1,
+    employees_count: 0,
   }).select("id").single();
 
   if (departmentError || !newDepartment.id) {
-
     throw new Error(departmentError?.message || "Failed to create department");
   }
 
