@@ -16,7 +16,7 @@ export const organizationSchema = z.object({
   employees_count: z.number().int(),
   logo_url: z.string().nullable(),
   time_zone: z.string(),
-  website: z.string().url().nullable(),
+  website: z.string().nullable(),
   contact_name: z.string().min(3, {
     message: "Must be at least 3 characters",
   }),

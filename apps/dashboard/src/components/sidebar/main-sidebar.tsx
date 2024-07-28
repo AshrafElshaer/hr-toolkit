@@ -28,7 +28,7 @@ function MainSidebar({
 		<nav className=" hidden md:block shadow-md w-[3.3rem] border-r border-t fixed top-0 bottom-0 left-0 hover:w-[185px] transition-all group z-40 bg-background">
 			<div className="flex items-center justify-start  p-3 relative w-full">
 				<LogoSVG className="text-foreground fill-current size-7" />
-				<div className="w-full font-semibold opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity delay-[25ms] absolute left-12">
+				<div className="w-full font-semibold opacity-0 pointer-events-none group-hover:opacity-100 transition-opacity delay-[25ms] absolute left-12 text-lg min-w-28">
 					Hr ToolKit
 				</div>
 			</div>
