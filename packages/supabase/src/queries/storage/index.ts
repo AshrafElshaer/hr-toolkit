@@ -33,7 +33,7 @@ export const getSignedUrl = async (supabase: SupabaseClient, {
       expiresIn,
     );
   if (error) {
-    console.error("Error downloading file", error.message);
+
     throw Error(error.message);
   }
   return data;

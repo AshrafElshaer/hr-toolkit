@@ -26,7 +26,7 @@ export async function createOrganizationOwner(
   }).select("id").single();
 
   if (departmentError || !newDepartment.id) {
-    console.log(departmentError);
+
     throw new Error(departmentError?.message || "Failed to create department");
   }
 

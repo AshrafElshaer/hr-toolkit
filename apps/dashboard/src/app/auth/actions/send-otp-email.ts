@@ -28,7 +28,7 @@ export const sendOtpEmail = action
       email,
     });
     if (otpError || !otpResponse.properties.email_otp) {
-      console.log(otpError);
+
       throw new Error(otpError?.message || "Failed to generate OTP code");
     }
 
