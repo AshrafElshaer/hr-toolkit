@@ -60,6 +60,7 @@ export function OtpConfirmation({
 			email: userEmail ?? "",
 			otpCode: otp,
 		});
+		setIsVerifyingFalse();
 
 		if (result?.serverError) {
 			toast.error(result.serverError, {
@@ -77,7 +78,6 @@ export function OtpConfirmation({
 			});
 			return;
 		}
-		setIsVerifyingFalse();
 	}
 
 	async function resendOtp() {
