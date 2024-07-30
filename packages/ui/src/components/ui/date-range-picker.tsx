@@ -36,7 +36,7 @@ export function DatePickerWithRange({
 	...props
 }: Omit<DayPickerRangeProps, "mode"> &
 	React.HTMLAttributes<HTMLDivElement> & {
-		date: DateRange;
+		date: DateRange | undefined;
 		onSelect: (dateRange: DateRange) => void;
 		numberOfMonths?: number;
 		dateRangeOptions?: DateRangeOption[];

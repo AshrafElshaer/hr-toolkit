@@ -1,10 +1,20 @@
 "use client";
 
-import { endOfMonth, formatISO, isSameDay, startOfMonth } from "date-fns";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import React, { useState } from "react";
+import {
+	endOfMonth,
+	format,
+	formatISO,
+	isBefore,
+	isSameDay,
+	startOfMonth,
+	subMonths,
+} from "date-fns";
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react";
+import React from "react";
+import { useState } from "react";
 import { cn } from "../../lib/utils";
 import { Button } from "./button";
+import { Popover, PopoverContent, PopoverTrigger } from "./popover";
 
 const monthsNumber = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
@@ -18,7 +28,7 @@ type Props = React.HTMLAttributes<HTMLDivElement> & {
 	setDate: (range?: DateRange) => void;
 };
 
-export const MonthRangePicker = ({ date, setDate }: Props) => {
+export const MonthRangeDate = ({ date, setDate }: Props) => {
 	const [yearOffset, setYearOffset] = useState<number>(-1);
 
 	const today = new Date();
@@ -106,26 +116,29 @@ export const MonthRangePicker = ({ date, setDate }: Props) => {
 
 		const isSelectedDate = isStart || isEnd;
 		const isRange = isSelected && !isSelectedDate;
+		const isDisabled = isBefore(today, subMonths(endOfMonth(monthStart), 1));
 
 		return (
 			<button
 				type="button"
 				key={month}
+				disabled={isDisabled}
 				className={cn(
 					"!w-[40px] !h-[40px] m-0 pr-[60px] rounded-none mb-1.5 bg-transparent",
-					isStart && toDate && "bg-secondary rounded-l-full",
-					isEnd && "bg-secondary rounded-r-full pr-0",
+					isStart && toDate && "bg-secondary rounded-l-lg",
+					isEnd && "bg-secondary rounded-r-lg pr-0",
 					isRange && "bg-secondary",
+					isDisabled && "opacity-40",
 				)}
 				onClick={() => handleMonthClick(monthStart)}
 			>
 				<div
 					className={cn(
-						"flex items-center justify-center !w-[40px] !h-[40px] !text-xs font-medium hover:rounded-full border border-transparent hover:border-primary",
-						isSelectedDate && "bg-primary text-primary-foreground",
+						"flex items-center justify-center !w-[40px] !h-[40px] !text-xs font-medium  border border-transparent hover:border-border rounded-lg",
+						isSelectedDate && "bg-accent text-accent-foreground ",
 						isSelectedDate &&
-							"rounded-full hover:bg-primary hover:text-primary-foreground",
-
+							"rounded-lg hover:bg-accent/80",
+						isDisabled && "hover:border-transparent",
 						isStart && "",
 						isEnd && "",
 					)}
@@ -181,3 +194,33 @@ export const MonthRangePicker = ({ date, setDate }: Props) => {
 		</>
 	);
 };
+
+export function MonthRangePicker({ date, setDate }: Props) {
+	const disabled = false;
+	const placeholder =
+		date?.from && date?.to
+			? `${format(new Date(date.from), "MMM d")} - ${format(
+					new Date(date.to),
+					"MMM d yyyy",
+				)}`
+			: "Select a range";
+
+	return (
+		<div className="flex space-x-4">
+			<Popover>
+				<PopoverTrigger asChild disabled={disabled}>
+					<Button
+						variant="outline"
+						className="justify-start text-left font-medium space-x-2"
+					>
+						<span className="line-clamp-1 text-ellipsis">{placeholder}</span>
+						<ChevronDown size={14} />
+					</Button>
+				</PopoverTrigger>
+				<PopoverContent className="w-[370px] sm:w-[450px] p-2" align="end">
+					<MonthRangeDate setDate={setDate} date={date} />
+				</PopoverContent>
+			</Popover>
+		</div>
+	);
+}

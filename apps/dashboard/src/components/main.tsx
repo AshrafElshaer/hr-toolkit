@@ -9,7 +9,7 @@ export default function Main({
 	return (
 		<main
 			className={cn(
-				"w-full md:w-[calc(100%_-_3.3rem)] p-4 ml-auto h-full",
+				"w-full md:w-[calc(100%_-_3.3rem)] p-4 pt-[11px] ml-auto h-full",
 				className,
 			)}
 			{...props}

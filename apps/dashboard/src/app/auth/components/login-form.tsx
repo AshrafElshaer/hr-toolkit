@@ -65,7 +65,10 @@ export default function LoginForm({
 
 			return;
 		}
-		setUserEmail(result?.data ? result.data : null);
+
+		if (result?.data) {
+			setUserEmail(result.data);
+		}
 	}
 
 	return (

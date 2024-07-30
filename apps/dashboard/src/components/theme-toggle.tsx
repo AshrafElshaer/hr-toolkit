@@ -11,7 +11,7 @@ export function ThemeToggle() {
 	const isDark = resolvedTheme === "dark";
 
 	return (
-		<div className="flex items-center justify-between px-2 text-xs">
+		<div className="flex items-center justify-between px-2 text-xs my-2">
 			<Label htmlFor="airplane-mode">Dark Mode</Label>
 			<Switch
 				id="airplane-mode"
