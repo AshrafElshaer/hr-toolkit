@@ -10,9 +10,20 @@ export const action = createSafeActionClient({
 
 export const authAction = action.use(async ({ next }) => {
   const supabase = createServerClient();
-  const { user } = await getCurrentUser(supabase);
-  if (!user) {
+  const { user, error } = await getCurrentUser(supabase);
+  if (!user || error) {
     throw new Error("Session is not valid!");
+  }
+  return next({ ctx: { user, supabase } });
+});
+
+export const adminAction = action.use(async ({ next }) => {
+  const supabase = createServerClient({
+    isAdmin: true,
+  });
+  const { user, error } = await getCurrentUser(supabase);
+  if (!user || error) {
+    throw new Error("You are not authorized to access this page!");
   }
   return next({ ctx: { user, supabase } });
 });
