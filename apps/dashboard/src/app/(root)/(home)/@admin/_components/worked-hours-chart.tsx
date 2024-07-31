@@ -25,6 +25,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { MonthRangePicker } from "@hr-toolkit/ui/month-range-picker";
 import { useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
+import type { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
 const generateChartData = (date: DateRange | undefined) => {
 	if (!date) {
 		return [];
@@ -89,9 +90,7 @@ export function WorkedHoursChart() {
 		to: endOfMonth(new Date()),
 	});
 
-	useEffect(() => {
-		console.log("Date changed", date);
-	}, [date]);
+
 
 	const chartData = generateChartData(date);
 	const totalWorkedHours = chartData.reduce(
@@ -108,6 +107,13 @@ export function WorkedHoursChart() {
 	);
 
 	const isMobile = useMediaQuery("(max-width: 640px)");
+
+	// biome-ignore lint/suspicious/noExplicitAny: TODO: Find Type And Fix It
+	const onBarClick: CategoricalChartFunc = (data: any) => {
+		const payload = data.payload;
+		const date = payload.date;
+		// TODO: Navigate to attendance page with the selected date
+	};
 
 	return (
 		<Card className=" row-span-4 md:col-span-2 lg:md:col-span-4 flex flex-col w-full h-[355px] md:h-auto">
@@ -145,7 +151,7 @@ export function WorkedHoursChart() {
 							tickLine={false}
 							tickMargin={10}
 							axisLine={false}
-							tickFormatter={(value) => format(new Date(value), "MMM d")}
+							// tickFormatter={(value) => format(new Date(value), "MMM d")}
 						/>
 						<ChartTooltip
 							content={
@@ -161,6 +167,7 @@ export function WorkedHoursChart() {
 							fill="var(--color-worked)"
 							radius={[8, 8, 8, 8]}
 							barSize={isMobile ? 4 : 12}
+							onClick={onBarClick}
 						/>
 						<Bar
 							dataKey="remainingHours"
@@ -168,6 +175,7 @@ export function WorkedHoursChart() {
 							fill="var(--color-remainingHours)"
 							radius={[8, 8, 8, 8]}
 							barSize={isMobile ? 4 : 12}
+							onClick={onBarClick}
 						/>
 						<Bar
 							dataKey="overtime"
@@ -175,6 +183,7 @@ export function WorkedHoursChart() {
 							fill="var(--color-overtime)"
 							radius={[8, 8, 8, 8]}
 							barSize={isMobile ? 4 : 12}
+							onClick={onBarClick}
 						/>
 					</BarChart>
 				</ChartContainer>
