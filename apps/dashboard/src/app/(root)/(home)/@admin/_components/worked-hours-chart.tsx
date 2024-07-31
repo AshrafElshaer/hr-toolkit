@@ -110,10 +110,12 @@ export function WorkedHoursChart() {
 	const isMobile = useMediaQuery("(max-width: 640px)");
 
 	return (
-		<Card className=" row-span-4 md:col-span-2 lg:md:col-span-4 flex flex-col w-full">
+		<Card className=" row-span-4 md:col-span-2 lg:md:col-span-4 flex flex-col w-full h-[355px] md:h-auto">
 			<CardHeader className="flex flex-col-reverse lg:flex-row gap-2 items-start justify-between">
 				<div className="flex flex-col sm:flex-row items-start md:items-center sm:gap-4">
-					<CardTitle className="text-base min-w-fit">Total Worked Hours</CardTitle>
+					<CardTitle className="text-base min-w-fit">
+						Total Worked Hours
+					</CardTitle>
 					<CardDescription className="flex flex-wrap gap-4">
 						<div className="">Planned : {totalPlannedHours} hours</div>
 						<div>
@@ -134,7 +136,6 @@ export function WorkedHoursChart() {
 					className="w-fit ml-auto"
 					showOutsideDays={false}
 					align="end"
-					
 				/>
 			</CardHeader>
 			<CardContent className="flex-grow">
