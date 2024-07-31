@@ -113,17 +113,15 @@ export function WorkedHoursChart() {
 		<Card className=" row-span-4 md:col-span-2 lg:md:col-span-4 flex flex-col w-full h-[355px] md:h-auto">
 			<CardHeader className="flex flex-col-reverse lg:flex-row gap-2 items-start justify-between">
 				<div className="flex flex-col sm:flex-row items-start md:items-center sm:gap-4">
-					<CardTitle className="text-base min-w-fit">
-						Total Worked Hours
-					</CardTitle>
+					<CardTitle className="min-w-fit">Total Worked Hours</CardTitle>
 					<CardDescription className="flex flex-wrap gap-4">
 						<div className="">Planned : {totalPlannedHours} hours</div>
 						<div>
-							<span className="size-2.5 rounded-[2px] bg-blue inline-block mr-2" />
+							<span className="size-2.5 rounded-[2px] bg-blue mr-2" />
 							Worked : {totalWorkedHours} hours
 						</div>
 						<div>
-							<span className="size-2.5 rounded-[2px] bg-destructive inline-block mr-2" />
+							<span className="size-2.5 rounded-[2px] bg-destructive mr-2" />
 							Overtime : {totalOvertimeHours} hours
 						</div>
 					</CardDescription>

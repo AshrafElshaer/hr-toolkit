@@ -5,6 +5,7 @@ import { ThemeToggle } from "@hr-toolkit/ui/theme-toggle";
 import CurrentTime from "./current-time";
 import MobileSidebar from "../sidebar/mobile-sidebar";
 import type { User } from "@hr-toolkit/supabase/types";
+import { CommandMenu } from "./command-menu";
 
 export default function DashboardHeader({
 	currentUser,
@@ -18,6 +19,9 @@ export default function DashboardHeader({
 				<li className=" flex md:hidden items-center gap-2 text-foreground">
 					<LogoSVG className="fill-current w-6 h-6 select-none" />
 					<h1 className="text-lg font-semibold select-none">HR Toolkit</h1>
+				</li>
+				<li className="ml-[50px] hidden md:block">
+					<CommandMenu />
 				</li>
 				<li className="ml-auto hidden md:block">
 					<CurrentTime />

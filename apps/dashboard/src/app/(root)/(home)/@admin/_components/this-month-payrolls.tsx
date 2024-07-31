@@ -1,4 +1,10 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@hr-toolkit/ui/card";
+import {
+	Card,
+	CardContent,
+	CardDescription,
+	CardHeader,
+	CardTitle,
+} from "@hr-toolkit/ui/card";
 import { FaDollarSign } from "react-icons/fa";
 import { FaArrowTrendDown } from "react-icons/fa6";
 import {
@@ -10,15 +16,13 @@ import {
 export default function ThisMonthPayrolls() {
 	return (
 		<Card className="w-full">
-			<CardHeader className="flex flex-row items-center justify-between space-y-0 ">
-				<CardTitle className="text-base font-medium">
-					Payrolls
-					<span className="text-muted-foreground text-sm ml-2">This Month</span>
-				</CardTitle>
-				<FaDollarSign className="size-5 text-muted-foreground" />
+			<CardHeader className="flex flex-row items-center gap-2 ">
+				<CardTitle>Payrolls</CardTitle>
+				<CardDescription>This Month</CardDescription>
+				<FaDollarSign className="size-5 text-muted-foreground ml-auto" />
 			</CardHeader>
-			<CardContent className="p-4 pt-0 flex items-center justify-between">
-				<span className="text-xl font-bold">$12,234</span>
+			<CardContent className=" flex items-center justify-between">
+				<span className="text-lg font-bold">$12,234</span>
 				<HoverCard openDelay={0} closeDelay={0}>
 					<HoverCardTrigger className="flex items-center gap-2 text-sm  text-success">
 						45.3% <FaArrowTrendDown />
