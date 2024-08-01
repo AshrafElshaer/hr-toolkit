@@ -2,6 +2,7 @@
 
 import { TrendingUp } from "lucide-react";
 import { Bar, BarChart, CartesianGrid, XAxis } from "recharts";
+import moment from "moment";
 
 import {
 	Card,
@@ -26,6 +27,7 @@ import { MonthRangePicker } from "@hr-toolkit/ui/month-range-picker";
 import { useEffect, useState } from "react";
 import type { DateRange } from "react-day-picker";
 import type { CategoricalChartFunc } from "recharts/types/chart/generateCategoricalChart";
+import { useRouter } from "next/navigation";
 const generateChartData = (date: DateRange | undefined) => {
 	if (!date) {
 		return [];
@@ -85,12 +87,11 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 export function WorkedHoursChart() {
+	const router = useRouter();
 	const [date, setDate] = useState<DateRange | undefined>({
 		from: startOfMonth(new Date()),
 		to: endOfMonth(new Date()),
 	});
-
-
 
 	const chartData = generateChartData(date);
 	const totalWorkedHours = chartData.reduce(
@@ -112,7 +113,7 @@ export function WorkedHoursChart() {
 	const onBarClick: CategoricalChartFunc = (data: any) => {
 		const payload = data.payload;
 		const date = payload.date;
-		// TODO: Navigate to attendance page with the selected date
+		router.push(`/attendance?from=${date}&to=${date}`);
 	};
 
 	return (
@@ -151,12 +152,12 @@ export function WorkedHoursChart() {
 							tickLine={false}
 							tickMargin={10}
 							axisLine={false}
-							// tickFormatter={(value) => format(new Date(value), "MMM d")}
+							tickFormatter={(value) => moment(value).format("DD MMM")}
 						/>
 						<ChartTooltip
 							content={
 								<ChartTooltipContent
-									labelFormatter={(value) => format(new Date(value), "MMM d")}
+									labelFormatter={(value) => moment(value).format("DD MMM")}
 								/>
 							}
 						/>
