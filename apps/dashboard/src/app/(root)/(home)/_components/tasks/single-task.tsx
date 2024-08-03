@@ -7,6 +7,11 @@ import type { TaskSelect } from "@hr-toolkit/supabase/types";
 
 import { CalendarIcon } from "lucide-react";
 import { Badge } from "@hr-toolkit/ui/badge";
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "@hr-toolkit/ui/hover-card";
 
 type Props = { task: TaskSelect };
 
@@ -54,12 +59,27 @@ export default function SingleTask({ task }: Props) {
 					{moment(task.due_date).format("DD MMM , YYYY")}
 				</p>
 			</div>
-			<div
-				className={cn(
-					"absolute left-0 top-2 bottom-2  w-1.5 rounded-r ",
-					indicatorColor,
-				)}
-			/>
+
+			<HoverCard openDelay={0} closeDelay={0}>
+				<HoverCardTrigger asChild>
+					<div
+						className={cn(
+							"absolute left-0 top-2 bottom-2  w-1.5 rounded-r ",
+							indicatorColor,
+						)}
+					/>
+				</HoverCardTrigger>
+				<HoverCardContent
+					side="right"
+					align="center"
+					className="text-sm w-fit p-2"
+				>
+					{task.status
+						.split("_")
+						.map((word) => capitalize(word))
+						.join(" ")}
+				</HoverCardContent>
+			</HoverCard>
 		</div>
 	);
 }
