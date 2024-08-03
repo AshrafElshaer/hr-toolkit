@@ -125,7 +125,7 @@ export default function Notes() {
 
 			<Separator className="w-full " />
 			<CardContent className="p-0">
-				{notes.length !== 0 ? (
+				{notes.length === 0 ? (
 					<NotesEmptyState />
 				) : (
 					<ScrollArea className="h-80  ">
