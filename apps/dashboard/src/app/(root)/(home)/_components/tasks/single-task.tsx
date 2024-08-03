@@ -46,9 +46,11 @@ export default function SingleTask({ task }: Props) {
 				>
 					{capitalize(task.priority)}
 				</Badge>
-				<CalendarIcon className="size-3 ml-auto" />
+				<CalendarIcon
+					className={cn("size-3 ml-auto", isOverDue ? "text-destructive" : "")}
+				/>
 
-				<p className={cn("text-xs", !isOverDue ? "text-destructive" : "")}>
+				<p className={cn("text-xs", isOverDue ? "text-destructive" : "")}>
 					{moment(task.due_date).format("DD MMM , YYYY")}
 				</p>
 			</div>
