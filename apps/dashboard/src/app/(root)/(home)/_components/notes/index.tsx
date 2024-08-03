@@ -128,7 +128,7 @@ export default function Notes() {
 				{notes.length === 0 ? (
 					<NotesEmptyState />
 				) : (
-					<ScrollArea className="h-80  ">
+					<ScrollArea className="h-64  ">
 						{notes.map((note) => (
 							<SingleNote note={note} key={note.id} />
 						))}
@@ -141,7 +141,7 @@ export default function Notes() {
 
 function NotesEmptyState() {
 	return (
-		<div className="relative p-2 text-center h-80 flex flex-col justify-center items-center text-muted-foreground tex-sm ">
+		<div className="relative p-2 text-center h-64 flex flex-col justify-center items-center text-muted-foreground tex-sm ">
 			<NotebookPen size={75} />
 			<p className="mt-4">No notes found!</p>
 			<p>Add a new note to get started.</p>

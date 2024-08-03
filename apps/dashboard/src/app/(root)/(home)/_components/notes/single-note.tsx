@@ -19,7 +19,7 @@ type Props = {
 
 export default function SingleNote({ note }: Props) {
 	return (
-		<div className="flex items-start p-2 pr-6 w-full hover:bg-muted transition-all relative">
+		<div className="flex items-start p-2 pr-6 w-full hover:bg-muted transition-all relative border-b last:border-b-0">
 			<Checkbox
 				className={cn(
 					"data-[state=checked]:bg-success data-[state=checked]:text-primary  rounded-full mt-0.5",
@@ -35,7 +35,7 @@ export default function SingleNote({ note }: Props) {
 				<div className="flex gap-2 items-center text-muted-foreground">
 					<Badge
 						variant="outline"
-						className="font-light text-xs text-muted-foreground  rounded-full "
+						className="font-light text-xs text-muted-foreground  rounded-full px-2 py-[0.075]"
 					>
 						Meeting
 					</Badge>
