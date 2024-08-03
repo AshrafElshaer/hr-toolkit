@@ -1,6 +1,6 @@
 import Main from "@/components/main";
-import ClockInOut from "./_components/header/clock-in-out";
 import HomeHeader from "./_components/header";
+
 
 export default function HomePageLayout({
 	children,

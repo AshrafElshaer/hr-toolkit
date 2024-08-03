@@ -1,13 +1,14 @@
+import React from "react";
+
+import type { TaskSelect } from "@hr-toolkit/supabase/types";
+
+import SingleTask from "./single-task";
+
 import { Button } from "@hr-toolkit/ui/button";
 import { Card, CardContent } from "@hr-toolkit/ui/card";
 import { Separator } from "@hr-toolkit/ui/separator";
-import { NotebookPen, PlusIcon, SquareArrowOutUpRight } from "lucide-react";
-import React from "react";
 import { FaTasks } from "react-icons/fa";
-
 import { ScrollArea } from "@hr-toolkit/ui/scroll-area";
-import type { TaskSelect } from "@hr-toolkit/supabase/types";
-import SingleTask from "./single-task";
 import { BiTaskX } from "react-icons/bi";
 
 const tasks: TaskSelect[] = [

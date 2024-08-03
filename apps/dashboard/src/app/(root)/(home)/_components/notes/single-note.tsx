@@ -1,9 +1,10 @@
 import React from "react";
+import moment from "moment";
+import { cn } from "@hr-toolkit/ui/utils";
+
 import { Badge } from "@hr-toolkit/ui/badge";
 import { Checkbox } from "@hr-toolkit/ui/checkbox";
-import { cn } from "@hr-toolkit/ui/utils";
 import { CalendarIcon } from "lucide-react";
-import moment from "moment";
 
 type Props = {
 	note: {

@@ -1,10 +1,12 @@
-import type { TaskSelect } from "@hr-toolkit/supabase/types";
-import { CalendarIcon, SquareArrowOutUpRight } from "lucide-react";
 import React from "react";
 import moment from "moment";
 import { cn } from "@hr-toolkit/ui/utils";
-import { Badge } from "@hr-toolkit/ui/badge";
 import { capitalize } from "lodash";
+
+import type { TaskSelect } from "@hr-toolkit/supabase/types";
+
+import { CalendarIcon } from "lucide-react";
+import { Badge } from "@hr-toolkit/ui/badge";
 
 type Props = { task: TaskSelect };
 
