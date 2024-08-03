@@ -72,7 +72,7 @@ export default function LoginForm({
 	}
 
 	return (
-		<Card className="flex flex-col items-center w-full max-w-sm">
+		<Card className="flex flex-col items-center w-full max-w-sm pt-6">
 			<CardHeader className="flex flex-col items-center w-full">
 				<LogoSVG className="w-10 h-10 fill-foreground  mb-4" />
 				<CardTitle>Welcome back!</CardTitle>
@@ -137,7 +137,7 @@ export default function LoginForm({
 					</form>
 				</Form>
 			</CardContent>
-			<CardFooter className="w-full text-sm grid">
+			<CardFooter className="w-full text-sm grid p-4">
 				<div className="w-full flex flex-col md:flex-row items-center">
 					<p>By signing in you agree to - </p>
 					<Button size="sm" variant="link">

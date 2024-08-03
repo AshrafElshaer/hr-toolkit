@@ -118,8 +118,8 @@ export function OtpConfirmation({
 	}
 
 	return (
-		<Card className="flex flex-col items-center w-full max-w-sm">
-			<CardHeader className="flex flex-col items-center w-full">
+		<Card className="flex flex-col items-center w-full max-w-sm pt-6">
+			<CardHeader className="flex flex-col gap-2 items-center w-full">
 				<CardTitle>Check your email</CardTitle>
 				<CardDescription>
 					We&apos;ve sent a one time pass code to{" "}

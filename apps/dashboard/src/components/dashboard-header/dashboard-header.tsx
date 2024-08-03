@@ -20,7 +20,7 @@ export default function DashboardHeader({
 					<LogoSVG className="fill-current w-6 h-6 select-none" />
 					<h1 className="text-lg font-semibold select-none">HR Toolkit</h1>
 				</li>
-				<li className="ml-[50px] hidden md:block">
+				<li className="ml-[53px] hidden md:block">
 					<CommandMenu />
 				</li>
 				<li className="ml-auto hidden md:block">
