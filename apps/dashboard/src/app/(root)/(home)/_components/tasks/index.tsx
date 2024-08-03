@@ -79,7 +79,7 @@ export default function Tasks() {
 
 			<Separator className="w-full " />
 			<CardContent className="p-0">
-				{tasks.length !== 0 ? (
+				{tasks.length === 0 ? (
 					<TasksEmptyState />
 				) : (
 					<ScrollArea className="h-64  ">
