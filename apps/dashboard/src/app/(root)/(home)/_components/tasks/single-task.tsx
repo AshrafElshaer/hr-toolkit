@@ -64,7 +64,7 @@ export default function SingleTask({ task }: Props) {
 				<HoverCardTrigger asChild>
 					<div
 						className={cn(
-							"absolute left-0 top-2 bottom-2  w-1.5 rounded-r ",
+							"absolute left-0 top-2.5 h-4  w-1.5 rounded-r ",
 							indicatorColor,
 						)}
 					/>
