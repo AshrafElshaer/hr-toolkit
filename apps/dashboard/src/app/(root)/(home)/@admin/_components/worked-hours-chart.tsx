@@ -124,11 +124,11 @@ export function WorkedHoursChart() {
 					<CardDescription className="flex flex-wrap gap-4">
 						<div className="">Planned : {totalPlannedHours} hours</div>
 						<div>
-							<span className="size-2.5 rounded-[2px] bg-blue mr-2" />
+							<span className="size-2.5 rounded-[2px] inline-block bg-blue mr-2"/> 
 							Worked : {totalWorkedHours} hours
 						</div>
 						<div>
-							<span className="size-2.5 rounded-[2px] bg-destructive mr-2" />
+							<span className="size-2.5 rounded-[2px] inline-block bg-destructive mr-2" />
 							Overtime : {totalOvertimeHours} hours
 						</div>
 					</CardDescription>
