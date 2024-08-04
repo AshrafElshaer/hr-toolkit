@@ -2,8 +2,11 @@
 
 import * as React from "react";
 import {
+	ArrowDown,
+	ArrowUp,
 	Calculator,
 	Calendar,
+	CornerDownLeft,
 	CreditCard,
 	Search,
 	Settings,
@@ -94,6 +97,24 @@ export function CommandMenu() {
 						</CommandItem>
 					</CommandGroup>
 				</CommandList>
+				<CommandSeparator />
+				<div className="flex items-center justify-between p-2 text-sm *:flex *:items-center *:gap-2">
+					<div>
+						<span>ESC</span>
+						<span className="text-muted-foreground">to close</span>
+					</div>
+					<div>
+						<ArrowUp className="bg-secondary size-5 p-0.5 rounded" />
+						<ArrowDown className="bg-secondary size-5 p-0.5 rounded" />
+
+						<span className="text-muted-foreground">to navigate,</span>
+					</div>
+					<div>
+						<CornerDownLeft className="bg-secondary size-5 p-0.5 rounded" />
+
+						<span className="text-muted-foreground">to select</span>
+					</div>
+				</div>
 			</CommandDialog>
 		</>
 	);
