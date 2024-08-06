@@ -1,18 +1,11 @@
 "use client";
-import { Button, buttonVariants } from "@hr-toolkit/ui/button";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useState } from "react";
 import moment from "moment";
-import { getDaysInMonth } from "@/lib/date";
-import { motion, AnimatePresence, useAnimate } from "framer-motion";
 import { cn } from "@hr-toolkit/ui/utils";
-import {
-	Carousel,
-	CarouselContent,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from "@hr-toolkit/ui/carousel";
+
+import { Button } from "@hr-toolkit/ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function DateSelector() {
 	const [currentDate, setCurrentDate] = useState(moment());
@@ -21,10 +14,6 @@ export default function DateSelector() {
 		moment(currentDate),
 		moment(currentDate).add(1, "day"),
 	]);
-
-	useEffect(() => {
-		console.log(dates.map((date) => date.format("ddd Do MMM YYYY")));
-	}, [dates]);
 
 	function nextMonth() {
 		setCurrentDate((prev) => {
@@ -103,42 +92,43 @@ export default function DateSelector() {
 					<ChevronLeft className="size-4" />
 				</Button>
 				<AnimatePresence mode="wait" initial={false}>
-					<div className="flex  items-center  justify-between flex-grow relative">
-						<div
-							className={cn(
-								buttonVariants({
-									variant: "secondary",
-									className:
-										"size-16 absolute left-1/2 transform -translate-x-1/2 ",
-								}),
-							)}
-						/>
-
-						{dates.map((date, index) => {
+					<div className="flex  items-center  justify-between gap-1 flex-grow relative overflow-hidden">
+						{dates.map((date) => {
 							const formattedDate = date.format("ddd Do MMM YYYY");
+							const isCurrentDate = date.isSame(currentDate, "day");
+							const isPrevDate = date.isBefore(currentDate, "day");
+							const isVisible = dates.includes(date);
 
 							return (
 								<motion.div
 									key={formattedDate}
 									layout
 									className="text-sm z-10"
-									initial={{ scale: 0 }}
-									// variants={{
-									// 	visible: { opacity: 1, scale: 1 },
-									// 	hidden: { opacity: 0, scale: 0 },
-									// }}
-									exit={{ opacity: 0, scale: 0 }}
-									animate={{
+									initial={{
 										opacity: 1,
-										scale: 1,
+										x: isCurrentDate ? 0 : isPrevDate ? -70 : 70,
 									}}
+									transition={{
+										duration: 0.4,
+									}}
+									variants={{
+										visible: { opacity: 1, x: 0 },
+										hidden: {
+											opacity: 1,
+											x: isCurrentDate ? 0 : isPrevDate ? -70 : 70,
+										},
+									}}
+									animate={
+										isVisible ? "visible" : isPrevDate ? "hidden" : "hidden"
+									}
 								>
 									<Button
 										className={cn(
-											"flex-col gap-4",
-											date.isSame(currentDate, "day") && "text-foreground",
+											"flex-col gap-2",
+											date.isSame(currentDate, "day") &&
+												"text-foreground hover:bg-transparent",
 										)}
-										variant={"ghost"}
+										variant={isCurrentDate ? "secondary" : "ghost"}
 										onClick={() => onDateSelected(date)}
 									>
 										<p>{date.format("ddd")}</p>

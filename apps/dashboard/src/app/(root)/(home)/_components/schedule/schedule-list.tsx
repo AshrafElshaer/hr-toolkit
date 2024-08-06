@@ -41,7 +41,17 @@ const ChipTabs = () => {
 	);
 };
 
-const Chip = ({ text, icon, selected, setSelected }) => {
+const Chip = ({
+	text,
+	icon,
+	selected,
+	setSelected,
+}: {
+	text: string;
+	icon: React.ReactNode;
+	selected: boolean;
+	setSelected: (text: string) => void;
+}) => {
 	return (
 		<button
 			onClick={() => setSelected(text)}
