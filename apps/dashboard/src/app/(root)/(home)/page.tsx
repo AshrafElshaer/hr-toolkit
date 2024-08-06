@@ -11,7 +11,7 @@ export default function HomePageBase() {
 			<Tasks />
 			<Metrics />
 			<Schedule />
-		
+			<Metrics />
 		</section>
 	);
 }
