@@ -1,4 +1,5 @@
 import { format } from "date-fns";
+import moment from "moment";
 import type { useRouter } from "next/navigation";
 import type { DateRange } from "react-day-picker";
 export function currentTimezone() {
@@ -55,4 +56,16 @@ export function handleDateSearch(
 
 export function getHoursFromMinutes(minutes: number) {
   return (minutes / 60).toFixed(2);
+}
+
+
+export function getDaysInMonth(year:number, month:number) {
+    const daysInMonth = moment(`${year}-${month}`, "YYYY-MM").daysInMonth();
+    const daysArray = [];
+
+    for (let day = 1; day <= daysInMonth; day++) {
+        daysArray.push(moment(`${year}-${month}-${day}`, "YYYY-MM-DD").format("YYYY-MM-DD"));
+    }
+
+    return daysArray;
 }
