@@ -10,17 +10,21 @@ import { motion, AnimatePresence } from "framer-motion";
 export default function DateSelector() {
 	const [currentDate, setCurrentDate] = useState(moment());
 	const [dates, setDates] = useState([
+		moment(currentDate).subtract(2, "day"),
 		moment(currentDate).subtract(1, "day"),
 		moment(currentDate),
 		moment(currentDate).add(1, "day"),
+		moment(currentDate).add(2, "day"),
 	]);
 
 	function nextMonth() {
 		setCurrentDate((prev) => {
 			setDates([
+				moment(prev).add(1, "month").subtract(2, "day"),
 				moment(prev).add(1, "month").subtract(1, "day"),
 				moment(prev).add(1, "month"),
 				moment(prev).add(1, "month").add(1, "day"),
+				moment(prev).add(1, "month").add(2, "day"),
 			]);
 			return moment(prev).add(1, "month");
 		});
@@ -29,9 +33,11 @@ export default function DateSelector() {
 	function prevMonth() {
 		setCurrentDate((prev) => {
 			setDates([
+				moment(prev).subtract(1, "month").subtract(2, "day"),
 				moment(prev).subtract(1, "month").subtract(1, "day"),
 				moment(prev).subtract(1, "month"),
 				moment(prev).subtract(1, "month").add(1, "day"),
+				moment(prev).subtract(1, "month").add(2, "day"),
 			]);
 			return moment(prev).subtract(1, "month");
 		});
@@ -62,9 +68,11 @@ export default function DateSelector() {
 	function onDateSelected(date: moment.Moment) {
 		setCurrentDate(date);
 		setDates([
+			moment(date).subtract(2, "day"),
 			moment(date).subtract(1, "day"),
 			moment(date),
 			moment(date).add(1, "day"),
+			moment(date).add(2, "day"),
 		]);
 	}
 

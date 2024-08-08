@@ -44,7 +44,7 @@ const tabs: Tab[] = [
 	},
 ];
 
-const tabContentVariants: Variants = {
+const eventCardVariants: Variants = {
 	initial: {
 		x: 10,
 		opacity: 0,
@@ -72,48 +72,24 @@ export default function ScheduleList({ events }: ScheduleListProps) {
 
 	return (
 		<div className="w-full min-h-96 sm:min-h-80 max-h-[27rem]  overflow-hidden flex flex-col flex-grow gap-2 ">
-			<div className="flex p-2">
-				{tabs.map((tab) => (
-					<div key={tab.label} className={"relative"}>
-						<Button
-							variant={"ghost"}
-							type="button"
-							onClick={() => handleClick(tab)}
-							size="sm"
-							className={cn(
-								"text-sm font-normal gap-2 hover:bg-transparent",
-								isSelected(tab) && "text-foreground",
-							)}
-						>
-							{tab.icon}
-							{tab.label}
-						</Button>
-						{isSelected(tab) && (
-							<motion.div
-								layoutId="indicator"
-								className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary"
-							/>
-						)}
-					</div>
-				))}
-			</div>
-
 			<div className="h-full p-4 overflow-y-scroll ">
 				<AnimatePresence mode="wait">
-					<motion.div
-						key={activeTab.label || "empty"}
-						variants={tabContentVariants}
-						initial="initial"
-						animate="enter"
-						exit="exit"
-						transition={{ duration: 0.4 }}
-					>
-						{activeTab?.render(
-							activeTab.label === "Meetings"
-								? events.filter((event) => event.type === "meeting")
-								: events.filter((event) => event.type !== "meeting"),
-						)}
-					</motion.div>
+					{events.length !== 0
+						? events.map((event, idx) => (
+								<motion.div
+									key={event.id}
+									variants={eventCardVariants}
+									transition={{ duration: 0.2, delay: idx * 0.1 }}
+									initial="initial"
+									animate="enter"
+									exit="exit"
+								>
+									<p>
+										{event.name} - {event.type}
+									</p>
+								</motion.div>
+							))
+						: null}
 				</AnimatePresence>
 			</div>
 		</div>
