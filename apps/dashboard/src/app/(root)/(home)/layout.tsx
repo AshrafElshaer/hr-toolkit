@@ -13,7 +13,7 @@ export default function HomePageLayout({
 	return (
 		<Main className="flex-grow flex flex-col gap-4">
 			<HomeHeader />
-			{admin}
+			{/* {admin} */}
 			{children}
 		</Main>
 	);

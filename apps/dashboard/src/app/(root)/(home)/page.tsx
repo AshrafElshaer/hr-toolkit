@@ -12,7 +12,7 @@ export default function HomePageBase() {
 			<Tasks />
 			<Schedule />
 			<Metrics />
-			<Metrics />
+			<CurrentProject />
 		</section>
 	);
 }
