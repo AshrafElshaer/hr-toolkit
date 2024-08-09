@@ -71,7 +71,7 @@ const generateEvents = () => {
 
 	const demoEvents: EventSelect[] = [];
 
-	for (let i = 1; i <= 25; i++) {
+	for (let i = 1; i <= 15; i++) {
 		const isMeeting = i <= 7; // First 7 events are meetings
 		const eventType = isMeeting
 			? "meeting"

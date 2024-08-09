@@ -6,6 +6,10 @@ import { TiMessages } from "react-icons/ti";
 import { CalendarCheck } from "lucide-react";
 import { cn } from "@hr-toolkit/ui/utils";
 import type { EventSelect } from "@hr-toolkit/supabase/types";
+import EventPreview from "./event-preview";
+import { Separator } from "@hr-toolkit/ui/separator";
+import { Dialog, DialogContent } from "@hr-toolkit/ui/dialog";
+import { ScrollArea } from "@hr-toolkit/ui/scroll-area";
 type Tab = {
 	label: string;
 	icon?: JSX.Element;
@@ -62,17 +66,11 @@ type ScheduleListProps = {
 	events: EventSelect[];
 };
 export default function ScheduleList({ events }: ScheduleListProps) {
-	const [activeTab, setActiveTab] = useState(tabs[0]);
-
-	const handleClick = (tab: Tab) => {
-		setActiveTab(tab);
-	};
-
-	const isSelected = (tab: Tab) => activeTab.label === tab.label;
+	const [activeEvent, setActiveEvent] = useState<EventSelect | null>(null);
 
 	return (
 		<div className="w-full min-h-96 sm:min-h-80 max-h-[27rem]  overflow-hidden flex flex-col flex-grow gap-2 ">
-			<div className="h-full p-4 overflow-y-scroll ">
+			<ScrollArea className="h-full  ">
 				<AnimatePresence mode="wait">
 					{events.length !== 0
 						? events.map((event, idx) => (
@@ -83,15 +81,22 @@ export default function ScheduleList({ events }: ScheduleListProps) {
 									initial="initial"
 									animate="enter"
 									exit="exit"
+									className="hover:bg-muted cursor-pointer"
+									onClick={() => setActiveEvent(event)}
 								>
-									<p>
-										{event.name} - {event.type}
-									</p>
+									<EventPreview event={event} />
+									<Separator className="w-full " />
 								</motion.div>
 							))
 						: null}
 				</AnimatePresence>
-			</div>
+			</ScrollArea>
+			<Dialog
+				open={!!activeEvent}
+				onOpenChange={(bol) => (bol === false ? setActiveEvent(null) : null)}
+			>
+				<DialogContent>dialog</DialogContent>
+			</Dialog>
 		</div>
 	);
 }
