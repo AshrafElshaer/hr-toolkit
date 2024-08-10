@@ -24,6 +24,8 @@
 		"./types": "./src/types/index.ts",
 		"./user-queries": "./src/queries/users.ts",
 		"./user-mutations": "./src/mutations/users.ts",
-		"./organization-mutations": "./src/mutations/organizations.ts"
+		"./organization-mutations": "./src/mutations/organizations.ts",
+		"./notes-queries": "./src/queries/notes.ts",
+		"./notes-mutations": "./src/mutations/notes.ts"
 	}
 }

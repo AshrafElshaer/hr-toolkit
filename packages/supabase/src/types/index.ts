@@ -82,6 +82,11 @@ export type TeamMemberInsert = TeamMember["Insert"];
 export type TeamMemberSelect = TeamMember["Row"];
 export type TeamMemberUpdate = TeamMember["Update"];
 
+export type Note = Database["public"]["Tables"]["notes"];
+export type NoteInsert = Note["Insert"];
+export type NoteSelect = Note["Row"];
+export type NoteUpdate = Note["Update"];
+
 type StorageListFunction = SupabaseClient["storage"]["from"];
 type ListFunctionReturn = ReturnType<StorageListFunction>;
 type StorageFilePromise = Awaited<
@@ -90,4 +95,4 @@ type StorageFilePromise = Awaited<
 type StorageFileType = Pick<StorageFilePromise, "data">["data"];
 export type StorageFile = NonNullable<StorageFileType>[number];
 
-export type CreateAddress = Addresses["Insert"];
+

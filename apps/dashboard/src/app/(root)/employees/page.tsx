@@ -1,6 +1,12 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Main from "@/components/main";
 
+
 export default function EmployeesPage() {
-	return <Main>EmployeesPage</Main>;
+	return (
+		<Main>
+			Employees Page
+		</Main>
+	);
 }

@@ -1,23 +1,23 @@
 {
-  "private": true,
-  "scripts": {
-    "build": "turbo build",
-    "build:dashboard": "turbo build --filter=dashboard",
-    "dev": "turbo dev --filter=dashboard",
-    "dev:email": "turbo dev --filter=@hr-toolkit/emails",
-    "lint": "turbo lint",
-    "type-check": "turbo type-check",
-    "clean": "turbo clean",
-    "format": "biome format --write ."
-  },
-  "devDependencies": {
-    "@hr-toolkit/typescript-config": "workspace:*",
-    "prettier-plugin-tailwindcss": "^0.5.11",
-    "turbo": "^2.0.6"
-  },
-  "packageManager": "pnpm@8.15.4",
-  "engines": {
-    "node": ">=18"
-  },
-  "name": "hr-toolkit"
+	"private": true,
+	"scripts": {
+		"build": "turbo build",
+		"build:dashboard": "turbo build --filter=dashboard",
+		"dev": "turbo dev --filter=dashboard",
+		"dev:email": "turbo dev --filter=@hr-toolkit/emails",
+		"lint": "turbo lint",
+		"type-check": "turbo type-check",
+		"clean": "turbo clean",
+		"format": "npx biome format . --write"
+	},
+	"devDependencies": {
+		"@hr-toolkit/typescript-config": "workspace:*",
+		"prettier-plugin-tailwindcss": "^0.5.11",
+		"turbo": "^2.0.6"
+	},
+	"packageManager": "pnpm@8.15.4",
+	"engines": {
+		"node": ">=18"
+	},
+	"name": "hr-toolkit"
 }

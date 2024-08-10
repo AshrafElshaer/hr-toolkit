@@ -1,0 +1,218 @@
+"use client";
+import { useState, type ReactNode } from "react";
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "@hr-toolkit/ui/dialog";
+import type { NoteSelect } from "@hr-toolkit/supabase/types";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@hr-toolkit/ui/button";
+import {
+	Form,
+	FormControl,
+	FormDescription,
+	FormField,
+	FormItem,
+	FormLabel,
+	FormMessage,
+} from "@hr-toolkit/ui/form";
+import { Input } from "@hr-toolkit/ui/input";
+import { Textarea } from "@hr-toolkit/ui/textarea";
+import { createNoteAction } from "../../actions";
+import { toast } from "sonner";
+import { Loader } from "lucide-react";
+import { noteSchema } from "@/lib/validations/notes";
+import { AnimatePresence, motion } from "framer-motion";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "@hr-toolkit/ui/select";
+
+type Props = {
+	children: ReactNode;
+	note?: NoteSelect;
+};
+
+const noteTags = [
+	"Task",
+	"Reminder",
+	"Event",
+	"Deadline",
+	"Idea",
+	"Follow-up",
+	"Action Item",
+	"Decision",
+	"Discussion",
+	"Note",
+	"Feedback",
+	"Brainstorm",
+	"Review",
+	"Agenda",
+	"Question",
+	"Issue",
+	"Update",
+	"Research",
+	"Plan",
+	"To-Do",
+];
+
+export default function NoteDialog({ children: trigger, note }: Props) {
+	const [isOpen, setIsOpen] = useState(false);
+	const form = useForm<z.infer<typeof noteSchema>>({
+		resolver: zodResolver(noteSchema),
+		defaultValues: {
+			id: note?.id || "",
+			user_id: note?.user_id || "",
+			title: note?.title || "",
+			content: note?.content || "",
+			created_at: note?.created_at || "",
+			updated_at: note?.updated_at || "",
+			is_completed: note?.is_completed || false,
+			tag: note?.tag || "",
+		},
+	});
+
+	async function createNote(values: z.infer<typeof noteSchema>) {
+		const result = await createNoteAction(values);
+
+		if (result?.serverError) {
+			toast.error(result.serverError);
+			return;
+		}
+
+		if (result?.data) {
+			toast.success("Note created successfully!");
+			form.reset();
+			setIsOpen(false);
+		}
+	}
+
+	async function onSubmit(values: z.infer<typeof noteSchema>) {
+		if (values.id.length === 0) {
+			return await createNote(values);
+		}
+	}
+
+	return (
+		<Dialog open={isOpen} onOpenChange={setIsOpen}>
+			<DialogTrigger asChild>{trigger}</DialogTrigger>
+			<DialogContent>
+				{/* <DialogHeader>
+					<DialogTitle>Are you absolutely sure?</DialogTitle>
+					<DialogDescription>
+						This action cannot be undone. This will permanently delete your
+						account and remove your data from our servers.
+					</DialogDescription>
+				</DialogHeader> */}
+				<Form {...form}>
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+						<div className="flex gap-4 items-center">
+							<FormField
+								control={form.control}
+								name="title"
+								render={({ field }) => (
+									<FormItem className="w-full">
+										<FormLabel className="text-muted-foreground">
+											Title
+										</FormLabel>
+										<FormControl>
+											<Input placeholder="Untitled note..." {...field} />
+										</FormControl>
+										<FormMessage />
+									</FormItem>
+								)}
+							/>
+							<FormField
+								control={form.control}
+								name="tag"
+								render={({ field }) => (
+									<FormItem className="w-full">
+										<FormLabel className="text-muted-foreground">Tag</FormLabel>
+										<Select
+											onValueChange={field.onChange}
+											defaultValue={field.value}
+										>
+											<FormControl>
+												<SelectTrigger className="w-full">
+													<SelectValue placeholder="Select a tag" />
+												</SelectTrigger>
+											</FormControl>
+											<SelectContent className="h-40">
+												{noteTags.map((tag) => (
+													<SelectItem key={tag} value={tag}>
+														{tag}
+													</SelectItem>
+												))}
+											</SelectContent>
+										</Select>
+									</FormItem>
+								)}
+							/>
+						</div>
+
+						<FormField
+							control={form.control}
+							name="content"
+							render={({ field }) => (
+								<FormItem className="w-full">
+									<FormLabel className="text-muted-foreground">
+										Description <span className="text-sm">(optional)</span>
+									</FormLabel>
+									<FormControl>
+										<Textarea
+											rows={7}
+											placeholder="Write your thoughts here ..."
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+
+						<div className="flex items-center justify-end gap-2">
+							{form.getValues("id").length !== 0 ? (
+								<>
+									<Button variant="success">
+										{form.getValues("is_completed")
+											? "Mark Undone"
+											: "Mark Done"}
+									</Button>
+									<Button variant="destructive" className="mr-auto">
+										Delete
+									</Button>
+								</>
+							) : null}
+							<DialogClose asChild>
+								<Button variant="outline" onClick={() => form.reset()}>
+									Cancel
+								</Button>
+							</DialogClose>
+
+							<Button
+								type="submit"
+								disabled={form.formState.isSubmitting}
+								className="transition-all"
+							>
+								{form.formState.isSubmitting ? (
+									<Loader className="mr-2 size-4 animate-spin" />
+								) : null}
+								save
+							</Button>
+						</div>
+					</form>
+				</Form>
+			</DialogContent>
+		</Dialog>
+	);
+}
