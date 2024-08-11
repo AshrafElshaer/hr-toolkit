@@ -131,6 +131,7 @@ export default function NoteDialog({
 			toast.success("Note is saved !");
 			form.reset();
 			setIsOpen(false);
+			setOpen?.(false);
 		}
 	}
 

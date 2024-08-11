@@ -49,7 +49,7 @@ export default function SingleNote({ note }: Props) {
 			/>
 			<NoteDialog note={note}>
 				<div className="w-full space-y-2 px-2">
-					<div className=" text-sm *:text-ellipsis *:overflow-hidden *:whitespace-nowrap flex justify-between gap-2">
+					<div className="  *:text-ellipsis *:overflow-hidden *:whitespace-nowrap flex justify-between gap-2">
 						<p className="font-semibold ">{note.title}</p>
 						<Badge
 							variant="outline"
@@ -60,7 +60,9 @@ export default function SingleNote({ note }: Props) {
 					</div>
 
 					<div className=" flex items-center justify-between gap-2 ">
-						<p className="text-muted-foreground truncate">{note.content}</p>
+						<p className="text-muted-foreground truncate text-sm">
+							{note.content}
+						</p>
 						<p className="flex items-center gap-2 text-muted-foreground min-w-fit">
 							<CalendarIcon className="size-3 ml-0" />
 							<span className="text-xs">
