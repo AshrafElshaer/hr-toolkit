@@ -166,12 +166,12 @@ export default function NoteDialog({ children: trigger, note }: Props) {
 							render={({ field }) => (
 								<FormItem className="w-full">
 									<FormLabel className="text-muted-foreground">
-										Description <span className="text-sm">(optional)</span>
+										Your thoughts ...
 									</FormLabel>
 									<FormControl>
 										<Textarea
 											rows={7}
-											placeholder="Write your thoughts here ..."
+											placeholder="Write what you want to remember..."
 											{...field}
 										/>
 									</FormControl>

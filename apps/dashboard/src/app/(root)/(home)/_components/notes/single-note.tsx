@@ -22,11 +22,32 @@ export default function SingleNote({ note }: Props) {
 				checked={note.is_completed}
 			/>
 			<div className="w-full space-y-2 px-2">
-				<div className=" text-sm *:text-ellipsis *:overflow-hidden *:whitespace-nowrap space-y-1">
+				<div className=" text-sm *:text-ellipsis *:overflow-hidden *:whitespace-nowrap flex justify-between gap-2">
+					<p className="font-semibold ">{note.title}</p>
+					<Badge
+						variant="outline"
+						className="font-light min-w-fit text-xs text-muted-foreground rounded-full px-2 py-[0.075]"
+					>
+						{note.tag}
+					</Badge>
+				</div>
+
+				<div className=" flex items-center justify-between gap-2 ">
+					<p className="text-muted-foreground truncate">{note.content}</p>
+					<p className="flex items-center gap-2 text-muted-foreground min-w-fit">
+						<CalendarIcon className="size-3 ml-0" />
+						<span className="text-xs">
+							{moment(note.created_at).format("DD MMM , YYYY")}
+						</span>
+					</p>
+				</div>
+
+				{/* _________________________________________ */}
+				{/* <div className=" text-sm *:text-ellipsis *:overflow-hidden *:whitespace-nowrap space-y-1">
 					<p className="font-semibold">{note.title}</p>
 					<p className="text-muted-foreground">{note.content}</p>
-				</div>
-				<div className="flex gap-2 items-center text-muted-foreground">
+				</div> */}
+				{/* <div className="flex gap-2 items-center text-muted-foreground">
 					<Badge
 						variant="outline"
 						className="font-light text-xs text-muted-foreground  rounded-full px-2 py-[0.075]"
@@ -39,7 +60,7 @@ export default function SingleNote({ note }: Props) {
 							{moment(note.created_at).format("DD MMM , YYYY")}
 						</span>
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</div>
 	);
