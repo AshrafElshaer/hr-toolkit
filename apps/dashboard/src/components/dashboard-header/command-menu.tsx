@@ -27,11 +27,31 @@ import {
 import { Button } from "@hr-toolkit/ui/button";
 import NoteDialog from "@/app/(root)/(home)/_components/notes/note-dialog";
 import { FaRegNoteSticky } from "react-icons/fa6";
+import { createClient } from "@/lib/supabase/client";
+import { getCurrentUser } from "@hr-toolkit/supabase/user-queries";
+import { useQuery } from "@tanstack/react-query";
+import { roleBasedNavigation } from "@/constants/sidebar-navigations";
+import { useRouter } from "next/navigation";
 
 export function CommandMenu() {
 	const [open, setOpen] = React.useState(false);
 	const [isNewNote, setIsNewNote] = React.useState(false);
 
+	const router = useRouter();
+	const supabase = createClient();
+	const { data: currentUser } = useQuery({
+		queryKey: ["user"],
+		queryFn: async () => {
+			const { error, user } = await getCurrentUser(supabase);
+			if (error) {
+				throw Error(error.message);
+			}
+			return user;
+		},
+	});
+	const allowedNavigation = React.useMemo(() => {
+		return roleBasedNavigation(currentUser?.user_role ?? "");
+	}, [currentUser?.user_role]);
 	React.useEffect(() => {
 		const down = (e: KeyboardEvent) => {
 			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
@@ -48,7 +68,7 @@ export function CommandMenu() {
 		<>
 			<Button
 				variant={"outline"}
-				className="text-muted-foreground w-56 flex items-center gap-2 px-2"
+				className="text-muted-foreground w-72 flex items-center gap-2 px-2"
 				onClick={() => setOpen(true)}
 			>
 				<Search className="size-4" />
@@ -68,23 +88,28 @@ export function CommandMenu() {
 				<CommandList className="flex-1">
 					<CommandEmpty>No results found.</CommandEmpty>
 					<CommandGroup
-						className="*:text-foreground/75 *:hover:text-foreground aria-selected:text-foreground "
-						heading="Suggestions"
+						className="*:text-foreground/75 *:aria-selected:text-foreground"
+						heading="Navigation"
 					>
-						<CommandItem className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70">
-							<Calendar className="mr-2 h-4 w-4" />
-							<span>Calendar</span>
-						</CommandItem>
-						<CommandItem className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70">
-							<Smile className="mr-2 h-4 w-4" />
-							<span>Search Emoji</span>
-						</CommandItem>
-						<CommandItem className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70">
-							<Calculator className="mr-2 h-4 w-4" />
-							<span>Calculator</span>
-						</CommandItem>
+						{allowedNavigation.map((route) => {
+							return (
+								<CommandItem
+									key={route.path}
+									onSelect={() => {
+										router.push(route.path);
+										setOpen(false);
+									}}
+									className="hover:border gap-4 aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70"
+								>
+									{route.icon}
+									<span>{route.title}</span>
+								</CommandItem>
+							);
+						})}
 					</CommandGroup>
+
 					<CommandSeparator />
+
 					<CommandGroup
 						className="*:text-foreground/75 *:hover:text-foreground aria-selected:text-foreground "
 						heading="Settings"
