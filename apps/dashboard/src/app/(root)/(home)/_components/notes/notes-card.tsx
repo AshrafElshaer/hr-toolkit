@@ -33,9 +33,7 @@ export default function NotesCard({ notes }: Props) {
 				) : (
 					<ScrollArea className="h-64  ">
 						{notes.map((note) => (
-							<NoteDialog note={note} key={note.id}>
-								<SingleNote note={note} />
-							</NoteDialog>
+							<SingleNote note={note} key={note.id} />
 						))}
 					</ScrollArea>
 				)}

@@ -10,3 +10,5 @@ export const noteSchema = z.object({
 	is_completed: z.boolean().default(false),
     tag:z.string().min(1, { message: "Tags are required" }),
 });
+
+export const updateNoteSchema = noteSchema.partial();

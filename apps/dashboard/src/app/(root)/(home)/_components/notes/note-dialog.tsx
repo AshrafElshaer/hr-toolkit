@@ -10,7 +10,7 @@ import {
 	DialogTrigger,
 } from "@hr-toolkit/ui/dialog";
 import type { NoteSelect } from "@hr-toolkit/supabase/types";
-import { z } from "zod";
+import type { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@hr-toolkit/ui/button";
@@ -25,9 +25,13 @@ import {
 } from "@hr-toolkit/ui/form";
 import { Input } from "@hr-toolkit/ui/input";
 import { Textarea } from "@hr-toolkit/ui/textarea";
-import { createNoteAction } from "../../actions";
+import {
+	createNoteAction,
+	deleteNoteAction,
+	updateNoteAction,
+} from "../../actions";
 import { toast } from "sonner";
-import { Loader } from "lucide-react";
+import { Loader, Trash, Trash2 } from "lucide-react";
 import { noteSchema } from "@/lib/validations/notes";
 import { AnimatePresence, motion } from "framer-motion";
 import {
@@ -37,6 +41,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@hr-toolkit/ui/select";
+import { useAction } from "next-safe-action/hooks";
 
 type Props = {
 	children: ReactNode;
@@ -68,6 +73,15 @@ const noteTags = [
 
 export default function NoteDialog({ children: trigger, note }: Props) {
 	const [isOpen, setIsOpen] = useState(false);
+	const deleteNote = useAction(deleteNoteAction, {
+		onSuccess: () => {
+			toast.success("Note is deleted");
+			setIsOpen(false);
+		},
+		onError: ({ error }) => {
+			toast.error(error.serverError);
+		},
+	});
 	const form = useForm<z.infer<typeof noteSchema>>({
 		resolver: zodResolver(noteSchema),
 		defaultValues: {
@@ -97,10 +111,25 @@ export default function NoteDialog({ children: trigger, note }: Props) {
 		}
 	}
 
+	async function updateNote(values: z.infer<typeof noteSchema>) {
+		const result = await updateNoteAction(values);
+		if (result?.serverError) {
+			toast.error(result.serverError);
+			return;
+		}
+
+		if (result?.data) {
+			toast.success("Note is saved !");
+			form.reset();
+			setIsOpen(false);
+		}
+	}
+
 	async function onSubmit(values: z.infer<typeof noteSchema>) {
 		if (values.id.length === 0) {
 			return await createNote(values);
 		}
+		return await updateNote(values);
 	}
 
 	return (
@@ -182,17 +211,22 @@ export default function NoteDialog({ children: trigger, note }: Props) {
 
 						<div className="flex items-center justify-end gap-2">
 							{form.getValues("id").length !== 0 ? (
-								<>
-									<Button variant="success">
-										{form.getValues("is_completed")
-											? "Mark Undone"
-											: "Mark Done"}
-									</Button>
-									<Button variant="destructive" className="mr-auto">
-										Delete
-									</Button>
-								</>
+								<Button
+									variant="destructive"
+									size="icon"
+									className="mr-auto"
+									type="button"
+									onClick={() =>
+										deleteNote.execute({
+											id: form.getValues("id"),
+										})
+									}
+									disabled={deleteNote.isExecuting}
+								>
+									<Trash2 size={20} />
+								</Button>
 							) : null}
+
 							<DialogClose asChild>
 								<Button variant="outline" onClick={() => form.reset()}>
 									Cancel
