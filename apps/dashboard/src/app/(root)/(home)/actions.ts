@@ -27,8 +27,9 @@ export const updateNoteAction = authAction
 .schema(updateNoteSchema)
 .action(
     async({ctx,parsedInput})=>{
-        const {supabase, user} = ctx
 
+
+        const {supabase, user} = ctx
 
         const {data,error} = await notesMutations.update(supabase,{
             ...parsedInput,

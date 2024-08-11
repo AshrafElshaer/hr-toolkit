@@ -25,9 +25,12 @@ import {
 	CommandShortcut,
 } from "@hr-toolkit/ui/command";
 import { Button } from "@hr-toolkit/ui/button";
+import NoteDialog from "@/app/(root)/(home)/_components/notes/note-dialog";
+import { FaRegNoteSticky } from "react-icons/fa6";
 
 export function CommandMenu() {
 	const [open, setOpen] = React.useState(false);
+	const [isNewNote, setIsNewNote] = React.useState(false);
 
 	React.useEffect(() => {
 		const down = (e: KeyboardEvent) => {
@@ -62,9 +65,12 @@ export function CommandMenu() {
 						className="pl-10"
 					/>
 				</div>
-				<CommandList>
+				<CommandList className="flex-1">
 					<CommandEmpty>No results found.</CommandEmpty>
-					<CommandGroup heading="Suggestions">
+					<CommandGroup
+						className="*:text-foreground/75 *:hover:text-foreground aria-selected:text-foreground "
+						heading="Suggestions"
+					>
 						<CommandItem className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70">
 							<Calendar className="mr-2 h-4 w-4" />
 							<span>Calendar</span>
@@ -79,7 +85,10 @@ export function CommandMenu() {
 						</CommandItem>
 					</CommandGroup>
 					<CommandSeparator />
-					<CommandGroup heading="Settings">
+					<CommandGroup
+						className="*:text-foreground/75 *:hover:text-foreground aria-selected:text-foreground "
+						heading="Settings"
+					>
 						<CommandItem className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70">
 							<User className="mr-2 h-4 w-4" />
 							<span>Profile</span>
@@ -95,6 +104,19 @@ export function CommandMenu() {
 							<span>Settings</span>
 							<CommandShortcut>⌘S</CommandShortcut>
 						</CommandItem>
+					</CommandGroup>
+					<CommandGroup
+						className="*:text-foreground/75 hover:text-foreground "
+						heading="Quick actions"
+					>
+						<CommandItem
+							className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70"
+							onSelect={() => setIsNewNote(true)}
+						>
+							<FaRegNoteSticky className="mr-2 h-3 w-3" />
+							<span>New Note</span>
+						</CommandItem>
+						<NoteDialog open={isNewNote} setOpen={setIsNewNote} />
 					</CommandGroup>
 				</CommandList>
 				<CommandSeparator />

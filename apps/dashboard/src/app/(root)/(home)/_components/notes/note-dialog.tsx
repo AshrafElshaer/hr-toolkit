@@ -44,8 +44,10 @@ import {
 import { useAction } from "next-safe-action/hooks";
 
 type Props = {
-	children: ReactNode;
+	children?: ReactNode;
 	note?: NoteSelect;
+	open?: boolean;
+	setOpen?: (open: boolean) => void;
 };
 
 const noteTags = [
@@ -71,7 +73,12 @@ const noteTags = [
 	"To-Do",
 ];
 
-export default function NoteDialog({ children: trigger, note }: Props) {
+export default function NoteDialog({
+	children: trigger,
+	note,
+	open,
+	setOpen,
+}: Props) {
 	const [isOpen, setIsOpen] = useState(false);
 	const deleteNote = useAction(deleteNoteAction, {
 		onSuccess: () => {
@@ -133,8 +140,8 @@ export default function NoteDialog({ children: trigger, note }: Props) {
 	}
 
 	return (
-		<Dialog open={isOpen} onOpenChange={setIsOpen}>
-			<DialogTrigger asChild>{trigger}</DialogTrigger>
+		<Dialog open={isOpen || open} onOpenChange={setOpen ? setOpen : setIsOpen}>
+			<DialogTrigger asChild>{trigger ? trigger : null}</DialogTrigger>
 			<DialogContent>
 				{/* <DialogHeader>
 					<DialogTitle>Are you absolutely sure?</DialogTitle>
@@ -155,7 +162,12 @@ export default function NoteDialog({ children: trigger, note }: Props) {
 											Title
 										</FormLabel>
 										<FormControl>
-											<Input placeholder="Untitled note..." {...field} />
+											<Input
+												placeholder="Untitled note..."
+												{...field}
+												autoComplete="off"
+												// autoFocus={false}
+											/>
 										</FormControl>
 										<FormMessage />
 									</FormItem>
@@ -235,7 +247,7 @@ export default function NoteDialog({ children: trigger, note }: Props) {
 
 							<Button
 								type="submit"
-								disabled={form.formState.isSubmitting}
+								disabled={form.formState.isSubmitting || deleteNote.isExecuting}
 								className="transition-all"
 							>
 								{form.formState.isSubmitting ? (
