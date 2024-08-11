@@ -84,7 +84,7 @@ export default function NoteDialog({
 		onSuccess: () => {
 			toast.success("Note is deleted");
 			setIsOpen(false);
-			setOpen(false)
+			setOpen?.(false);
 		},
 		onError: ({ error }) => {
 			toast.error(error.serverError);
@@ -116,7 +116,7 @@ export default function NoteDialog({
 			toast.success("Note created successfully!");
 			form.reset();
 			setIsOpen(false);
-			setOpen(false);
+			setOpen?.(false);
 		}
 	}
 
@@ -131,7 +131,6 @@ export default function NoteDialog({
 			toast.success("Note is saved !");
 			form.reset();
 			setIsOpen(false);
-
 		}
 	}
 
