@@ -1,11 +1,11 @@
-import type { CreateAddress, SupabaseClient, User } from "../types";
+import type { SupabaseClient, AddressInsert ,UserInsert} from "../types";
 
-type CreateUser = User["Insert"];
+
 
 interface CreateOrganizationOwner
   extends
-    Omit<CreateUser, "id">,
-    Omit<CreateAddress, "organization_id" | "user_id"> {}
+    Omit<UserInsert, "id">,
+    Omit<AddressInsert, "organization_id" | "user_id"> {}
 
 export async function createOrganizationOwner(
   supabase: SupabaseClient,

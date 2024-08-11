@@ -1,17 +1,12 @@
 import type {
-  Addresses,
-  CreateAddress,
-  Organization,
   SupabaseClient,
+  OrganizationInsert,
 } from "../types";
 
-type CreateOrganization = Organization["Insert"];
-
-type UpdateOrganization = Organization["Update"];
 
 export async function createOrganizationMutation(
   supabase: SupabaseClient,
-  org: CreateOrganization,
+  org: OrganizationInsert,
 ) {
   const { data: orgCreated, error: orgError } = await supabase.from(
     "organizations",
