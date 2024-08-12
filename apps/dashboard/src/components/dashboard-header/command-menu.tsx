@@ -111,26 +111,6 @@ export function CommandMenu() {
 					<CommandSeparator />
 
 					<CommandGroup
-						className="*:text-foreground/75 *:hover:text-foreground aria-selected:text-foreground "
-						heading="Settings"
-					>
-						<CommandItem className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70">
-							<User className="mr-2 h-4 w-4" />
-							<span>Profile</span>
-							<CommandShortcut>⌘P</CommandShortcut>
-						</CommandItem>
-						<CommandItem className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70">
-							<CreditCard className="mr-2 h-4 w-4" />
-							<span>Billing</span>
-							<CommandShortcut>⌘B</CommandShortcut>
-						</CommandItem>
-						<CommandItem className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70">
-							<Settings className="mr-2 h-4 w-4" />
-							<span>Settings</span>
-							<CommandShortcut>⌘S</CommandShortcut>
-						</CommandItem>
-					</CommandGroup>
-					<CommandGroup
 						className="*:text-foreground/75 hover:text-foreground "
 						heading="Quick actions"
 					>
