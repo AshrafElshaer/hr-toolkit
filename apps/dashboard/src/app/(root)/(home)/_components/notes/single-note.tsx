@@ -37,7 +37,7 @@ export default function SingleNote({ note }: Props) {
 		});
 	}
 	return (
-		<div className="flex items-start p-2 pr-6 w-full hover:bg-muted transition-all relative border-b last:border-b-0 cursor-pointer">
+		<div className="flex items-start p-2 pr-6 w-full hover:bg-secondary transition-all relative border-b last:border-b-0 cursor-pointer">
 			<Checkbox
 				className={cn(
 					"data-[state=checked]:bg-success data-[state=checked]:text-primary  rounded-full mt-0.5",

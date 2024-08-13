@@ -17,7 +17,7 @@ export default function Calendar() {
 				</div>
 				<DateSelector />
 			</div>
-			<CardContent className="p-0 border flex flex-col flex-grow rounded">
+			<CardContent className="p-0 border flex flex-grow rounded overflow-hidden">
 				<CalendarList />
 			</CardContent>
 		</Card>

@@ -61,12 +61,14 @@ export default function DateSelector() {
 				align="end"
 				numberOfMonths={isMobile ? 1 : 2}
 				dateRangeOptions={dateRangeOptions}
+				max={7}
 				onSelect={(value) => {
 					const date = value as DateRange;
 					if (date) {
 						!date.from && setDate({ from: "" });
 						!date.to && setDate({ to: "" });
-						date.from &&
+						
+						date.from && 
 							setDate({
 								from: moment(date.from).format("YYYY-MM-DD"),
 							});
