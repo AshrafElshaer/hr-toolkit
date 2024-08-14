@@ -5,9 +5,12 @@ import { differenceInCalendarDays } from "date-fns";
 import { Separator } from "@hr-toolkit/ui/separator";
 
 export default function CalendarList() {
-	const g = calendarSearchParamsCache.all();
+	const selectedDates = calendarSearchParamsCache.all();
 
-	const dates = getDatesInBetween(new Date(g.from), new Date(g.to));
+	const dates = getDatesInBetween(
+		new Date(selectedDates.from),
+		new Date(selectedDates.to),
+	);
 
 	return (
 		<div className="w-full flex divide-x h-full overflow-y-hidden overflow-x-scroll scrollbar-hide">
@@ -28,10 +31,8 @@ export default function CalendarList() {
 
 function getDatesInBetween(from: Date, to: Date) {
 	const diff = differenceInCalendarDays(to, from);
-	const dates = Array.from({ length: diff + 1 }, (_, i) => {
-		return moment(from)
-			.add(i + 1, "day")
-			.format("YYYY-MM-DD");
+	const dates = Array.from({ length: diff + 1 }, (_, idx) => {
+		return moment(from).add(idx, "day").format("YYYY-MM-DD");
 	});
 	return dates;
 }

@@ -1,19 +1,14 @@
 "use client";
 
 import * as React from "react";
-import {
-	ArrowDown,
-	ArrowUp,
-	Calculator,
-	Calendar,
-	CornerDownLeft,
-	CreditCard,
-	Search,
-	Settings,
-	Smile,
-	User,
-} from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { getCurrentUser } from "@hr-toolkit/supabase/user-queries";
+import { useQuery } from "@tanstack/react-query";
+import { roleBasedNavigation } from "@/constants/sidebar-navigations";
+import { useRouter } from "next/navigation";
+import { useHotkeys } from "react-hotkeys-hook";
 
+import { ArrowDown, ArrowUp, CornerDownLeft, Search } from "lucide-react";
 import {
 	CommandDialog,
 	CommandEmpty,
@@ -27,11 +22,7 @@ import {
 import { Button } from "@hr-toolkit/ui/button";
 import NoteDialog from "@/app/(root)/(home)/_components/notes/note-dialog";
 import { FaRegNoteSticky } from "react-icons/fa6";
-import { createClient } from "@/lib/supabase/client";
-import { getCurrentUser } from "@hr-toolkit/supabase/user-queries";
-import { useQuery } from "@tanstack/react-query";
-import { roleBasedNavigation } from "@/constants/sidebar-navigations";
-import { useRouter } from "next/navigation";
+
 
 export function CommandMenu() {
 	const [open, setOpen] = React.useState(false);
@@ -52,17 +43,9 @@ export function CommandMenu() {
 	const allowedNavigation = React.useMemo(() => {
 		return roleBasedNavigation(currentUser?.user_role ?? "");
 	}, [currentUser?.user_role]);
-	React.useEffect(() => {
-		const down = (e: KeyboardEvent) => {
-			if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-				e.preventDefault();
-				setOpen((open) => !open);
-			}
-		};
 
-		document.addEventListener("keydown", down);
-		return () => document.removeEventListener("keydown", down);
-	}, []);
+
+	useHotkeys("meta+k", () => setOpen((prev) => !prev), [open]);
 
 	return (
 		<>

@@ -140,6 +140,9 @@ importers:
       react-hook-form:
         specifier: ^7.51.4
         version: 7.51.4(react@18.3.1)
+      react-hotkeys-hook:
+        specifier: ^4.5.0
+        version: 4.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react-icons:
         specifier: ^5.1.0
         version: 5.2.1(react@18.3.1)
@@ -3788,6 +3791,12 @@ packages:
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
+
+  react-hotkeys-hook@4.5.0:
+    resolution: {integrity: sha512-Samb85GSgAWFQNvVt3PS90LPPGSf9mkH/r4au81ZP1yOIFayLC3QAvqTgGtJ8YEDMXtPmaVBs6NgipHO6h4Mug==}
+    peerDependencies:
+      react: '>=16.8.1'
+      react-dom: '>=16.8.1'
 
   react-icons@5.2.1:
     resolution: {integrity: sha512-zdbW5GstTzXaVKvGSyTaBalt7HSfuK5ovrzlpyiWHAFXndXTdd/1hdDHI4xBM1Mn7YriT6aqESucFl9kEXzrdw==}
@@ -8122,6 +8131,11 @@ snapshots:
   react-hook-form@7.51.4(react@18.3.1):
     dependencies:
       react: 18.3.1
+
+  react-hotkeys-hook@4.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   react-icons@5.2.1(react@18.3.1):
     dependencies:
