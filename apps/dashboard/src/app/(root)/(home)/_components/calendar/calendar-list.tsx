@@ -59,7 +59,8 @@ function getDatesInBetween(from: Date, to: Date) {
 	return dates;
 }
 
-const demoEvents = [
+
+const demoEvents: EventSelect[] = [
 	{
 		id: "uuid-1",
 		organizer_id: "organizer-uuid-1",
@@ -235,7 +236,7 @@ const demoEvents = [
 		department_id: "department-uuid-3",
 		name: "Product Launch",
 		description: "Launch event for the new product",
-		type: "event",
+		type: "conference",
 		location: "Main Auditorium",
 		start_time: "2024-08-16T14:00:00Z",
 		end_time: "2024-08-16T16:00:00Z",
