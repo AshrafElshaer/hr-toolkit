@@ -8,7 +8,13 @@ import { roleBasedNavigation } from "@/constants/sidebar-navigations";
 import { useRouter } from "next/navigation";
 import { useHotkeys } from "react-hotkeys-hook";
 
-import { ArrowDown, ArrowUp, CornerDownLeft, Search } from "lucide-react";
+import {
+	ArrowDown,
+	ArrowUp,
+	CalendarPlus,
+	CornerDownLeft,
+	Search,
+} from "lucide-react";
 import {
 	CommandDialog,
 	CommandEmpty,
@@ -21,18 +27,20 @@ import {
 } from "@hr-toolkit/ui/command";
 import { Button } from "@hr-toolkit/ui/button";
 import NoteDialog from "@/app/(root)/(home)/_components/notes/note-dialog";
-import { FaRegNoteSticky } from "react-icons/fa6";
 
+import { RiStickyNoteAddLine } from "react-icons/ri";
+import EventForm from "@/app/(root)/(home)/_components/calendar/event-form";
 
 export function CommandMenu() {
 	const [open, setOpen] = React.useState(false);
 	const [isNewNote, setIsNewNote] = React.useState(false);
+	const [isNewEvent, setIsNewEvent] = React.useState(false);
 
 	const router = useRouter();
-	const supabase = createClient();
 	const { data: currentUser } = useQuery({
 		queryKey: ["user"],
 		queryFn: async () => {
+			const supabase = createClient();
 			const { error, user } = await getCurrentUser(supabase);
 			if (error) {
 				throw Error(error.message);
@@ -44,8 +52,32 @@ export function CommandMenu() {
 		return roleBasedNavigation(currentUser?.user_role ?? "");
 	}, [currentUser?.user_role]);
 
+	useHotkeys("meta+k", () => setOpen((open) => !open), {
+		enableOnFormTags: true,
+	});
 
-	useHotkeys("meta+k", () => setOpen((prev) => !prev), [open]);
+	const quickActions = React.useMemo(() => {
+		return [
+			{
+				title: "New Note",
+				Icon: <RiStickyNoteAddLine className="size-4 mr-4" />,
+				ActionComponent: <NoteDialog open={isNewNote} setOpen={setIsNewNote} />,
+				onSelect() {
+					setIsNewNote(true);
+				},
+			},
+			{
+				title: "New Event",
+				Icon: <CalendarPlus className="size-4 mr-4" />,
+				ActionComponent: (
+					<EventForm isOpen={isNewEvent} setIsOpen={setIsNewEvent} />
+				),
+				onSelect() {
+					setIsNewEvent(true);
+				},
+			},
+		];
+	}, [isNewNote, isNewEvent]);
 
 	return (
 		<>
@@ -97,14 +129,17 @@ export function CommandMenu() {
 						className="*:text-foreground/75 hover:text-foreground "
 						heading="Quick actions"
 					>
-						<CommandItem
+						{quickActions.map((action) => (
+							<QuickAction key={action.title} {...action} />
+						))}
+						{/* <CommandItem
 							className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70"
 							onSelect={() => setIsNewNote(true)}
 						>
 							<FaRegNoteSticky className="mr-2 h-3 w-3" />
 							<span>New Note</span>
 						</CommandItem>
-						<NoteDialog open={isNewNote} setOpen={setIsNewNote} />
+						<NoteDialog open={isNewNote} setOpen={setIsNewNote} /> */}
 					</CommandGroup>
 				</CommandList>
 				<CommandSeparator />
@@ -126,6 +161,33 @@ export function CommandMenu() {
 					</div>
 				</div>
 			</CommandDialog>
+		</>
+	);
+}
+
+type QuickActionProps = {
+	title: string;
+	Icon: React.JSX.Element;
+	onSelect: () => void;
+	ActionComponent: React.JSX.Element;
+};
+
+function QuickAction({
+	title,
+	ActionComponent,
+	onSelect,
+	Icon,
+}: QuickActionProps) {
+	return (
+		<>
+			<CommandItem
+				className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70"
+				onSelect={onSelect}
+			>
+				{Icon}
+				<span>{title}</span>
+			</CommandItem>
+			{ActionComponent}
 		</>
 	);
 }

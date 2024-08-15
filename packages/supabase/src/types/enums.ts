@@ -57,6 +57,23 @@ export const OrganizationTypeEnum: {
   "non-profit": "non-profit",
 };
 
+export type EventType = Database["public"]["Enums"]["event_type_enum"];
+
+export const EventTypeEnum: {
+  [key in EventType]: key;
+} = {
+  meeting: "meeting",
+  conference: "conference",
+  seminar: "seminar",
+  workshop: "workshop",
+  webinar: "webinar",
+  training: "training",
+  social: "social",
+  other: "other",
+}
+
+
+ 
 export type PayrollPattern =
   Database["public"]["Enums"]["payroll_pattern_enum"];
 

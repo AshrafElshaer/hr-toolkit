@@ -5,6 +5,7 @@ import { differenceInCalendarDays } from "date-fns";
 import { Separator } from "@hr-toolkit/ui/separator";
 import type { EventSelect } from "@hr-toolkit/supabase/types";
 import { ScrollArea } from "@hr-toolkit/ui/scroll-area";
+import { LuCalendarX } from "react-icons/lu";
 
 export default async function CalendarList() {
 	const selectedDates = calendarSearchParamsCache.all();
@@ -16,7 +17,7 @@ export default async function CalendarList() {
 
 	const events = demoEvents.reduce(
 		(acc, event) => {
-			const date = moment(event.start_time).format("YYYY-MM-DD");
+			const date = event.date;
 			if (!acc[date]) {
 				acc[date] = [];
 			}
@@ -35,15 +36,26 @@ export default async function CalendarList() {
 					</h3>
 					<Separator className="w-full" />
 					<ScrollArea className="p-2 h-[11.65rem] ">
-						{events[date]?.map((event) => (
-							<div
-								key={event.id}
-								className="text-sm text-center mb-3 last:mb-0"
-							>
-								{moment(event.start_time).format("h:mm A")} -{" "}
-								{moment(event.end_time).format("h:mm A")}
+						{!events[date] ? (
+							<div className="text-center h-full flex flex-col items-center justify-center gap-2 text-muted-foreground">
+								<LuCalendarX size={44} />
+								<p>
+									No events
+									<br />
+									You're free this day
+								</p>
 							</div>
-						))}
+						) : (
+							events[date]?.map((event) => (
+								<div
+									key={event.id}
+									className="text-sm text-center mb-3 last:mb-0"
+								>
+									{moment(event.start_time).format("h:mm A")} -{" "}
+									{moment(event.end_time).format("h:mm A")}
+								</div>
+							))
+						)}
 					</ScrollArea>
 				</div>
 			))}
@@ -59,7 +71,6 @@ function getDatesInBetween(from: Date, to: Date) {
 	return dates;
 }
 
-
 const demoEvents: EventSelect[] = [
 	{
 		id: "uuid-1",
@@ -74,146 +85,7 @@ const demoEvents: EventSelect[] = [
 		end_time: "2024-08-14T11:00:00Z",
 		created_at: "2024-08-14T00:00:00Z",
 		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
-	},
-	{
-		id: "uuid-1",
-		organizer_id: "organizer-uuid-1",
-		organization_id: "organization-uuid-1",
-		department_id: "department-uuid-1",
-		name: "Team Meeting",
-		description: "Discuss project progress and next steps",
-		type: "meeting",
-		location: "Conference Room A",
-		start_time: "2024-08-14T10:00:00Z",
-		end_time: "2024-08-14T11:00:00Z",
-		created_at: "2024-08-14T00:00:00Z",
-		updated_at: "2024-08-14T00:00:00Z",
+		date: "2024-08-14",
 	},
 	{
 		id: "uuid-2",
@@ -228,6 +100,7 @@ const demoEvents: EventSelect[] = [
 		end_time: "2024-08-15T10:30:00Z",
 		created_at: "2024-08-14T00:00:00Z",
 		updated_at: "2024-08-14T00:00:00Z",
+		date: "2024-08-15",
 	},
 	{
 		id: "uuid-3",
@@ -242,6 +115,7 @@ const demoEvents: EventSelect[] = [
 		end_time: "2024-08-16T16:00:00Z",
 		created_at: "2024-08-14T00:00:00Z",
 		updated_at: "2024-08-14T00:00:00Z",
+		date: "2024-08-16",
 	},
 	{
 		id: "uuid-4",
@@ -256,6 +130,7 @@ const demoEvents: EventSelect[] = [
 		end_time: "2024-08-18T13:00:00Z",
 		created_at: "2024-08-14T00:00:00Z",
 		updated_at: "2024-08-14T00:00:00Z",
+		date: "2024-08-18",
 	},
 	{
 		id: "uuid-5",
@@ -270,5 +145,6 @@ const demoEvents: EventSelect[] = [
 		end_time: "2024-08-20T17:00:00Z",
 		created_at: "2024-08-14T00:00:00Z",
 		updated_at: "2024-08-14T00:00:00Z",
+		date: "2024-08-20",
 	},
 ];

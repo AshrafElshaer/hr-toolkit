@@ -9,6 +9,7 @@ import { useMediaQuery } from "usehooks-ts";
 import { calendarSearchParamsParser } from "./calendar-search-params";
 import { Button } from "@hr-toolkit/ui/button";
 import type { DateRangeOption } from "@/types";
+import EventForm from "./event-form";
 
 const dateRangeOptions: DateRangeOption[] = [
 	{
@@ -79,9 +80,11 @@ export default function DateSelector() {
 				}}
 			/>
 
-			<Button size="icon" variant="secondary">
-				<PlusIcon className="size-4" />
-			</Button>
+			<EventForm>
+				<Button size="icon" variant="secondary">
+					<PlusIcon className="size-4" />
+				</Button>
+			</EventForm>
 		</div>
 	);
 }
