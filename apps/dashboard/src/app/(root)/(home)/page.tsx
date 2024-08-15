@@ -2,12 +2,12 @@ import React from "react";
 
 import Tasks from "./_components/tasks";
 import Metrics from "./_components/metrics";
-import Schedule from "./_components/schedule";
+
 import CurrentProject from "./_components/current-project";
 import NotesServer from "./_components/notes";
 import Calendar from "./_components/calendar";
 import { calendarSearchParamsCache } from "./_components/calendar/calendar-search-params";
-import CalendarServer from "./_components/calendar/calendar-list";
+
 type Props = {
 	searchParams: Record<string, string | string[] | undefined>;
 };
@@ -20,7 +20,7 @@ export default function HomePageBase({ searchParams }: Props) {
 
 			<NotesServer />
 			<Tasks />
-			{/* <Schedule /> */}
+
 			<CurrentProject />
 			<Metrics />
 		</section>
