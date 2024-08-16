@@ -21,6 +21,10 @@ export type DepartmentInsert = Department["Insert"];
 export type DepartmentSelect = Department["Row"];
 export type DepartmentUpdate = Department["Update"];
 
+export interface DepartmentWithManager extends DepartmentSelect {
+  manager : UserSelect
+}
+
 export type Addresses = Database["public"]["Tables"]["addresses"];
 export type AddressInsert = Addresses["Insert"];
 export type AddressSelect = Addresses["Row"];

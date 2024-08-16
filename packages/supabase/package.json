@@ -26,6 +26,8 @@
 		"./user-mutations": "./src/mutations/users.ts",
 		"./organization-mutations": "./src/mutations/organizations.ts",
 		"./notes-queries": "./src/queries/notes.ts",
-		"./notes-mutations": "./src/mutations/notes.ts"
+		"./notes-mutations": "./src/mutations/notes.ts",
+		"./departments-mutations": "./src/mutations/departments.ts",
+		"./departments-queries": "./src/queries/departments.ts"
 	}
 }

@@ -16,3 +16,11 @@ export async function getCurrentUser(supabase: SupabaseClient) {
 
   return { user, error };
 }
+
+export async function getManagers(supabase: SupabaseClient) {
+  return await supabase
+    .from("users")
+    .select("*")
+    .or('user_role.eq.admin,user_role.eq.manager')
+  
+}
