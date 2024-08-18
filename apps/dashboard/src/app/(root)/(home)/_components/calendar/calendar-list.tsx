@@ -37,7 +37,7 @@ export default async function CalendarList() {
 					<Separator className="w-full" />
 					<ScrollArea className="p-2 h-[11.65rem] ">
 						{!events[date] ? (
-							<div className="text-center h-full flex flex-col items-center justify-center gap-2 text-muted-foreground">
+							<div className="text-center h-full flex flex-col items-center justify-center gap-2 text-muted-foreground text-sm">
 								<LuCalendarX size={44} />
 								<p>
 									No events

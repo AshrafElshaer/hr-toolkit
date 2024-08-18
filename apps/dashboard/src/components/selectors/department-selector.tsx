@@ -1,6 +1,7 @@
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { createClient } from "@/lib/supabase/client";
+import { getDepartments } from "@hr-toolkit/supabase/departments-queries";
 
 import {
 	Select,
@@ -21,26 +22,32 @@ export default function DepartmentSelector({
 	value,
 	isOpen = true,
 }: Props) {
-	// const supabase = createClient();
-	// const { data: departments } = useQuery({
-	//   queryKey: ["departments"],
-	//   queryFn: () => getDepartments(supabase),
-	//   enabled: isOpen,
-	// });
+	const { data: departments } = useQuery({
+		queryKey: ["departments"],
+		queryFn: async() => {
+		  const supabase = createClient();
+
+			const {data,error} = await getDepartments(supabase)
+			if(error) throw new Error(error.message)
+
+			return data
+	},
+	  enabled: isOpen,
+	});
 	return (
-		<div>departments</div>
-		// <Select onValueChange={onChange} value={value}>
-		//   <SelectTrigger className="w-full">
-		//     <SelectValue placeholder="Select a department" />
-		//   </SelectTrigger>
-		//   <SelectContent>
-		//     {departments?.map((department) => (
-		//       <SelectItem key={department.id} value={department.id}>
-		//         {department.name}
-		//         {department?.description ? ` - ${department.description}` : ""}
-		//       </SelectItem>
-		//     ))}
-		//   </SelectContent>
-		// </Select>
+
+		<Select onValueChange={onChange} value={value}>
+		  <SelectTrigger className="w-full">
+		    <SelectValue placeholder="Select a department" />
+		  </SelectTrigger>
+		  <SelectContent>
+		    {departments?.map((department) => (
+		      <SelectItem key={department.id} value={department.id}>
+		        {department.name}
+		        {department?.description ? ` - ${department.description}` : ""}
+		      </SelectItem>
+		    ))}
+		  </SelectContent>
+		</Select>
 	);
 }

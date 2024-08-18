@@ -42,12 +42,13 @@ import {
 import { amPm } from "@/lib/date";
 import { Textarea } from "@hr-toolkit/ui/textarea";
 import DepartmentSelector from "@/components/selectors/department-selector";
+import { capitalize } from "lodash";
 
 const timesOfDay = Array.from({ length: 48 }, (_, i) => {
-	const hour = String(i).padStart(2, "0");
-	const minute = i % 2 === 0 ? "00" : "30";
+    const hour = Math.floor(i / 2);
+    const minute = i % 2 === 0 ? "00" : "30";
 
-	return `${hour}:${minute} `;
+    return `${String(hour).padStart(2, "0")}:${minute}`;
 });
 
 type Props = {
@@ -106,8 +107,7 @@ export default function EventForm({
 					</DialogTitle>
 				</DialogHeader>
 				<Form {...form}>
-					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-						<div className="flex flex-col sm:flex-row items-center gap-4">
+					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
 							<FormField
 								control={form.control}
 								name="name"
@@ -121,13 +121,31 @@ export default function EventForm({
 									</FormItem>
 								)}
 							/>
+							<FormField
+							control={form.control}
+							name="description"
+							render={({ field }) => (
+								<FormItem className="w-full">
+									<FormLabel> Description</FormLabel>
+									<FormControl>
+										<Textarea
+											placeholder="This our weekly meeting where we discuss about the the project progress "
+											rows={4}
+											{...field}
+										/>
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<div className="flex flex-col gap-2">
 
 							<FormField
 								control={form.control}
 								name="date"
 								render={({ field }) => (
 									<FormItem className="w-full">
-										<FormLabel> Date</FormLabel>
+										<FormLabel> Date & Time</FormLabel>
 										<FormControl>
 											<DatePicker
 												className="w-full"
@@ -143,25 +161,23 @@ export default function EventForm({
 									</FormItem>
 								)}
 							/>
-						</div>
-
-						<div className="flex items-center gap-4">
+							<div className="flex items-center gap-4">
 							<FormField
 								control={form.control}
 								name="start_time"
 								render={({ field }) => (
-									<FormItem className="w-full">
-										<FormLabel>Start Time</FormLabel>
+									<FormItem className="w-full" >
+										{/* <FormLabel>Start Time</FormLabel> */}
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={field.value}
 										>
 											<FormControl>
 												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Event starts at" />
+													<SelectValue placeholder="Starts at" />
 												</SelectTrigger>
 											</FormControl>
-											<SelectContent className="max-h-[200px] overflow-scroll scrollbar-muted">
+											<SelectContent className="max-h-[200px] overflow-scroll scrollbar-hide">
 												<SelectGroup>
 													{timesOfDay.map((time) => (
 														<SelectItem key={time} value={time}>
@@ -180,17 +196,17 @@ export default function EventForm({
 								name="end_time"
 								render={({ field }) => (
 									<FormItem className="w-full">
-										<FormLabel>End Time</FormLabel>
+										{/* <FormLabel>End Time</FormLabel> */}
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={field.value}
 										>
 											<FormControl>
 												<SelectTrigger disabled={!form.watch("start_time")}>
-													<SelectValue placeholder="Event ends at" />
+													<SelectValue placeholder="Ends at" />
 												</SelectTrigger>
 											</FormControl>
-											<SelectContent className="max-h-[200px] overflow-scroll scrollbar-muted">
+											<SelectContent className="max-h-[200px] w-fit overflow-scroll scrollbar-hide">
 												{timesOfDay
 													.filter((time) => time > form.watch("start_time"))
 													.map((time) => (
@@ -204,30 +220,18 @@ export default function EventForm({
 									</FormItem>
 								)}
 							/>
+							</div>
 						</div>
-						<FormField
-							control={form.control}
-							name="description"
-							render={({ field }) => (
-								<FormItem className="w-full">
-									<FormLabel>Event Description</FormLabel>
-									<FormControl>
-										<Textarea
-											placeholder="This our weekly meeting where we discuss about the the project progress "
-											{...field}
-										/>
-									</FormControl>
-									<FormMessage />
-								</FormItem>
-							)}
-						/>
+
+						
+						
 						<div className="flex items-center gap-4">
 							<FormField
 								control={form.control}
 								name="location"
 								render={({ field }) => (
 									<FormItem className="w-full">
-										<FormLabel>Event Location</FormLabel>
+										<FormLabel>Location</FormLabel>
 										<FormControl>
 											<Input placeholder="Meeting room/chat" {...field} />
 										</FormControl>
@@ -240,7 +244,7 @@ export default function EventForm({
 								name="type"
 								render={({ field }) => (
 									<FormItem className="w-full">
-										<FormLabel>Event Type</FormLabel>
+										<FormLabel>Type</FormLabel>
 										<Select
 											onValueChange={field.onChange}
 											defaultValue={field.value}
@@ -253,7 +257,7 @@ export default function EventForm({
 											<SelectContent>
 												{Object.values(EventTypeEnum).map((type) => (
 													<SelectItem key={type} value={type}>
-														{type}
+														{capitalize(type)}
 													</SelectItem>
 												))}
 											</SelectContent>
