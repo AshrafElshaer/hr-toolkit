@@ -165,7 +165,7 @@ function NewDepartmentForm({
 						<Button variant="outline">Cancel</Button>
 					</DialogClose>
 					<Button type="submit" disabled={isCreating}>
-						{isCreating ? <Loader className="mr-2 size-4" /> : null}
+						{isCreating ? <Loader className="mr-2 size-4 animate-spin" /> : null}
 						save
 					</Button>
 				</div>
