@@ -55,9 +55,9 @@ export default async function RootLayout({
 	return (
 		<html
 			lang="en"
-			className={`${GeistSans.variable} ${GeistMono.variable} scrollbar-muted overflow-hidden`}
+			className={`${GeistSans.variable} ${GeistMono.variable} scrollbar-muted `}
 		>
-			<body className="flex flex-col min-h-[100svh] max-w-[1440px] mx-auto relative">
+			<body className="flex flex-col min-h-[100svh] max-w-[1440px] mx-auto relative ">
 				<Providers>{children}</Providers>
 			</body>
 		</html>

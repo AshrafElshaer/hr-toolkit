@@ -37,7 +37,7 @@ export default function DataTable<TData, TValue>({
 	});
 
 	return (
-		<Main className="flex flex-col gap-4  overflow-x-hidden">
+		<Main className="flex flex-col gap-4">
 			<DepartmentHeader table={table} />
 			<div className="w-full overflow-x-scroll overflow-y-hidden flex-grow">
 				{table.getHeaderGroups().map((headerGroup) => (
