@@ -11,6 +11,8 @@ import {
 import { Button } from "@hr-toolkit/ui/button";
 import { MoreHorizontal, PencilIcon, Trash } from "lucide-react";
 import UserAvatar from "@/components/user-avatar";
+import { DepartmentDialog } from "../department-form";
+import { DepartmentDelete } from "../department-delete";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -70,7 +72,7 @@ export const columns: ColumnDef<DepartmentWithManager>[] = [
 	{
 		id: "actions",
 		cell: ({ row }) => {
-			const payment = row.original;
+			const department = row.original;
 
 			return (
 				<DropdownMenu>
@@ -80,15 +82,19 @@ export const columns: ColumnDef<DepartmentWithManager>[] = [
 							<MoreHorizontal className="h-4 w-4" />
 						</Button>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
-						<DropdownMenuItem>
-							<PencilIcon className="mr-2 size-3.5" />
-							Edit
-						</DropdownMenuItem>
-						<DropdownMenuItem>
-							<Trash className="mr-2 size-3.5" />
-							Delete
-						</DropdownMenuItem>
+					<DropdownMenuContent align="end" className="w-fit flex flex-col">
+						<DepartmentDialog department={department}>
+							<Button variant="ghost" className="justify-start px-2">
+								<PencilIcon className="mr-2 size-3.5" />
+								Edit
+							</Button>
+						</DepartmentDialog>
+						<DepartmentDelete department={department}>
+							<Button variant="ghost" className="justify-start px-2">
+								<Trash className="mr-2 size-3.5" />
+								Delete
+							</Button>
+						</DepartmentDelete>
 					</DropdownMenuContent>
 				</DropdownMenu>
 			);

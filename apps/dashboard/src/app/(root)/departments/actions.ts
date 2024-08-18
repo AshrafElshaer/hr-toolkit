@@ -22,3 +22,35 @@ export const cerateDepartmentAction = authAction
         revalidatePath("/departments")
         return data
     })
+
+
+export const updateDepartmentAction = authAction
+.schema(departmentSchema)
+.action(async ({ parsedInput ,ctx}) => {
+        const {supabase} = ctx
+        const {data,error} = await DepartmentMutations.update(supabase,{
+            id:parsedInput.id as string,
+            name:parsedInput.name,
+            description:parsedInput.description,
+            manager_id:parsedInput.manager_id,
+            updated_at:new Date().toISOString()
+        })
+
+        if(error) throw new Error(error.message)
+
+        revalidatePath("/departments")
+        return data
+    })
+
+export const deleteDepartmentAction = authAction
+.schema(departmentSchema.pick({
+    id:true
+}))
+.action(
+    async ({ parsedInput ,ctx}) =>{
+        const {supabase} = ctx
+        const {error} = await DepartmentMutations.delete(supabase,parsedInput.id as string)
+        if(error) throw new Error(error.message)
+        revalidatePath("/departments")
+    }
+)

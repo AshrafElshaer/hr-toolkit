@@ -60,11 +60,11 @@ import { departmentSchema } from "@/lib/validations/departments";
 // import { createNewDepartment } from "../actions";
 import { toast } from "sonner";
 import type { ReactSetState } from "@/types";
-import { AnimatePresence, motion } from "framer-motion";
+
 import type { DepartmentSelect } from "@hr-toolkit/supabase/types";
 import ManagersSelector from "@/components/selectors/manager-selector";
 import { useAction } from "next-safe-action/hooks";
-import { cerateDepartmentAction } from "../actions";
+import { cerateDepartmentAction, updateDepartmentAction } from "../actions";
 
 function NewDepartmentForm({
 	className,
@@ -77,8 +77,20 @@ function NewDepartmentForm({
 	const { execute: createDepartment, isExecuting: isCreating } = useAction(
 		cerateDepartmentAction,
 		{
-			onSuccess: () => {
-				toast.success("Department created");
+			onSuccess: ({ data }) => {
+				toast.success(`Department ${data ? data.name : ""} created`);
+				setOpen(false);
+			},
+			onError: ({ error }) => {
+				toast.error(error.serverError);
+			},
+		},
+	);
+	const { execute: updateDepartment, isExecuting: isUpdating } = useAction(
+		updateDepartmentAction,
+		{
+			onSuccess: ({ data }) => {
+				toast.success(`Department ${data ? data.name : ""} updated`);
 				setOpen(false);
 			},
 			onError: ({ error }) => {
@@ -106,6 +118,8 @@ function NewDepartmentForm({
 
 		if (isNew) {
 			createDepartment(values);
+		} else {
+			updateDepartment(values);
 		}
 	}
 	return (
@@ -164,8 +178,10 @@ function NewDepartmentForm({
 					<DialogClose asChild>
 						<Button variant="outline">Cancel</Button>
 					</DialogClose>
-					<Button type="submit" disabled={isCreating}>
-						{isCreating ? <Loader className="mr-2 size-4 animate-spin" /> : null}
+					<Button type="submit" disabled={isCreating || isUpdating}>
+						{isCreating || isUpdating ? (
+							<Loader className="mr-2 size-4 animate-spin" />
+						) : null}
 						save
 					</Button>
 				</div>
