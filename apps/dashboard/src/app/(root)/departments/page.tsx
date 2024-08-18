@@ -1,19 +1,18 @@
-import React from "react";
-import { columns } from "./_components/departments-table/columns";
-import { createServerClient } from "@/lib/supabase/server";
-import { getDepartments } from "@hr-toolkit/supabase/departments-queries";
+import React, { Suspense } from "react";
 
-import type { DepartmentWithManager } from "@hr-toolkit/supabase/types";
+import DepartmentsTable from "./_components/departments-table";
+import type { Metadata } from "next";
+import DepartmentsTableLoading from "./_components/departments-table/table.loading";
 
-import DepartmentsTable from "./_components/departments-table/data-table";
+export const metadata: Metadata = {
+	title: "Departments",
+	description: "Manage your departments",
+};
 
 export default async function DepartmentsPage() {
-	const supabase = createServerClient();
-	const { data } = await getDepartments(supabase);
 	return (
-		<DepartmentsTable
-			data={data as unknown as DepartmentWithManager[]}
-			columns={columns}
-		/>
+		<Suspense fallback={<DepartmentsTableLoading />}>
+			<DepartmentsTable />
+		</Suspense>
 	);
 }
