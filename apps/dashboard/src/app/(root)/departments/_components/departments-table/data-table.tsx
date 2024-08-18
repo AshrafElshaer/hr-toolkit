@@ -9,15 +9,7 @@ import {
 	getFilteredRowModel,
 } from "@tanstack/react-table";
 
-import {
-	Table,
-	TableBody,
-	TableCell,
-	TableHead,
-	TableHeader,
-	TableRow,
-} from "@hr-toolkit/ui/table";
-import { Input } from "@hr-toolkit/ui/input";
+import { TableCell, TableRow } from "@hr-toolkit/ui/table";
 import { cn } from "@hr-toolkit/ui/utils";
 import Main from "@/components/main";
 import DepartmentHeader from "../department-header";
@@ -45,9 +37,9 @@ export default function DataTable<TData, TValue>({
 	});
 
 	return (
-		<Main className="flex flex-col gap-4">
+		<Main className="flex flex-col gap-4  overflow-x-hidden">
 			<DepartmentHeader table={table} />
-			<div className="w-full overflow-x-scroll">
+			<div className="w-full overflow-x-scroll overflow-y-hidden flex-grow">
 				{table.getHeaderGroups().map((headerGroup) => (
 					<div
 						key={headerGroup.id}
@@ -95,7 +87,7 @@ export default function DataTable<TData, TValue>({
 											cell.column.id === "Manager" && "min-w-48",
 											cell.column.id === "name" && "min-w-40",
 											cell.column.id === "description" && "min-w-60",
-											cell.column.id === "employees_count" && "min-w-[6.75rem]",
+											cell.column.id === "employees_count" && "min-w-[7.75rem]",
 										)}
 									>
 										{flexRender(cell.column.columnDef.cell, cell.getContext())}
