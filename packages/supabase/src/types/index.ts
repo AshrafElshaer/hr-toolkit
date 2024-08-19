@@ -56,7 +56,7 @@ export type EventInsert = Event["Insert"];
 export type EventSelect = Event["Row"];
 export type EventUpdate = Event["Update"];
 
-export interface EventWithOrganizerAndDepartment {
+export interface EventWithOrganizerAndDepartment extends EventSelect {
   organizer: UserSelect;
   department: DepartmentSelect;
 }

@@ -3,11 +3,12 @@ import { calendarSearchParamsCache } from "./calendar-search-params";
 import moment from "moment";
 import { differenceInCalendarDays } from "date-fns";
 import { Separator } from "@hr-toolkit/ui/separator";
-import type { EventSelect } from "@hr-toolkit/supabase/types";
+import type { EventWithOrganizerAndDepartment } from "@hr-toolkit/supabase/types";
 import { ScrollArea } from "@hr-toolkit/ui/scroll-area";
 import { LuCalendarX } from "react-icons/lu";
 import { createServerClient } from "@/lib/supabase/server";
 import { getEventsByDateRange } from "@hr-toolkit/supabase/events-queries";
+import EventCard from "./event-card";
 
 export default async function CalendarList() {
 	const selectedDates = calendarSearchParamsCache.all();
@@ -22,19 +23,18 @@ export default async function CalendarList() {
 		new Date(selectedDates.to),
 	);
 
-	const events = data?.reduce(
-		(acc, event) => {
-			const date = event.date;
-			if (!acc[date]) {
-				acc[date] = [];
-			}
-			acc[date].push(event);
-			return acc;
-		},
-		{} as Record<string, EventSelect[]>,
-	) || {}
-
-
+	const events =
+		(data as unknown as EventWithOrganizerAndDepartment[])?.reduce(
+			(acc, event) => {
+				const date = event.date;
+				if (!acc[date]) {
+					acc[date] = [];
+				}
+				acc[date].push(event);
+				return acc;
+			},
+			{} as Record<string, EventWithOrganizerAndDepartment[]>,
+		) || {};
 
 	return (
 		<div className="w-full flex divide-x h-full overflow-y-hidden overflow-x-scroll scrollbar-hide">
@@ -56,13 +56,7 @@ export default async function CalendarList() {
 							</div>
 						) : (
 							events[date]?.map((event) => (
-								<div
-									key={event.id}
-									className="text-sm text-center mb-3 last:mb-0"
-								>
-									{moment(event.start_time).format("h:mm A")} -{" "}
-									{moment(event.end_time).format("h:mm A")}
-								</div>
+								<EventCard key={event.id} event={event} />
 							))
 						)}
 					</ScrollArea>
@@ -79,5 +73,3 @@ function getDatesInBetween(from: Date, to: Date) {
 	});
 	return dates;
 }
-
-
