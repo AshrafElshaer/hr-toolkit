@@ -412,6 +412,7 @@ create policy insert_events_policy on public.events for
 insert
     with check (
         case
+            when public.get_user_role() = 'admin' then true
             when department_id is null then public.get_user_organization_id() = organization_id
             and public.get_user_role() = 'admin'
             else public.get_user_organization_id() = organization_id

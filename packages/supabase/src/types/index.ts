@@ -22,7 +22,7 @@ export type DepartmentSelect = Department["Row"];
 export type DepartmentUpdate = Department["Update"];
 
 export interface DepartmentWithManager extends DepartmentSelect {
-  manager : UserSelect
+  manager: UserSelect;
 }
 
 export type Addresses = Database["public"]["Tables"]["addresses"];
@@ -55,6 +55,11 @@ export type Event = Database["public"]["Tables"]["events"];
 export type EventInsert = Event["Insert"];
 export type EventSelect = Event["Row"];
 export type EventUpdate = Event["Update"];
+
+export interface EventWithOrganizerAndDepartment {
+  organizer: UserSelect;
+  department: DepartmentSelect;
+}
 
 export type Team = Database["public"]["Tables"]["teams"];
 export type TeamInsert = Team["Insert"];
@@ -98,5 +103,3 @@ type StorageFilePromise = Awaited<
 >;
 type StorageFileType = Pick<StorageFilePromise, "data">["data"];
 export type StorageFile = NonNullable<StorageFileType>[number];
-
-

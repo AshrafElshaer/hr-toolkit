@@ -3,6 +3,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { eventsSchema } from "@/lib/validations/events";
+import { useAction } from "next-safe-action/hooks";
+import { createEventAction } from "../../actions";
 
 import type { z } from "zod";
 import { EventTypeEnum, type EventSelect } from "@hr-toolkit/supabase/types";
@@ -27,7 +29,7 @@ import {
 	FormMessage,
 } from "@hr-toolkit/ui/form";
 import { Input } from "@hr-toolkit/ui/input";
-import { CalendarPlus } from "lucide-react";
+import { CalendarPlus, Loader } from "lucide-react";
 import { MdOutlineEditCalendar } from "react-icons/md";
 import moment from "moment";
 import { DatePicker } from "@hr-toolkit/ui/date-picker";
@@ -39,16 +41,17 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from "@hr-toolkit/ui/select";
-import { amPm } from "@/lib/date";
+import { amPm, currentTimezone } from "@/lib/date";
 import { Textarea } from "@hr-toolkit/ui/textarea";
 import DepartmentSelector from "@/components/selectors/department-selector";
 import { capitalize } from "lodash";
+import { toast } from "sonner";
 
 const timesOfDay = Array.from({ length: 48 }, (_, i) => {
-    const hour = Math.floor(i / 2);
-    const minute = i % 2 === 0 ? "00" : "30";
+	const hour = Math.floor(i / 2);
+	const minute = i % 2 === 0 ? "00" : "30";
 
-    return `${String(hour).padStart(2, "0")}:${minute}`;
+	return `${String(hour).padStart(2, "0")}:${minute}`;
 });
 
 type Props = {
@@ -63,12 +66,21 @@ export default function EventForm({
 	children: trigger,
 	event,
 }: Props) {
+	const { execute: createEvent , isExecuting:isCreating} = useAction(createEventAction, {
+		onSuccess: () => {
+			toast.success("Event has been created");
+			setIsOpen?.(false);
+		},
+		onError: ({ error }) => {
+			toast.error(error.serverError);
+		},
+	});
 	const form = useForm<z.infer<typeof eventsSchema>>({
 		resolver: zodResolver(eventsSchema),
 		defaultValues: {
-			id: event?.id,
-			organizer_id: event?.organizer_id,
-			organization_id: event?.organization_id,
+			id: event?.id || null,
+			organizer_id: event?.organizer_id || null,
+			organization_id: event?.organization_id || null,
 			department_id: event?.department_id || null,
 			name: event?.name,
 			description: event?.description,
@@ -81,10 +93,41 @@ export default function EventForm({
 	});
 	const eventId = event?.id;
 
+	function createNewEvent(values: z.infer<typeof eventsSchema>) {
+		const date = {
+			start_time: moment
+				.utc(
+					moment(values.date).set({
+						hour: Number.parseInt(values.start_time.split(":")[0]),
+						minute: Number.parseInt(values.start_time.split(":")[1]),
+					}),
+				)
+				.format("YYYY-MM-DD HH:mm:ss"),
+			end_time: moment
+				.utc(
+					moment(values.date).set({
+						hour: Number.parseInt(values.end_time.split(":")[0]),
+						minute: Number.parseInt(values.end_time.split(":")[1]),
+					}),
+				)
+				.format("YYYY-MM-DD HH:mm:ss"),
+		};
+
+
+		createEvent({
+			...values,
+			start_time: date.start_time,
+			end_time: date.end_time,
+			date: moment(values.date).format("YYYY-MM-DD"),
+		});
+	}
+
 	function onSubmit(values: z.infer<typeof eventsSchema>) {
-		// Do something with the form values.
-		// ✅ This will be type-safe and validated.
-		console.log(values);
+		const isNewEvent = !event?.id;
+
+		if (isNewEvent) {
+			createNewEvent(values);
+		}
 	}
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -108,20 +151,20 @@ export default function EventForm({
 				</DialogHeader>
 				<Form {...form}>
 					<form onSubmit={form.handleSubmit(onSubmit)} className="space-y-2">
-							<FormField
-								control={form.control}
-								name="name"
-								render={({ field }) => (
-									<FormItem className="w-full">
-										<FormLabel>Title</FormLabel>
-										<FormControl>
-											<Input placeholder="Untitled" {...field} />
-										</FormControl>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
+						<FormField
+							control={form.control}
+							name="name"
+							render={({ field }) => (
+								<FormItem className="w-full">
+									<FormLabel>Title</FormLabel>
+									<FormControl>
+										<Input placeholder="Untitled" {...field} />
+									</FormControl>
+									<FormMessage />
+								</FormItem>
+							)}
+						/>
+						<FormField
 							control={form.control}
 							name="description"
 							render={({ field }) => (
@@ -139,7 +182,6 @@ export default function EventForm({
 							)}
 						/>
 						<div className="flex flex-col gap-2">
-
 							<FormField
 								control={form.control}
 								name="date"
@@ -162,69 +204,67 @@ export default function EventForm({
 								)}
 							/>
 							<div className="flex items-center gap-4">
-							<FormField
-								control={form.control}
-								name="start_time"
-								render={({ field }) => (
-									<FormItem className="w-full" >
-										{/* <FormLabel>Start Time</FormLabel> */}
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormControl>
-												<SelectTrigger className="w-full">
-													<SelectValue placeholder="Starts at" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent className="max-h-[200px] overflow-scroll scrollbar-hide">
-												<SelectGroup>
-													{timesOfDay.map((time) => (
-														<SelectItem key={time} value={time}>
-															{amPm(time)}
-														</SelectItem>
-													))}
-												</SelectGroup>
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
-							<FormField
-								control={form.control}
-								name="end_time"
-								render={({ field }) => (
-									<FormItem className="w-full">
-										{/* <FormLabel>End Time</FormLabel> */}
-										<Select
-											onValueChange={field.onChange}
-											defaultValue={field.value}
-										>
-											<FormControl>
-												<SelectTrigger disabled={!form.watch("start_time")}>
-													<SelectValue placeholder="Ends at" />
-												</SelectTrigger>
-											</FormControl>
-											<SelectContent className="max-h-[200px] w-fit overflow-scroll scrollbar-hide">
-												{timesOfDay
-													.filter((time) => time > form.watch("start_time"))
-													.map((time) => (
-														<SelectItem key={time} value={time}>
-															{amPm(time)}
-														</SelectItem>
-													))}
-											</SelectContent>
-										</Select>
-										<FormMessage />
-									</FormItem>
-								)}
-							/>
+								<FormField
+									control={form.control}
+									name="start_time"
+									render={({ field }) => (
+										<FormItem className="w-full">
+											{/* <FormLabel>Start Time</FormLabel> */}
+											<Select
+												onValueChange={field.onChange}
+												defaultValue={field.value}
+											>
+												<FormControl>
+													<SelectTrigger className="w-full">
+														<SelectValue placeholder="Starts at" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent className="max-h-[200px] overflow-scroll scrollbar-hide">
+													<SelectGroup>
+														{timesOfDay.map((time) => (
+															<SelectItem key={time} value={time}>
+																{amPm(time)}
+															</SelectItem>
+														))}
+													</SelectGroup>
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
+								<FormField
+									control={form.control}
+									name="end_time"
+									render={({ field }) => (
+										<FormItem className="w-full">
+											{/* <FormLabel>End Time</FormLabel> */}
+											<Select
+												onValueChange={field.onChange}
+												defaultValue={field.value}
+											>
+												<FormControl>
+													<SelectTrigger disabled={!form.watch("start_time")}>
+														<SelectValue placeholder="Ends at" />
+													</SelectTrigger>
+												</FormControl>
+												<SelectContent className="max-h-[200px] w-fit overflow-scroll scrollbar-hide">
+													{timesOfDay
+														.filter((time) => time > form.watch("start_time"))
+														.map((time) => (
+															<SelectItem key={time} value={time}>
+																{amPm(time)}
+															</SelectItem>
+														))}
+												</SelectContent>
+											</Select>
+											<FormMessage />
+										</FormItem>
+									)}
+								/>
 							</div>
 						</div>
 
-						
-						
 						<div className="flex items-center gap-4">
 							<FormField
 								control={form.control}
@@ -298,7 +338,13 @@ export default function EventForm({
 									Cancel
 								</Button>
 							</DialogClose>
-							<Button type="submit">Save</Button>
+							<Button type="submit"
+							disabled={isCreating}
+							>
+								{
+									isCreating ? <Loader className="size-4 mr-2 animate-spin" />:null
+								}
+								Save</Button>
 						</div>
 					</form>
 				</Form>

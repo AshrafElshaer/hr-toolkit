@@ -21,7 +21,8 @@ create table public.events(
     start_time timestamp with time zone not null,
     end_time timestamp with time zone not null,
     created_at timestamp with time zone default current_timestamp,
-    updated_at timestamp with time zone default current_timestamp
+    updated_at timestamp with time zone default current_timestamp,
+    date date not null
 ) tablespace pg_default;
 
 create unique index events_unique_index on public.events (id, organizer_id, organization_id, department_id);
