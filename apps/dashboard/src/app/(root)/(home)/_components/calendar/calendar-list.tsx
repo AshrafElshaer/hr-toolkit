@@ -18,7 +18,7 @@ export default async function CalendarList() {
 		to: selectedDates.to,
 	});
 
-	const dates = getDatesInBetween(
+	const datesColumns = getDatesInBetween(
 		new Date(selectedDates.from),
 		new Date(selectedDates.to),
 	);
@@ -38,7 +38,7 @@ export default async function CalendarList() {
 
 	return (
 		<div className="w-full flex divide-x h-full overflow-y-hidden overflow-x-scroll scrollbar-hide">
-			{dates.map((date) => (
+			{datesColumns.map((date) => (
 				<div key={date} className="flex-1 min-w-44">
 					<h3 className="text-center py-2 bg-secondary font-medium">
 						{moment(date).format("ddd , DD MMM")}
@@ -49,13 +49,13 @@ export default async function CalendarList() {
 							<div className="text-center h-full flex flex-col items-center justify-center gap-2 text-muted-foreground text-sm">
 								<LuCalendarX size={44} />
 								<p>
-									No events
+									No events found!
 									<br />
 									You're free this day
 								</p>
 							</div>
 						) : (
-							events[date]?.map((event) => (
+							events[date].map((event) => (
 								<EventCard key={event.id} event={event} />
 							))
 						)}
