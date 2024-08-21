@@ -1,8 +1,11 @@
-import type {SupabaseClient,EventInsert} from "../types"
+import type { EventInsert, EventUpdate, SupabaseClient } from "../types";
 
-
-function create(supabase: SupabaseClient,newEvent: EventInsert){
-        return supabase.from("events").insert(newEvent).select("*").single()
+function create(supabase: SupabaseClient, newEvent: EventInsert) {
+  return supabase.from("events").insert(newEvent).select("*").single();
 }
 
-export default { create }
+function update(supabase: SupabaseClient, event: EventUpdate) {
+  return supabase.from("events").update(event).eq("id", event.id as string);
+}
+
+export default { create, update };

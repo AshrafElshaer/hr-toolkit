@@ -4,7 +4,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { eventsSchema } from "@/lib/validations/events";
 import { useAction } from "next-safe-action/hooks";
-import { createEventAction } from "../../actions";
+import { createEventAction, updateEventAction } from "../../actions";
 
 import type { z } from "zod";
 import { EventTypeEnum, type EventSelect } from "@hr-toolkit/supabase/types";
@@ -57,8 +57,8 @@ const timesOfDay = Array.from({ length: 48 }, (_, i) => {
 type Props = {
 	event?: EventSelect;
 	children?: ReactNode;
-	isOpen?: boolean;
-	setIsOpen?: (isOpen: boolean) => void;
+	isOpen: boolean;
+	setIsOpen: (isOpen: boolean) => void;
 };
 export default function EventForm({
 	isOpen,
@@ -66,15 +66,31 @@ export default function EventForm({
 	children: trigger,
 	event,
 }: Props) {
-	const { execute: createEvent , isExecuting:isCreating} = useAction(createEventAction, {
-		onSuccess: () => {
-			toast.success("Event has been created");
-			setIsOpen?.(false);
+	const { execute: createEvent, isExecuting: isCreating } = useAction(
+		createEventAction,
+		{
+			onSuccess: () => {
+				toast.success("Event has been created");
+				setIsOpen?.(false);
+			},
+			onError: ({ error }) => {
+				toast.error(error.serverError);
+			},
 		},
-		onError: ({ error }) => {
-			toast.error(error.serverError);
+	);
+	const { execute: updateEvent, isExecuting: isUpdating } = useAction(
+		updateEventAction,
+		{
+			onSuccess: () => {
+				toast.success("Event has been updated");
+				setIsOpen?.(false);
+			},
+			onError: ({ error }) => {
+				toast.error(error.serverError);
+			},
 		},
-	});
+	);
+
 	const form = useForm<z.infer<typeof eventsSchema>>({
 		resolver: zodResolver(eventsSchema),
 		defaultValues: {
@@ -91,10 +107,11 @@ export default function EventForm({
 			date: event?.date || moment().toDate().toString(),
 		},
 	});
-	const eventId = event?.id;
 
-	function createNewEvent(values: z.infer<typeof eventsSchema>) {
-		const date = {
+	const isNewEvent = !event?.id;
+
+	function onSubmit(values: z.infer<typeof eventsSchema>) {
+		const eventPeriod = {
 			start_time: moment
 				.utc(
 					moment(values.date).set({
@@ -113,21 +130,20 @@ export default function EventForm({
 				.format("YYYY-MM-DD HH:mm:ss"),
 		};
 
+		if (isNewEvent)
+			return createEvent({
+				...values,
+				start_time: eventPeriod.start_time,
+				end_time: eventPeriod.end_time,
+				date: moment(values.date).format("YYYY-MM-DD"),
+			});
 
-		createEvent({
+		return updateEvent({
 			...values,
-			start_time: date.start_time,
-			end_time: date.end_time,
+			start_time: eventPeriod.start_time,
+			end_time: eventPeriod.end_time,
 			date: moment(values.date).format("YYYY-MM-DD"),
 		});
-	}
-
-	function onSubmit(values: z.infer<typeof eventsSchema>) {
-		const isNewEvent = !event?.id;
-
-		if (isNewEvent) {
-			createNewEvent(values);
-		}
 	}
 	return (
 		<Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -136,7 +152,7 @@ export default function EventForm({
 			<DialogContent>
 				<DialogHeader>
 					<DialogTitle className="flex items-center gap-4 mb-6">
-						{!eventId ? (
+						{!isNewEvent ? (
 							<>
 								<CalendarPlus className="size-5 " />
 								New Event
@@ -338,13 +354,12 @@ export default function EventForm({
 									Cancel
 								</Button>
 							</DialogClose>
-							<Button type="submit"
-							disabled={isCreating}
-							>
-								{
-									isCreating ? <Loader className="size-4 mr-2 animate-spin" />:null
-								}
-								Save</Button>
+							<Button type="submit" disabled={isCreating || isUpdating}>
+								{isCreating || isUpdating ? (
+									<Loader className="size-4 mr-2 animate-spin" />
+								) : null}
+								Save
+							</Button>
 						</div>
 					</form>
 				</Form>

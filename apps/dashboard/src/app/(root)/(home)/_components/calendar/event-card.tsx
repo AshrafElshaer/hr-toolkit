@@ -28,15 +28,20 @@ type EventCardProps = {
 };
 
 export default function EventCard({ event }: EventCardProps) {
-	const [isOpen,setIsOpen]= useState(false)
-	const [isEdit ,setIsEdit] = useState(false)
+	const [isOpen, setIsOpen] = useState(false);
+	const [isEdit, setIsEdit] = useState(false);
 	const { data: user } = useUser();
 	const timezone = currentTimezone();
 	const isMobile = useMediaQuery("(max-width: 640px)");
 	const start_time = moment(event.start_time).tz(timezone);
 	const end_time = moment(event.end_time).tz(timezone);
 	return (
-		<HoverCard openDelay={0} closeDelay={0} open={isOpen} onOpenChange={(bol)=> isEdit || setIsOpen(bol)  }>
+		<HoverCard
+			openDelay={0}
+			closeDelay={0}
+			open={isOpen}
+			onOpenChange={(bol) => isEdit || setIsOpen(bol)}
+		>
 			<HoverCardTrigger asChild>
 				<p className="text-sm text-center mb-3 last:mb-0 w-full">
 					{start_time.format("h:mm A")} - {end_time.format("h:mm A")}
@@ -56,9 +61,10 @@ export default function EventCard({ event }: EventCardProps) {
 								<EventForm
 									event={{
 										...event,
-										start_time: start_time.format("hh:mm"),
-										end_time: end_time.format("hh:mm"),
+										start_time: start_time.format("HH:mm"),
+										end_time: end_time.format("HH:mm"),
 									}}
+									isOpen={isEdit}
 									setIsOpen={setIsEdit}
 								>
 									<button

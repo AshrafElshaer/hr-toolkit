@@ -7,6 +7,7 @@ import { noteSchema, updateNoteSchema } from "@/lib/validations/notes";
 import { eventsSchema } from "@/lib/validations/events";
 import { z } from "zod";
 
+
 export const createNoteAction = authAction
   .schema(noteSchema)
   .action(async ({ ctx: { supabase, user }, parsedInput }) => {
@@ -72,5 +73,22 @@ export const createEventAction = authAction
       if (error) throw new Error(error.message);
       revalidatePath("/");
       return data;
+    },
+  );
+
+export const updateEventAction = authAction
+  .schema(eventsSchema)
+  .action(
+    async ({ ctx, parsedInput }) => {
+      const { supabase } = ctx;
+      const { error } = await eventsMutations.update(supabase, {
+        ...parsedInput,
+        id: parsedInput.id as string,
+        organization_id: parsedInput.organization_id as string,
+        organizer_id: parsedInput.organizer_id as string,
+      });
+      if (error) throw new Error(error.message);
+
+      revalidatePath("/");
     },
   );

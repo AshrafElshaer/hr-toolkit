@@ -31,6 +31,17 @@ export default async function CalendarList() {
 					acc[date] = [];
 				}
 				acc[date].push(event);
+
+				// Sort the events by start time and end time within each date
+				acc[date].sort((a, b) => {
+					const startTimeComparison = a.start_time.localeCompare(b.start_time);
+					if (startTimeComparison !== 0) {
+						return startTimeComparison;
+					}
+					// If start times are equal, compare by end time
+					return a.end_time.localeCompare(b.end_time);
+				});
+
 				return acc;
 			},
 			{} as Record<string, EventWithOrganizerAndDepartment[]>,

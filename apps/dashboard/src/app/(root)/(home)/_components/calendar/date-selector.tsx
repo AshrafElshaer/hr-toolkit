@@ -44,6 +44,7 @@ const dateRangeOptions: DateRangeOption[] = [
 
 export default function DateSelector() {
 	const isMobile = useMediaQuery("(max-width: 640px)");
+	const [isNewEvent, setIsNewEvent] = React.useState(false);
 
 	const [{ from, to }, setDate] = useQueryStates(calendarSearchParamsParser, {
 		shallow: false,
@@ -80,7 +81,7 @@ export default function DateSelector() {
 				}}
 			/>
 
-			<EventForm>
+			<EventForm isOpen={isNewEvent} setIsOpen={setIsNewEvent}>
 				<Button size="icon" variant="secondary">
 					<PlusIcon className="size-4" />
 				</Button>
