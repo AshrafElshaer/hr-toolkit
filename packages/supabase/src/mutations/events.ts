@@ -8,4 +8,8 @@ function update(supabase: SupabaseClient, event: EventUpdate) {
   return supabase.from("events").update(event).eq("id", event.id as string);
 }
 
-export default { create, update };
+function remove(supabase: SupabaseClient, id: string) {
+  return supabase.from("events").delete().eq("id", id);
+}
+
+export default { create, update ,delete:remove};

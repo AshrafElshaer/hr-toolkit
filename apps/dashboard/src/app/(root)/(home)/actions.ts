@@ -7,7 +7,6 @@ import { noteSchema, updateNoteSchema } from "@/lib/validations/notes";
 import { eventsSchema } from "@/lib/validations/events";
 import { z } from "zod";
 
-
 export const createNoteAction = authAction
   .schema(noteSchema)
   .action(async ({ ctx: { supabase, user }, parsedInput }) => {
@@ -87,6 +86,22 @@ export const updateEventAction = authAction
         organization_id: parsedInput.organization_id as string,
         organizer_id: parsedInput.organizer_id as string,
       });
+      if (error) throw new Error(error.message);
+
+      revalidatePath("/");
+    },
+  );
+
+export const deleteEventAction = authAction
+  .schema(eventsSchema.pick({ id: true }))
+  .action(
+    async ({ ctx, parsedInput }) => {
+      const { supabase } = ctx;
+      const { error } = await eventsMutations.delete(
+        supabase,
+        parsedInput.id as string,
+      );
+
       if (error) throw new Error(error.message);
 
       revalidatePath("/");

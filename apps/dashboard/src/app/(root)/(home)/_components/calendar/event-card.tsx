@@ -16,12 +16,14 @@ import {
 	LayoutTemplate,
 	MapPin,
 	Pencil,
+	Trash,
 } from "lucide-react";
 import UserAvatar from "@/components/user-avatar";
 import EventForm from "./event-form";
 import { useUser } from "@/hooks/use-user";
 import { Button } from "@hr-toolkit/ui/button";
 import { useState } from "react";
+import { EventDelete } from "./delete-event";
 
 type EventCardProps = {
 	event: EventWithOrganizerAndDepartment;
@@ -30,6 +32,7 @@ type EventCardProps = {
 export default function EventCard({ event }: EventCardProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [isEdit, setIsEdit] = useState(false);
+	const [isDelete, setIsDelete] = useState(false);
 	const { data: user } = useUser();
 	const timezone = currentTimezone();
 	const isMobile = useMediaQuery("(max-width: 640px)");
@@ -74,8 +77,18 @@ export default function EventCard({ event }: EventCardProps) {
 										<Pencil className="size-4" />
 									</button>
 								</EventForm>
-
-								{/* <DeleteEvent event={event} /> */}
+								<EventDelete
+									event={event}
+									isOpen={isDelete}
+									setIsOpen={setIsDelete}
+								>
+									<button
+										type="button"
+										className="ml-auto text-accent-foreground/70 hover:text-accent-foreground transition-colors"
+									>
+										<Trash className="size-4" />
+									</button>
+								</EventDelete>
 							</div>
 						) : null}
 					</div>
