@@ -60,7 +60,7 @@ export default function EventCard({ event }: EventCardProps) {
 					<div className="px-4 text-base flex items-center justify-between">
 						<p className="capitalize">{event.type}</p>
 						{event.organizer.id === user?.id ? (
-							<div className="flex items-center gap-2">
+							<div className="flex items-center gap-4">
 								<EventForm
 									event={{
 										...event,

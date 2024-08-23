@@ -66,6 +66,8 @@ export default function EventForm({
 	children: trigger,
 	event,
 }: Props) {
+	const isNewEvent = !event?.id;
+	const now = moment();
 	const { execute: createEvent, isExecuting: isCreating } = useAction(
 		createEventAction,
 		{
@@ -107,8 +109,6 @@ export default function EventForm({
 			date: event?.date || moment().toDate().toString(),
 		},
 	});
-
-	const isNewEvent = !event?.id;
 
 	function onSubmit(values: z.infer<typeof eventsSchema>) {
 		const eventPeriod = {
@@ -237,11 +237,23 @@ export default function EventForm({
 												</FormControl>
 												<SelectContent className="max-h-[200px] overflow-scroll scrollbar-hide">
 													<SelectGroup>
-														{timesOfDay.map((time) => (
-															<SelectItem key={time} value={time}>
-																{amPm(time)}
-															</SelectItem>
-														))}
+														{timesOfDay
+															.filter((time) => {
+																const selectedDate = moment(
+																	form.getValues("date"),
+																);
+
+																if (selectedDate.isSame(now, "day")) {
+																	return moment(time, "HH:mm").isAfter(now);
+																}
+
+																return true;
+															})
+															.map((time) => (
+																<SelectItem key={time} value={time}>
+																	{amPm(time)}
+																</SelectItem>
+															))}
 													</SelectGroup>
 												</SelectContent>
 											</Select>
