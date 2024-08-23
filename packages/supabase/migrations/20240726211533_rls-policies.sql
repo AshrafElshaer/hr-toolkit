@@ -402,26 +402,29 @@ create policy select_events_policy on public.events for
 select
     using (
         case
+            when public.get_user_role() = 'admin' then true
             when department_id is null then public.get_user_organization_id() = organization_id
             else public.get_user_organization_id() = organization_id
             and public.get_user_department_id() = department_id
         end
     );
 
-create policy insert_events_policy on public.events for
-insert
-    with check (
-        case
-            when public.get_user_role() = 'admin' then true
-            when department_id is null then public.get_user_organization_id() = organization_id
-            and public.get_user_role() = 'admin'
-            else public.get_user_organization_id() = organization_id
-            and public.get_user_department_id() = department_id
-            and (
+CREATE POLICY insert_events_policy ON public.events FOR
+INSERT
+    WITH CHECK (
+        -- If the user is an admin, allow the insert without department restrictions
+        public.get_user_role() = 'admin'
+        OR (
+            -- For managers or team leaders:
+            -- Ensure the user belongs to the same organization and department_id is not null
+            public.get_user_organization_id() = organization_id
+            AND public.get_user_department_id() = department_id
+            AND department_id IS NOT NULL
+            AND (
                 public.get_user_role() = 'manager'
-                or public.get_user_role() = 'team_leader'
+                OR public.get_user_role() = 'team_leader'
             )
-        end
+        )
     );
 
 create policy update_events_policy on public.events for
