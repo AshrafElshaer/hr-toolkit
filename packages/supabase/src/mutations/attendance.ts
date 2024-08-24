@@ -1,5 +1,4 @@
 import {
-  AttendanceStatus,
   AttendanceStatusEnum,
   type SupabaseClient,
   type UserSelect,

@@ -1,25 +1,22 @@
 "use client";
 import useCurrentTime from "@/hooks/use-current-time";
+import moment from "moment";
+import { useAction } from "next-safe-action/hooks";
 import {
 	AttendanceStatusEnum,
 	type AttendanceSelect,
 } from "@hr-toolkit/supabase/types";
-import { Button } from "@hr-toolkit/ui/button";
-import { useAction } from "next-safe-action/hooks";
 import {
 	clockInAction,
 	takeBreakAction,
 	endBreakAction,
 	clockOutAction,
 } from "../../actions";
-
-// import { clockInAction, clockOutAction } from "../../actions";
 import { toast } from "sonner";
-import { format } from "date-fns";
 
 import { Card } from "@hr-toolkit/ui/card";
-import moment from "moment";
 import { Loader } from "lucide-react";
+import { Button } from "@hr-toolkit/ui/button";
 
 type TimerProps = {
 	currentAttendance: AttendanceSelect | null;
@@ -54,10 +51,7 @@ export default function ClockInOut({ currentAttendance }: TimerProps) {
 		{
 			onSuccess: ({ data }) => {
 				toast.success(
-					`You are clocked in at ${format(
-						new Date(data?.clock_in ?? ""),
-						"hh:mm a",
-					)}`,
+					`You are clocked in at ${moment(data?.clock_in).format("HH:mm A")}`,
 				);
 			},
 			onError: ({ error }) => {
@@ -114,7 +108,11 @@ export default function ClockInOut({ currentAttendance }: TimerProps) {
 			</div>
 			<div className="flex items-center justify-between">
 				{!isClockedIn ? (
-					<Button className="w-full" onClick={()=>clockIn()} disabled={isClockingIn}>
+					<Button
+						className="w-full"
+						onClick={() => clockIn()}
+						disabled={isClockingIn}
+					>
 						Clock In at {hoursAndMinutes}
 					</Button>
 				) : (
