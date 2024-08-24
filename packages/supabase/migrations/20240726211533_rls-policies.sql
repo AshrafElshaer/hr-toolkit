@@ -233,7 +233,7 @@ select
             and public.get_user_organization_id() = organization_id then true
             when public.get_user_role() = 'manager'
             and public.get_user_organization_id() = organization_id
-            and public.get_user_department_id() = department_id then true then true
+            and public.get_user_department_id() = department_id then true 
             when auth.uid() = user_id then true
             else false
         end
@@ -241,7 +241,7 @@ select
 
 create policy insert_attendance on attendances for
 insert
-    using (
+    with check (
         case
             when public.get_user_role() = 'admin'
             and public.get_user_organization_id() = organization_id then true

@@ -6,20 +6,24 @@ create type attendance_status_enum as enum(
     'rejected'
 );
 
-create table public.attendances (
-    id uuid not null default uuid_generate_v4 () primary key,
-    user_id uuid not null references users(id) on delete cascade,
-    organization_id uuid not null references organizations(id) on delete cascade,
-    department_id uuid not null references departments(id) on delete cascade,
-    clock_in  time without time zone not null default current_timestamp,
-    clock_out  time without time zone null,
-    break_start  time without time zone null,
-    break_end  time without time zone null,
-    date date not null,
-    status public.attendance_status_enum null default 'clocked_in',
-    payroll_id uuid null,
-    created_at timestamp with time zone default current_timestamp,
-    updated_at timestamp with time zone default current_timestamp
-) tablespace pg_default;
+CREATE TABLE public.attendances (
+    id UUID NOT NULL DEFAULT extensions.uuid_generate_v4 (),
+    user_id UUID NOT NULL,
+    organization_id UUID NOT NULL,
+    department_id UUID NOT NULL,
+    clock_in TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    clock_out TIMESTAMP WITH TIME ZONE NULL,
+    break_start TIMESTAMP WITH TIME ZONE NULL,
+    break_end TIMESTAMP WITH TIME ZONE NULL,
+    date date NOT NULL,
+    status public.attendance_status_enum NULL DEFAULT 'clocked_in' :: attendance_status_enum,
+    payroll_id UUID NULL,
+    created_at TIMESTAMP WITH TIME ZONE NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP WITH TIME ZONE NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT attendances_pkey PRIMARY KEY (id),
+    CONSTRAINT attendances_department_id_fkey FOREIGN KEY (department_id) REFERENCES departments (id) ON DELETE CASCADE,
+    CONSTRAINT attendances_organization_id_fkey FOREIGN KEY (organization_id) REFERENCES organizations (id) ON DELETE CASCADE,
+    CONSTRAINT attendances_user_id_fkey FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE
+) TABLESPACE pg_default;
 
-create unique index attendances_id_index on public.attendances (user_id, organization_id, date, department_id);
+CREATE UNIQUE INDEX IF NOT EXISTS attendances_id_index ON public.attendances USING btree (user_id, organization_id, date, department_id) TABLESPACE pg_default;

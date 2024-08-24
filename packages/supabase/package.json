@@ -10,6 +10,7 @@
 		"@supabase/ssr": "^0.4.0",
 		"@supabase/supabase-js": "^2.44.3",
 		"date-fns": "^3.6.0",
+		"moment": "^2.30.1",
 		"next": "^14.2.4",
 		"react": "^18.3.1",
 		"react-dom": "^18.2.0",
@@ -30,6 +31,8 @@
 		"./departments-mutations": "./src/mutations/departments.ts",
 		"./departments-queries": "./src/queries/departments.ts",
 		"./events-queries": "./src/queries/events.ts",
-		"./events-mutations": "./src/mutations/events.ts"
+		"./events-mutations": "./src/mutations/events.ts",
+		"./attendance-mutations": "./src/mutations/attendance.ts",
+		"./attendance-queries": "./src/queries/attendance.ts"
 	}
 }

@@ -79,6 +79,7 @@ export type Database = {
           organization_id: string
           payroll_id: string | null
           status: Database["public"]["Enums"]["attendance_status_enum"] | null
+          total_worked: number | null
           updated_at: string | null
           user_id: string
         }
@@ -94,6 +95,7 @@ export type Database = {
           organization_id: string
           payroll_id?: string | null
           status?: Database["public"]["Enums"]["attendance_status_enum"] | null
+          total_worked?: number | null
           updated_at?: string | null
           user_id: string
         }
@@ -109,6 +111,7 @@ export type Database = {
           organization_id?: string
           payroll_id?: string | null
           status?: Database["public"]["Enums"]["attendance_status_enum"] | null
+          total_worked?: number | null
           updated_at?: string | null
           user_id?: string
         }

@@ -2,113 +2,162 @@
 import useCurrentTime from "@/hooks/use-current-time";
 import {
 	AttendanceStatusEnum,
-	type Attendance,
+	type AttendanceSelect,
 } from "@hr-toolkit/supabase/types";
 import { Button } from "@hr-toolkit/ui/button";
-import { useMutation } from "@tanstack/react-query";
+import { useAction } from "next-safe-action/hooks";
+import {
+	clockInAction,
+	takeBreakAction,
+	endBreakAction,
+	clockOutAction,
+} from "../../actions";
+
 // import { clockInAction, clockOutAction } from "../../actions";
 import { toast } from "sonner";
 import { format } from "date-fns";
 
 import { Card } from "@hr-toolkit/ui/card";
+import moment from "moment";
+import { Loader } from "lucide-react";
 
-// type TimerProps = {
-// 	currentAttendance: Attendance | undefined;
-// };
-export default function ClockInOut(
-	// { currentAttendance }: TimerProps
-) {
+type TimerProps = {
+	currentAttendance: AttendanceSelect | null;
+};
+export default function ClockInOut({ currentAttendance }: TimerProps) {
 	const { hoursAndMinutes } = useCurrentTime();
-	const isClockIn = true;
-	//   currentAttendance?.status === AttendanceStatusEnum.clocked_in;
-	//   const { hours, minutes, seconds } = calcClockInTime(
-	//     currentAttendance?.clock_in || "",
-	//   );
+	const isClockIn =
+		currentAttendance?.status === AttendanceStatusEnum.clocked_in;
 
-	//   const clockInMutation = useMutation({
-	//     mutationFn: clockInAction,
-	//   });
-	//   const clockInOutMutation = useMutation({
-	//     mutationFn: clockOutAction,
-	//   });
+	const isOnBreak = Boolean(
+		currentAttendance?.break_start && !currentAttendance?.break_end,
+	);
 
-	//   async function handleClockIn() {
-	//     const now = `${new Date()
-	//       .toISOString()
-	//       .replace("T", " ")
-	//       .substring(0, 19)}+00`;
+	const isBreakDone = Boolean(
+		currentAttendance?.break_start && currentAttendance?.break_end,
+	);
 
-	//     const { data, serverError } = await clockInMutation.mutateAsync({
-	//       clockedInAt: now,
-	//     });
+	const { hours, minutes, seconds } = calcClockInTime(
+		currentAttendance?.clock_in || "",
+		currentAttendance?.break_start || "",
+		currentAttendance?.break_end || "",
+	);
 
-	//     if (serverError) {
-	//       toast.error(serverError);
-	//       return;
-	//     }
-	//     toast.success(
-	//       `You are clocked in at ${format(
-	//         new Date(data?.clock_in ?? ""),
-	//         "hh:mm a",
-	//       )}`,
-	//     );
-	//   }
-	//   async function handleClockOut() {
-	//     const now = `${new Date()
-	//       .toISOString()
-	//       .replace("T", " ")
-	//       .substring(0, 19)}+00`;
-	//     const { data, serverError } = await clockInOutMutation.mutateAsync({
-	//       clockedOutAt: now,
-	//     });
-	//     if (serverError) {
-	//       toast.error(serverError, {
-	//         description: "Please try again",
-	//       });
-	//       return;
-	//     }
+	const { execute: clockIn, isExecuting: isClockingIn } = useAction(
+		clockInAction,
+		{
+			onSuccess: ({ data }) => {
+				toast.success(
+					`You are clocked in at ${format(
+						new Date(data?.clock_in ?? ""),
+						"hh:mm a",
+					)}`,
+				);
+			},
+			onError: ({ error }) => {
+				toast.error(error.serverError);
+			},
+		},
+	);
 
-	//     toast.success(
-	//       `You are clocked out at ${format(
-	//         new Date(data?.clock_out ?? ""),
-	//         "hh:mm a",
-	//       )}`,
-	//     );
-	//   }
+	const { execute: takeBreak, isExecuting: isTakingBreak } = useAction(
+		takeBreakAction,
+		{
+			onSuccess: () => {
+				toast.success("You are on break have fun!");
+			},
+			onError: ({ error }) => {
+				toast.error(error.serverError);
+			},
+		},
+	);
+	const { execute: endBreak, isExecuting: isEndingBreak } = useAction(
+		endBreakAction,
+		{
+			onSuccess: () => {
+				toast.success("You are break is over, Let's get back to work!");
+			},
+			onError: ({ error }) => {
+				toast.error(error.serverError);
+			},
+		},
+	);
+	const { execute: clockOut, isExecuting: isClockingOut } = useAction(
+		clockOutAction,
+		{
+			onSuccess: ({ data }) => {
+				toast.success(
+					`You are clock out at ${moment(data?.clock_out).format("HH:mm A")}`,
+				);
+			},
+			onError: ({ error }) => {
+				toast.error(error.serverError);
+			},
+		},
+	);
+
+	async function handleClockIn() {
+		clockIn({
+			clockInAt: moment().utc().toDate().toString(),
+		});
+	}
+
 	return (
 		<Card className="  flex flex-col h-fit p-4 gap-4 w-full  ">
 			<div className="flex items-center justify-between">
 				<h3 className="text-foreground/70 font-semibold">Clock In/Out</h3>
-				{/* {isClockIn && (
-          <p className="text-sm">
-            In -{" "}
-            {format(new Date(currentAttendance?.clock_in ?? ""), "hh:mm a")}
-          </p>
-        )} */}
+				{isClockIn && (
+					<p className="text-sm">
+						{`${hours ? `${hours} h` : ""} ${minutes ? `${minutes} m` : ""} ${seconds} s`}
+					</p>
+				)}
 			</div>
 			<div className="flex items-center justify-between">
 				{!isClockIn ? (
 					<Button
 						className="w-full"
-						// onClick={handleClockIn}
-						// disabled={clockInMutation.isPending}
+						onClick={handleClockIn}
+						disabled={isClockingIn}
 					>
 						Clock In at {hoursAndMinutes}
 					</Button>
 				) : (
 					<div className="w-full flex items-center gap-2">
-						<Button variant="warning" className="w-full">
-							Break
+						<Button
+							variant={isOnBreak ? "success" : "warning"}
+							className="w-full text-xs"
+							disabled={
+								isTakingBreak || isBreakDone || isEndingBreak || isClockingOut
+							}
+							onClick={() =>
+								isOnBreak
+									? endBreak({
+											attendanceId: currentAttendance.id,
+										})
+									: takeBreak({
+											attendanceId: currentAttendance.id,
+										})
+							}
+						>
+							{isTakingBreak || isEndingBreak ? (
+								<Loader className="size-3 mr-2 animate-spin" />
+							) : null}
+							{isOnBreak ? "Return" : "Break"}
 						</Button>
 						<Button
-							className="w-full"
+							className="w-full text-xs"
 							variant={"destructive"}
-							// onClick={handleClockOut}
-							// disabled={clockInOutMutation.isPending}
+							onClick={() =>
+								clockOut({
+									attendanceId: currentAttendance.id,
+								})
+							}
+							disabled={isTakingBreak || isEndingBreak || isClockingOut}
 						>
+							{isClockingOut ? (
+								<Loader className="size-3 mr-2 animate-spin" />
+							) : null}
 							Clock Out
-							{/* {hours ? `${hours}h : ` : null}
-            {minutes ? `${minutes}m :` : null} {`${seconds}s`} */}
 						</Button>
 					</div>
 				)}
@@ -117,12 +166,34 @@ export default function ClockInOut(
 	);
 }
 
-export function calcClockInTime(clockInAt: string) {
+export function calcClockInTime(
+	clockInAt: string,
+	breakStart: string,
+	breakEnd: string,
+) {
 	const now = new Date();
-	const diff = now.getTime() - new Date(clockInAt).getTime();
-	const hours = Math.floor(diff / 1000 / 60 / 60);
-	const minutes = Math.floor((diff / 1000 / 60) % 60);
-	const seconds = Math.floor((diff / 1000) % 60);
+	const clockInTime = new Date(clockInAt).getTime();
+	const breakStartTime = breakStart ? new Date(breakStart).getTime() : 0;
+	const breakEndTime = breakEnd ? new Date(breakEnd).getTime() : 0;
+
+	let totalWorkTime: number;
+
+	// If break has started but not ended, calculate up to the break start
+	if (breakStart && !breakEnd) {
+		totalWorkTime = breakStartTime - clockInTime;
+	} else if (breakStart && breakEnd) {
+		// If break has started and ended, exclude the break duration
+		totalWorkTime =
+			now.getTime() - clockInTime - (breakEndTime - breakStartTime);
+	} else {
+		// If no break, calculate time worked from clock-in to now
+		totalWorkTime = now.getTime() - clockInTime;
+	}
+
+	// Convert milliseconds to hours, minutes, and seconds
+	const hours = Math.floor(totalWorkTime / (1000 * 60 * 60));
+	const minutes = Math.floor((totalWorkTime % (1000 * 60 * 60)) / (1000 * 60));
+	const seconds = Math.floor((totalWorkTime % (1000 * 60)) / 1000);
 
 	return {
 		hours,

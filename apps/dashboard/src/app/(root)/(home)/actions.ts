@@ -3,6 +3,7 @@ import { revalidatePath, revalidateTag } from "next/cache";
 import { authAction } from "@/lib/safe-action";
 import notesMutations from "@hr-toolkit/supabase/notes-mutations";
 import eventsMutations from "@hr-toolkit/supabase/events-mutations";
+import attendanceMutations from "@hr-toolkit/supabase/attendance-mutations";
 import { noteSchema, updateNoteSchema } from "@/lib/validations/notes";
 import { eventsSchema } from "@/lib/validations/events";
 import { z } from "zod";
@@ -105,5 +106,77 @@ export const deleteEventAction = authAction
       if (error) throw new Error(error.message);
 
       revalidatePath("/");
+    },
+  );
+
+export const clockInAction = authAction
+  .schema(z.object({
+    clockInAt: z.string(),
+  }))
+  .action(
+    async ({ ctx, parsedInput }) => {
+      const { supabase, user } = ctx;
+
+      const { data, error } = await attendanceMutations.clockIn(
+        supabase,
+        parsedInput.clockInAt,
+        user,
+      );
+
+      if (error) throw new Error(error.message);
+
+      revalidatePath("/");
+      return data;
+    },
+  );
+
+export const takeBreakAction = authAction
+  .schema(z.object({
+    attendanceId: z.string(),
+  }))
+  .action(
+    async ({ ctx, parsedInput }) => {
+      const { supabase } = ctx;
+      const { error } = await attendanceMutations.startBreak(
+        supabase,
+        parsedInput.attendanceId,
+      );
+
+      if (error) throw new Error(error.message);
+      revalidatePath("/");
+    },
+  );
+export const endBreakAction = authAction
+  .schema(z.object({
+    attendanceId: z.string(),
+  }))
+  .action(
+    async ({ ctx, parsedInput }) => {
+      const { supabase } = ctx;
+      const { error } = await attendanceMutations.endBreak(
+        supabase,
+        parsedInput.attendanceId,
+      );
+
+      if (error) throw new Error(error.message);
+      revalidatePath("/");
+    },
+  );
+
+export const clockOutAction = authAction
+  .schema(z.object({
+    attendanceId: z.string(),
+  }))
+  .action(
+    async ({ ctx, parsedInput }) => {
+      const { supabase } = ctx;
+      const { error, data } = await attendanceMutations.clockOut(
+        supabase,
+        parsedInput.attendanceId,
+      );
+
+      if (error) throw new Error(error.message);
+      revalidatePath("/");
+      return data
     },
   );
