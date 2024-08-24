@@ -210,7 +210,7 @@ export default function EventForm({
 												date={new Date(field.value)}
 												mode="single"
 												onSelect={(date) => {
-													field.onChange(date?.toString() ?? "");
+													field.onChange(date?.toString() ?? new Date().toString());
 												}}
 												fromDate={new Date()}
 											/>
