@@ -26,7 +26,7 @@ type TimerProps = {
 };
 export default function ClockInOut({ currentAttendance }: TimerProps) {
 	const { hoursAndMinutes } = useCurrentTime();
-	const isClockIn =
+	const isClockedIn =
 		currentAttendance?.status === AttendanceStatusEnum.clocked_in;
 
 	const isOnBreak = Boolean(
@@ -37,11 +37,17 @@ export default function ClockInOut({ currentAttendance }: TimerProps) {
 		currentAttendance?.break_start && currentAttendance?.break_end,
 	);
 
-	const { hours, minutes, seconds } = calcClockInTime(
-		currentAttendance?.clock_in || "",
-		currentAttendance?.break_start || "",
-		currentAttendance?.break_end || "",
-	);
+	let hours = null;
+	let minutes = null;
+	let seconds = null;
+
+	if (isClockedIn) {
+		({ hours, minutes, seconds } = calcClockInTime(
+			currentAttendance?.clock_in || "",
+			currentAttendance?.break_start || "",
+			currentAttendance?.break_end || "",
+		));
+	}
 
 	const { execute: clockIn, isExecuting: isClockingIn } = useAction(
 		clockInAction,
@@ -96,36 +102,27 @@ export default function ClockInOut({ currentAttendance }: TimerProps) {
 		},
 	);
 
-	async function handleClockIn() {
-		clockIn({
-			clockInAt: moment().utc().toDate().toString(),
-		});
-	}
-
 	return (
 		<Card className="  flex flex-col h-fit p-4 gap-4 w-full  ">
 			<div className="flex items-center justify-between">
 				<h3 className="text-foreground/70 font-semibold">Clock In/Out</h3>
-				{isClockIn && (
+				{isClockedIn && (
 					<p className="text-sm">
 						{`${hours ? `${hours} h` : ""} ${minutes ? `${minutes} m` : ""} ${seconds} s`}
 					</p>
 				)}
 			</div>
 			<div className="flex items-center justify-between">
-				{!isClockIn ? (
-					<Button
-						className="w-full"
-						onClick={handleClockIn}
-						disabled={isClockingIn}
-					>
+				{!isClockedIn ? (
+					<Button className="w-full" onClick={()=>clockIn()} disabled={isClockingIn}>
 						Clock In at {hoursAndMinutes}
 					</Button>
 				) : (
 					<div className="w-full flex items-center gap-2">
 						<Button
 							variant={isOnBreak ? "success" : "warning"}
-							className="w-full text-xs"
+							className="w-full"
+							size="sm"
 							disabled={
 								isTakingBreak || isBreakDone || isEndingBreak || isClockingOut
 							}
@@ -145,7 +142,8 @@ export default function ClockInOut({ currentAttendance }: TimerProps) {
 							{isOnBreak ? "Return" : "Break"}
 						</Button>
 						<Button
-							className="w-full text-xs"
+							className="w-full"
+							size="sm"
 							variant={"destructive"}
 							onClick={() =>
 								clockOut({

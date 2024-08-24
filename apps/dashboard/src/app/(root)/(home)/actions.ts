@@ -110,16 +110,12 @@ export const deleteEventAction = authAction
   );
 
 export const clockInAction = authAction
-  .schema(z.object({
-    clockInAt: z.string(),
-  }))
   .action(
-    async ({ ctx, parsedInput }) => {
+    async ({ ctx }) => {
       const { supabase, user } = ctx;
 
       const { data, error } = await attendanceMutations.clockIn(
         supabase,
-        parsedInput.clockInAt,
         user,
       );
 
@@ -177,6 +173,6 @@ export const clockOutAction = authAction
 
       if (error) throw new Error(error.message);
       revalidatePath("/");
-      return data
+      return data;
     },
   );

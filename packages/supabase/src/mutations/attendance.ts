@@ -8,16 +8,16 @@ import moment from "moment";
 
 async function clockIn(
   supabase: SupabaseClient,
-  clockedInAt: string,
   user: UserSelect,
 ) {
+  const now = moment().utc();
   return supabase.from("attendances").insert(
     [
       {
         user_id: user.id,
         organization_id: user.organization_id as string,
         department_id: user.department_id as string,
-        date: moment(clockedInAt).format("YYYY-MM-DD"),
+        date: now.format("YYYY-MM-DD"),
       },
     ],
   )
@@ -67,7 +67,6 @@ export async function clockOut(supabase: SupabaseClient, attendanceId: string) {
       status: AttendanceStatusEnum.pending,
       total_worked: totalTime,
     })
-
     .eq("id", currentAttendance.id)
     .select("*")
     .single();
