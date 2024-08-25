@@ -3,7 +3,7 @@ import { Button } from "@hr-toolkit/ui/button";
 import { ResizablePanel, ResizablePanelGroup } from "@hr-toolkit/ui/resizable";
 import { Skeleton } from "@hr-toolkit/ui/skeleton";
 import { cn } from "@hr-toolkit/ui/utils";
-import { PanelLeftOpen } from "lucide-react";
+import { PanelLeftOpen, Search } from "lucide-react";
 import React from "react";
 
 export default function AppShellLoading() {
@@ -44,6 +44,19 @@ export default function AppShellLoading() {
 									<h1 className="text-lg font-semibold select-none">
 										HR Toolkit
 									</h1>
+								</li>
+								<li className="hidden md:block">
+									<Button
+										variant={"outline"}
+										className="text-muted-foreground w-72 flex items-center gap-2 px-2"
+										disabled
+									>
+										<Search className="size-4" />
+										<span>Quick Search</span>
+										<kbd className="pointer-events-none ml-auto inline-flex h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium text-muted-foreground opacity-100 ">
+											<span className="text-xs">⌘</span>K
+										</kbd>
+									</Button>
 								</li>
 								<li className="ml-auto hidden md:block">
 									<Skeleton className="w-48 h-5" />
