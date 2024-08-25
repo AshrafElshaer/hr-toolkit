@@ -106,7 +106,7 @@ export default function EventForm({
 			location: event?.location,
 			start_time: event?.start_time,
 			end_time: event?.end_time,
-			date: event?.date || moment().toDate().toString(),
+			date: event?.date || moment().toString(),
 		},
 	});
 
