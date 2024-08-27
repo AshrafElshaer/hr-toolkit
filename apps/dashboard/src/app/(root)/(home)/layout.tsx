@@ -1,5 +1,6 @@
 import Main from "@/components/main";
 import HomeHeader from "./_components/header";
+import DashboardLoading from "./loading";
 
 export default function HomePageLayout({
 	children,
@@ -10,6 +11,7 @@ export default function HomePageLayout({
 	admin: React.ReactNode;
 }) {
 	// const supabase = createServerClient()
+	// return <DashboardLoading />
 	return (
 		
 		<Main className="flex-grow flex flex-col gap-4">
