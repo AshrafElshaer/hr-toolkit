@@ -37,20 +37,24 @@ export default function DepartmentSelector({
 	});
 	return (
 		<Select onValueChange={onChange} value={value}>
-			{isFetching ? (
-				<Skeleton className="w-full h-8" />
-			) : (
-				<SelectTrigger className="w-full">
-					<SelectValue placeholder="Select a department" />
-				</SelectTrigger>
-			)}
+			<SelectTrigger className="w-full">
+				<SelectValue placeholder="Select a department" />
+			</SelectTrigger>
+
 			<SelectContent>
-				{departments?.map((department) => (
-					<SelectItem key={department.id} value={department.id}>
-						{department.name}
-						{department?.description ? ` - ${department.description}` : ""}
-					</SelectItem>
-				))}
+				{isFetching
+					? Array.from({ length: 3 }).map((_, index) => (
+							<div className="flex items-center gap-2" key={index.toString()}>
+								<Skeleton className="w-6 h-6 rounded-full" />
+								<Skeleton className="w-20 h-4" />
+							</div>
+						))
+					: departments?.map((department) => (
+							<SelectItem key={department.id} value={department.id}>
+								{department.name}
+								{department?.description ? ` - ${department.description}` : ""}
+							</SelectItem>
+						))}
 			</SelectContent>
 		</Select>
 	);

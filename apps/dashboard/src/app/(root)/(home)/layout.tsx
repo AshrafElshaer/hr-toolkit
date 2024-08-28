@@ -1,6 +1,6 @@
 import Main from "@/components/main";
 import HomeHeader from "./_components/header";
-import DashboardLoading from "./loading";
+import DashboardLoading from "./_loading";
 import { createServerClient } from "@/lib/supabase/server";
 import { getCurrentUser } from "@hr-toolkit/supabase/user-queries";
 

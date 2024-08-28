@@ -42,30 +42,34 @@ export default function ManagersSelector({
 
 	return (
 		<Select onValueChange={onChange} value={value}>
-			{isFetching ? (
-				<Skeleton className="w-full h-8" />
-			) : (
-				<SelectTrigger className="w-full">
-					<SelectValue placeholder="Select a manager" />
-				</SelectTrigger>
-			)}
+			<SelectTrigger className="w-full">
+				<SelectValue placeholder="Select a manager" />
+			</SelectTrigger>
 
 			<SelectContent>
-				{managers?.map((manager) => (
-					<SelectItem key={manager.id} value={manager.id}>
-						<div className="flex items-center gap-2">
-							<UserAvatar
-								firstName={manager.first_name}
-								lastName={manager.last_name}
-								url={manager.avatar_url}
-								className="w-6 h-6"
-								fallbackSize="text-xs"
-							/>
-							{manager.first_name} {manager.last_name}{" "}
-							{manager.id === currentUser?.id ? "( You )" : null}
-						</div>
-					</SelectItem>
-				))}
+				{isFetching
+					? Array.from({ length: 3 }).map((_, index) => (
+							<div className="flex items-center gap-2" key={index.toString()}>
+								<Skeleton className="w-6 h-6 rounded-full" />
+								<Skeleton className="w-20 h-4" />
+							</div>
+						))
+					: managers?.map((manager) => (
+							<SelectItem key={manager.id} value={manager.id}>
+								<div className="flex items-center gap-2">
+									<UserAvatar
+										firstName={manager.first_name}
+										lastName={manager.last_name}
+										url={manager.avatar_url}
+										className="w-6 h-6"
+										fallbackSize="text-xs"
+									/>
+									{manager.first_name} {manager.last_name}{" "}
+									{manager.id === currentUser?.id ? "( You )" : null}
+								</div>
+							</SelectItem>
+						))}
+				{}
 			</SelectContent>
 		</Select>
 	);
