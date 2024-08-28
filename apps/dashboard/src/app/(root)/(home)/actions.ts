@@ -65,7 +65,7 @@ export const createEventAction = authAction
     async ({ ctx: { supabase, user }, parsedInput }) => {
       const { id, ...newEvent } = parsedInput;
 
-      console.log(newEvent.start_time);
+
 
       const { data, error } = await eventsMutations.create(supabase, {
         ...newEvent,

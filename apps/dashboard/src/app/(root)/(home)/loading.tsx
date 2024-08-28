@@ -9,7 +9,7 @@ import MetricsLoading from "./_components/metrics/metrics.loading";
 
 export default function DashboardLoading() {
 	return (
-		<Main className="flex-grow flex flex-col gap-4">
+		<>
 			<section className="grid gap-4 grid-rows-2 md:grid-rows-1 md:grid-cols-2 lg:grid-cols-4 ">
 				<WelcomeMessageSkeleton />
 
@@ -23,6 +23,6 @@ export default function DashboardLoading() {
 				<CurrentProjectLoading />
 				<MetricsLoading />
 			</section>
-		</Main>
+		</>
 	);
 }

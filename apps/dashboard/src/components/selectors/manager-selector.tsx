@@ -31,7 +31,7 @@ export default function ManagersSelector({
 		queryKey: ["managers"],
 		queryFn: async () => {
 			const { data, error } = await getManagers(supabase);
-			console.log(data);
+
 			if (error) {
 				throw new Error(error.message);
 			}
@@ -43,7 +43,7 @@ export default function ManagersSelector({
 	return (
 		<Select onValueChange={onChange} value={value}>
 			{isFetching ? (
-				<Skeleton className="w-full h-10" />
+				<Skeleton className="w-full h-8" />
 			) : (
 				<SelectTrigger className="w-full">
 					<SelectValue placeholder="Select a manager" />

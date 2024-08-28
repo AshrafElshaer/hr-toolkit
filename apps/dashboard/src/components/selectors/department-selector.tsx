@@ -38,7 +38,7 @@ export default function DepartmentSelector({
 	return (
 		<Select onValueChange={onChange} value={value}>
 			{isFetching ? (
-				<Skeleton className="w-full h-10" />
+				<Skeleton className="w-full h-8" />
 			) : (
 				<SelectTrigger className="w-full">
 					<SelectValue placeholder="Select a department" />
