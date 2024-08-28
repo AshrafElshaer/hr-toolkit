@@ -9,9 +9,11 @@ import { useRouter } from "next/navigation";
 import { useHotkeys } from "react-hotkeys-hook";
 
 import {
-	ArrowDown,
-	ArrowUp,
+
+
 	CalendarPlus,
+	ChevronDown,
+	ChevronUp,
 	CornerDownLeft,
 	Search,
 } from "lucide-react";
@@ -132,14 +134,7 @@ export function CommandMenu() {
 						{quickActions.map((action) => (
 							<QuickAction key={action.title} {...action} />
 						))}
-						{/* <CommandItem
-							className="hover:border aria-selected:border aria-selected:bg-accent/70 hover:bg-accent/70"
-							onSelect={() => setIsNewNote(true)}
-						>
-							<FaRegNoteSticky className="mr-2 h-3 w-3" />
-							<span>New Note</span>
-						</CommandItem>
-						<NoteDialog open={isNewNote} setOpen={setIsNewNote} /> */}
+
 					</CommandGroup>
 				</CommandList>
 				<CommandSeparator />
@@ -149,10 +144,9 @@ export function CommandMenu() {
 						<span className="text-muted-foreground">to close</span>
 					</div>
 					<div>
-						<ArrowUp className="bg-secondary size-5 p-0.5 rounded" />
-						<ArrowDown className="bg-secondary size-5 p-0.5 rounded" />
-
-						<span className="text-muted-foreground">to navigate,</span>
+						<ChevronUp className="bg-secondary size-5 p-0.5 rounded" />
+						<ChevronDown className="bg-secondary size-5 p-0.5 rounded" />
+						<span className="text-muted-foreground">to navigate</span>
 					</div>
 					<div>
 						<CornerDownLeft className="bg-secondary size-5 p-0.5 rounded" />
