@@ -12,7 +12,7 @@ import WorkedHoursLoading from "./_components/worked-hours.loading";
 
 function HomeAdmin() {
 	return (
-		<section className="grid gap-4  grid-cols-1 grid-rows-[repeat(5,min-content)] md:grid-cols-2 md:grid-rows-[repeat(5,min-content)]  lg:grid-rows-[min-content,355px,1fr] lg:grid-cols-4">
+		<section className="grid gap-4  grid-cols-1 grid-rows-[repeat(4,min-content)] md:grid-cols-2 md:grid-rows-[repeat(2,min-content)]  lg:grid-rows-[min-content] lg:grid-cols-4">
 			<Suspense fallback={<TotalEmployeesLoading />}>
 				<TotalEmployees />
 			</Suspense>
@@ -25,9 +25,9 @@ function HomeAdmin() {
 			<Suspense fallback={<PayrollsLoading />}>
 				<ThisMonthPayrolls />
 			</Suspense>
-			<Suspense fallback={<WorkedHoursLoading />}>
+			{/* <Suspense fallback={<WorkedHoursLoading />}>
 				<WorkedHoursChart />
-			</Suspense>
+			</Suspense> */}
 		</section>
 	);
 }

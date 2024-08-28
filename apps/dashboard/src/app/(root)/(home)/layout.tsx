@@ -9,7 +9,6 @@ export default async function HomePageLayout({
 	admin,
 }: {
 	children: React.ReactNode;
-
 	admin: React.ReactNode;
 }) {
 	const supabase = createServerClient();
@@ -17,9 +16,8 @@ export default async function HomePageLayout({
 
 	return (
 		<Main className="flex-grow flex flex-col gap-4">
-			<HomeHeader />
-			{user?.user_role === "admin" ? admin : null}
 			{children}
+			{user?.user_role === "admin" ? admin : null}
 		</Main>
 	);
 }
