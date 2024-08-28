@@ -12,6 +12,7 @@ import { getManagers } from "@hr-toolkit/supabase/user-queries";
 import UserAvatar from "../user-avatar";
 import { useUser } from "@/hooks/use-user";
 import { useSupabase } from "@/hooks/use-supabase";
+import { Skeleton } from "@hr-toolkit/ui/skeleton";
 
 type Props = {
 	value: string;
@@ -26,7 +27,7 @@ export default function ManagersSelector({
 }: Props) {
 	const supabase = useSupabase();
 	const { data: currentUser } = useUser();
-	const { data: managers } = useQuery({
+	const { data: managers, isFetching } = useQuery({
 		queryKey: ["managers"],
 		queryFn: async () => {
 			const { data, error } = await getManagers(supabase);
@@ -41,9 +42,14 @@ export default function ManagersSelector({
 
 	return (
 		<Select onValueChange={onChange} value={value}>
-			<SelectTrigger className="w-full">
-				<SelectValue placeholder="Select a manager" />
-			</SelectTrigger>
+			{isFetching ? (
+				<Skeleton className="w-full h-10" />
+			) : (
+				<SelectTrigger className="w-full">
+					<SelectValue placeholder="Select a manager" />
+				</SelectTrigger>
+			)}
+
 			<SelectContent>
 				{managers?.map((manager) => (
 					<SelectItem key={manager.id} value={manager.id}>
