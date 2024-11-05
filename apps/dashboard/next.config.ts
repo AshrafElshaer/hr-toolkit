@@ -3,10 +3,11 @@ import { withSentryConfig } from "@sentry/nextjs";
 import type { NextConfig } from "next";
 
 /** @type {import('next').NextConfig} */
-const nextConfig: NextConfig = {
+const nextConfig = {
   transpilePackages: ["@toolkit/supabase"],
-  
-
+  experimental: {
+    instrumentationHook: process.env.NODE_ENV === "production",
+  },
 };
 
 export default withSentryConfig(nextConfig, {
