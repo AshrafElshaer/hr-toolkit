@@ -5,10 +5,10 @@ import { Button } from "@toolkit/ui/button";
 import { Icons } from "@toolkit/ui/icons";
 
 export function SignOut() {
-  const supabase = createClient();
+  // const supabase = createClient();
 
   const handleSignOut = () => {
-    supabase.auth.signOut();
+    // supabase.auth.signOut();
   };
 
   return (

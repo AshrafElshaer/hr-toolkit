@@ -1,6 +1,6 @@
 import "@toolkit/ui/globals.css";
 import { Footer } from "@/components/footer";
-import { Header } from "@/components/header";
+
 import { Provider as AnalyticsProvider } from "@toolkit/analytics/client";
 import { cn } from "@toolkit/ui/cn";
 import { GeistMono } from "geist/font/mono";
@@ -33,9 +33,9 @@ export default function RootLayout({
           "antialiased dark",
         )}
       >
-        <Header />
+        {/* <Header /> */}
         {children}
-        <Footer />
+        {/* <Footer /> */}
 
         <AnalyticsProvider />
       </body>

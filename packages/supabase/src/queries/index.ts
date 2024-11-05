@@ -2,7 +2,7 @@ import { logger } from "@toolkit/logger";
 import { createClient } from "@toolkit/supabase/server";
 
 export async function getUser() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const result = await supabase.auth.getUser();
@@ -16,7 +16,7 @@ export async function getUser() {
 }
 
 export async function getPosts() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const result = await supabase.from("posts").select("*");
