@@ -1,0 +1,62 @@
+"use client";
+
+import { ChevronRight, type LucideIcon } from "lucide-react";
+
+import { buttonVariants } from "@toolkit/ui/button";
+import { cn } from "@toolkit/ui/cn";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@toolkit/ui/collapsible";
+import {
+  SidebarGroup,
+  SidebarGroupLabel,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+} from "@toolkit/ui/sidebar";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+
+export function NavMain({
+  items,
+}: {
+  items: {
+    title: string;
+    url: string;
+    icon: React.ReactNode;
+  }[];
+}) {
+  const pathname = usePathname();
+  return (
+    <SidebarGroup>
+      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarMenu>
+        {items.map((item) => {
+          const isActive = item.url === pathname;
+          return (
+            <SidebarMenuButton asChild key={item.title}>
+              <Link
+                href={item.url}
+                className={buttonVariants({
+                  variant: isActive ? "secondary" : "ghost",
+                  className: cn("!justify-start gap-2 relative"),
+                })}
+              >
+                {item.icon}
+                {item.title}
+                {isActive && (
+                  <div className="absolute  w-1 bg-primary right-0 bottom-1 top-1 rounded-l-full" />
+                )}
+              </Link>
+            </SidebarMenuButton>
+          );
+        })}
+      </SidebarMenu>
+    </SidebarGroup>
+  );
+}
