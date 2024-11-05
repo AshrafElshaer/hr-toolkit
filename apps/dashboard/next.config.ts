@@ -8,6 +8,7 @@ const nextConfig = {
   experimental: {
     instrumentationHook: process.env.NODE_ENV === "production",
   },
+  serverExternalPackages: ["@sentry/node", "@sentry/nextjs"],
 };
 
 export default withSentryConfig(nextConfig, {
