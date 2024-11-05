@@ -2,7 +2,7 @@
 
 import { Slot } from "@radix-ui/react-slot";
 import { type VariantProps, cva } from "class-variance-authority";
-import { PanelLeft, PanelRightClose } from "lucide-react";
+import { PanelRightClose } from "lucide-react";
 import * as React from "react";
 
 import { useIsMobile } from "../hooks/use-mobile";
@@ -10,7 +10,7 @@ import { cn } from "../utils";
 import { Button } from "./button";
 import { Input } from "./input";
 import { Separator } from "./separator";
-import { Sheet, SheetContent } from "./sheet";
+import { Sheet, SheetContent, } from "./sheet";
 import { Skeleton } from "./skeleton";
 import {
   Tooltip,
@@ -214,6 +214,7 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
+         
             <div className="flex h-full w-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>

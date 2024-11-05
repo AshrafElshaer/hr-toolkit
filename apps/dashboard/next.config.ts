@@ -1,12 +1,12 @@
 import "./src/env.mjs";
 import { withSentryConfig } from "@sentry/nextjs";
+import type { NextConfig } from "next";
 
 /** @type {import('next').NextConfig} */
-const nextConfig = {
+const nextConfig: NextConfig = {
   transpilePackages: ["@toolkit/supabase"],
-  experimental: {
-    instrumentationHook: process.env.NODE_ENV === "production",
-  },
+  
+
 };
 
 export default withSentryConfig(nextConfig, {
