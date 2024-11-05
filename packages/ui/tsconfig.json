@@ -6,6 +6,13 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["src", "../../apps/app/src/components/app-sidebar.tsx", "../../apps/app/src/components/nav-main.tsx", "../../apps/app/src/components/nav-projects.tsx", "../../apps/app/src/components/nav-user.tsx", "../../apps/app/src/components/team-switcher.tsx"],
+  "include": [
+    "src",
+    "../../apps/app/src/components/app-sidebar.tsx",
+    "../../apps/app/src/components/nav-main.tsx",
+    "../../apps/app/src/components/nav-projects.tsx",
+    "../../apps/app/src/components/nav-user.tsx",
+    "../../apps/app/src/components/team-switcher.tsx"
+  ],
   "exclude": ["node_modules"]
 }
