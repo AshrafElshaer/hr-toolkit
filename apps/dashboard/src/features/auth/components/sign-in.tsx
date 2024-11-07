@@ -70,7 +70,11 @@ export function SignIn() {
           emailAddressId,
         });
 
-        setAuthParams({ auth_type: "verify-otp", email: parsedEmail.data });
+        setAuthParams({
+          auth_type: "sign-in",
+          email: parsedEmail.data,
+          active_tap: "verify-otp",
+        });
       }
     } catch (error) {
       if (isClerkAPIResponseError(error)) {
@@ -102,7 +106,7 @@ export function SignIn() {
         Sign in to your account to continue
       </p>
 
-      <SignInWithSocial />
+      {/* <SignInWithSocial /> */}
       <Separator className="mb-6 w-full" />
 
       <section className="flex flex-col gap-4 px-4">
