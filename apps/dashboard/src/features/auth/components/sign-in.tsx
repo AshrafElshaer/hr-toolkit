@@ -107,7 +107,7 @@ export function SignIn() {
       </p>
 
       {/* <SignInWithSocial /> */}
-      <Separator className="mb-6 w-full" />
+      {/* <Separator className="mb-6 w-full" /> */}
 
       <section className="flex flex-col gap-4 px-4">
         <Label htmlFor="email">Email address</Label>

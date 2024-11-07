@@ -297,28 +297,6 @@ export function VerifyOtp() {
           className="w-full"
         >
           <AnimatePresence initial={false} mode="wait">
-            {!isVerifying && !isResending && resendTimer === 0 && (
-              <motion.span
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                initial={{ opacity: 0, y: 10 }}
-                key="resend-passcode"
-                transition={{ duration: 0.2 }}
-              >
-                Resend Pass code
-              </motion.span>
-            )}
-            {!isVerifying && !isResending && resendTimer !== 0 && (
-              <motion.span
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                initial={{ opacity: 0, y: 10 }}
-                key="resend-timer"
-                transition={{ duration: 0.2 }}
-              >
-                {`Resend Pass code in ${resendTimer}s`}
-              </motion.span>
-            )}
             {isVerifying ? (
               <motion.div
                 animate={{ opacity: 1, y: 0 }}
@@ -336,8 +314,7 @@ export function VerifyOtp() {
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
                 Verifying Pass code ...
               </motion.div>
-            ) : null}
-            {isResending ? (
+            ) : isResending ? (
               <motion.div
                 animate={{ opacity: 1, y: 0 }}
                 style={{
@@ -354,7 +331,27 @@ export function VerifyOtp() {
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
                 Resending Pass Code ...
               </motion.div>
-            ) : null}
+            ) : resendTimer !== 0 ? (
+              <motion.span
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: 10 }}
+                key="resend-timer"
+                transition={{ duration: 0.2 }}
+              >
+                {`Resend Pass code in ${resendTimer}s`}
+              </motion.span>
+            ) : (
+              <motion.span
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                initial={{ opacity: 0, y: 10 }}
+                key="resend-passcode"
+                transition={{ duration: 0.2 }}
+              >
+                Resend Pass code
+              </motion.span>
+            )}
           </AnimatePresence>
         </Button>
       </CardFooter>
