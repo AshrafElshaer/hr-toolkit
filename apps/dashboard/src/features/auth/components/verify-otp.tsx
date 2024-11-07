@@ -28,6 +28,7 @@ import { toast } from "sonner";
 import { useBoolean, useCountdown } from "usehooks-ts";
 import { z } from "zod";
 import { authSearchParams } from "../auth-search-params";
+import { SignInWithEmail, SignUpWithEmail } from "../lib";
 
 export function VerifyOtp() {
   const router = useRouter();
@@ -133,98 +134,34 @@ export function VerifyOtp() {
   }
 
   async function resendOtp() {
+    setIsResendingTrue();
+
     if (auth_type === "sign-up") {
-      await SignUpWithEmail();
-    } else {
-      await SignInWithEmail();
+      if (!signUp) return;
+      const { error } = await SignUpWithEmail({ data: { email }, signUp });
+      error && toast.error(error);
     }
+
+    if (auth_type === "sign-in") {
+      if (!signIn) return;
+      const { error } = await SignInWithEmail({ email, signIn });
+      error && toast.error(error);
+    }
+
+    setIsResendingFalse();
 
     resetResendTimer();
     startResendTimer();
   }
 
-  async function SignInWithEmail() {
-    if (!isLoadedSignIn || !signIn) return null;
-
-    setIsResendingTrue();
-
-    try {
-      const { supportedFirstFactors } = await signIn.create({
-        identifier: email,
-      });
-
-      const isEmailCodeFactor = (
-        factor: SignInFirstFactor,
-      ): factor is EmailCodeFactor => {
-        return factor.strategy === "email_code";
-      };
-      const emailCodeFactor = supportedFirstFactors?.find(isEmailCodeFactor);
-
-      if (emailCodeFactor) {
-        const { emailAddressId } = emailCodeFactor;
-
-        await signIn.prepareFirstFactor({
-          strategy: "email_code",
-          emailAddressId,
-        });
-      }
-    } catch (error) {
-      if (isClerkAPIResponseError(error)) {
-        const errorMessage =
-          error.errors[0]?.longMessage ?? "An error occurred during sign in";
-        toast.error(errorMessage, {
-          description:
-            errorMessage === "Couldn't find your account."
-              ? "Please sign up first"
-              : undefined,
-        });
-      }
-      return;
-    } finally {
-      setIsResendingFalse();
-    }
-  }
-
-  async function SignUpWithEmail() {
-    if (!isLoadedSignUp || !signUp) return;
-
-    setIsResendingTrue();
-
-    try {
-      await signUp.create({
-        emailAddress: email,
-        firstName: "",
-        lastName: "",
-      });
-
-      await signUp.prepareEmailAddressVerification({
-        strategy: "email_code",
-      });
-    } catch (error) {
-      if (isClerkAPIResponseError(error)) {
-        const errorMessage =
-          error.errors[0]?.longMessage ?? "An error occurred during sign up";
-        toast.error(errorMessage, {
-          description:
-            errorMessage === "Couldn't find your account."
-              ? "Please sign up first"
-              : undefined,
-        });
-      }
-      return;
-    } finally {
-      setIsResendingFalse();
-    }
-  }
-
   return (
-    <Card className="flex flex-col items-center w-full max-w-sm pt-6">
-      <CardHeader className="flex flex-col gap-2 items-center w-full">
+    <Card className="flex flex-col items-center max-w-sm w-full mx-auto pt-6">
+      <CardHeader className="flex flex-col gap-1 items-center w-full">
         <CardTitle>Check your email</CardTitle>
         <CardDescription>
           We&apos;ve sent a one time pass code to{" "}
         </CardDescription>
-        <CardDescription>
+        <CardDescription className="text-secondary-foreground">
           <strong>{email}</strong>
         </CardDescription>
         <Button
@@ -289,7 +226,7 @@ export function VerifyOtp() {
           </InputOTPGroup>
         </InputOTP>
       </CardContent>
-      <CardFooter className="w-full grid px-2">
+      <CardFooter className="w-full grid px-3 pb-2">
         <Button
           disabled={isVerifying || resendTimer !== 0 || isResending}
           onClick={resendOtp}

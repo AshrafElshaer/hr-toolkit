@@ -24,6 +24,7 @@ import { toast } from "sonner";
 import { useBoolean } from "usehooks-ts";
 import { z } from "zod";
 import { authSearchParams } from "../auth-search-params";
+import { SignUpWithEmail } from "../lib";
 
 const signUpSchema = z.object({
   firstName: z.string().min(2, { message: "First name is required" }),
@@ -55,37 +56,20 @@ export function SignUp() {
 
     setPreparingTrue();
 
-    try {
-      await signUp.create({
-        emailAddress: data.email,
-        firstName: data.firstName,
-        lastName: data.lastName,
-      });
+    const { error } = await SignUpWithEmail({ data, signUp });
 
-      await signUp.prepareEmailAddressVerification({
-        strategy: "email_code",
-      });
+    setPreparingFalse();
 
-      setAuthParams({ active_tap: "verify-otp", email: data.email });
-    } catch (error) {
-      if (isClerkAPIResponseError(error)) {
-        const errorMessage =
-          error.errors[0]?.longMessage ?? "An error occurred during sign up";
-        toast.error(errorMessage, {
-          description:
-            errorMessage === "Couldn't find your account."
-              ? "Please sign up first"
-              : undefined,
-        });
-      }
+    if (error) {
+      toast.error(error);
       return;
-    } finally {
-      setPreparingFalse();
     }
+
+    setAuthParams({ active_tap: "verify-otp", email: data.email });
   }
 
   return (
-    <Card className="flex flex-col py-10 px-0">
+    <Card className=" py-10 px-0 max-w-sm w-full mx-auto">
       <Icons.Logo className="size-14 mx-auto mb-4" />
       <h2 className="mb-0.5 text-lg font-bold text-center">
         Welcome to HR Toolkit
@@ -94,7 +78,7 @@ export function SignUp() {
         Create your account with us
       </p>
 
-      <section className="flex flex-col gap-4 px-4">
+      <section className="space-y-4 px-4 mt-4">
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="flex items-center gap-2">
             <div className="space-y-2">

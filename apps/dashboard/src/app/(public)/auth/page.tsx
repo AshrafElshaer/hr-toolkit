@@ -9,7 +9,7 @@ export default async function Page({ searchParams }: Props) {
   authSearchParamsCache.parse(await searchParams);
 
   return (
-    <main className="min-h-[100svh] w-full flex flex-col items-center justify-center p-4">
+    <main className="min-h-[100svh] w-full flex flex-col items-center justify-center ">
       <AuthComponent />
     </main>
   );

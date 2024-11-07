@@ -171,9 +171,9 @@ const links = [
     icon: <Home01Icon strokeWidth={2} size={20} />,
   },
   {
-    title: "Candidates",
-    url: "/candidates",
-    icon: <UserSearch01Icon strokeWidth={2} size={20} />,
+    title: "Calendar",
+    url: "/calendar",
+    icon: <Calendar03Icon strokeWidth={2} size={20} />,
   },
   {
     title: "Job Listings",
@@ -181,10 +181,11 @@ const links = [
     icon: <JobLinkIcon strokeWidth={2} size={20} />,
   },
   {
-    title: "Calendar",
-    url: "/calendar",
-    icon: <Calendar03Icon strokeWidth={2} size={20} />,
+    title: "Candidates",
+    url: "/candidates",
+    icon: <UserSearch01Icon strokeWidth={2} size={20} />,
   },
+
   {
     title: "Reports",
     url: "/reports",

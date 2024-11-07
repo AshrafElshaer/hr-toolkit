@@ -23,7 +23,6 @@ export function AuthComponent() {
         transition={{ duration: 0.25 }}
         style={{
           width: "100%",
-          maxWidth: "28rem",
         }}
       >
         {active_tap === "sign-in" ? (
