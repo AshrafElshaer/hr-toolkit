@@ -1,10 +1,14 @@
 import "@toolkit/ui/globals.css";
 
+import { Toaster } from "@/components/providers/toaster";
+import { ClerkProvider } from "@clerk/nextjs";
+import { buttonVariants } from "@toolkit/ui/button";
 import { cn } from "@toolkit/ui/cn";
 import { GeistMono } from "geist/font/mono";
 import { GeistSans } from "geist/font/sans";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 
 export const metadata: Metadata = {
   title: "Create v1",
@@ -31,14 +35,19 @@ export default function RootLayout({
           "antialiased",
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {children}
-        </ThemeProvider>
+        <NuqsAdapter>
+          <ClerkProvider dynamic>
+            <ThemeProvider
+              attribute="class"
+              defaultTheme="system"
+              enableSystem
+              disableTransitionOnChange
+            >
+              {children}
+              <Toaster />
+            </ThemeProvider>
+          </ClerkProvider>
+        </NuqsAdapter>
       </body>
     </html>
   );

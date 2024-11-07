@@ -65,6 +65,24 @@ const config = {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        success: {
+          DEFAULT: "hsl(var(--success))",
+          foreground: "hsl(var(--success-foreground))",
+        },
+        blue: {
+          DEFAULT: "hsl(var(--blue))",
+        },
+        warning: {
+          DEFAULT: "hsl(var(--warning))",
+          foreground: "hsl(var(--warning-foreground))",
+        },
+        chart: {
+          "1": "hsl(var(--chart-1))",
+          "2": "hsl(var(--chart-2))",
+          "3": "hsl(var(--chart-3))",
+          "4": "hsl(var(--chart-4))",
+          "5": "hsl(var(--chart-5))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",
@@ -88,10 +106,20 @@ const config = {
             height: "0",
           },
         },
+        shake: {
+          "0%, 100%": { transform: "translateX(0)" },
+          "10%": { transform: "translateX(10px)" },
+          "20%": { transform: "translateX(-10px)" },
+          "30%": { transform: "translateX(5px)" },
+          "40%": { transform: "translateX(-5px)" },
+          "50%": { transform: "translateX(2px)" },
+          "60%": { transform: "translateX(-2px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        shake: "shake 0.5s ease-in-out",
       },
     },
   },

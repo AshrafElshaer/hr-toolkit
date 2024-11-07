@@ -44,7 +44,7 @@ export function NavMain({
                 href={item.url}
                 className={buttonVariants({
                   variant: isActive ? "secondary" : "ghost",
-                  className: cn("!justify-start gap-2 relative"),
+                  className: cn("!justify-start gap-2 relative font-semibold"),
                 })}
               >
                 {item.icon}

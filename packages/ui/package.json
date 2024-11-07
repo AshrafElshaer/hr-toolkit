@@ -70,7 +70,8 @@
     "./toggle": "./src/components/toggle.tsx",
     "./toggle-group": "./src/components/toggle-group.tsx",
     "./breadcrumb": "./src/components/breadcrumb.tsx",
-    "./sidebar": "./src/components/sidebar.tsx"
+    "./sidebar": "./src/components/sidebar.tsx",
+    "./input-otp": "./src/components/input-otp.tsx"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",

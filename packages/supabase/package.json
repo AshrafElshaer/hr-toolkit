@@ -6,11 +6,15 @@
     "clean": "rm -rf .turbo node_modules",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@supabase/ssr": "^0.5.1",
     "@toolkit/logger": "workspace:*",
+    "drizzle-kit": "^0.27.1",
+    "drizzle-orm": "^0.36.0",
+    "postgres": "^3.4.5",
     "react": "19.0.0-rc-02c0e824-20241028",
     "server-only": "^0.0.1",
     "supabase": "^1.191.3"
