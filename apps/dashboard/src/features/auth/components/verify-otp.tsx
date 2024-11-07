@@ -28,7 +28,7 @@ import { toast } from "sonner";
 import { useBoolean, useCountdown } from "usehooks-ts";
 import { z } from "zod";
 import { authSearchParams } from "../auth-search-params";
-import { SignInWithEmail, SignUpWithEmail } from "../lib";
+import { SignInWithEmail, SignUpWithEmail } from "../auth.lib";
 
 export function VerifyOtp() {
   const router = useRouter();

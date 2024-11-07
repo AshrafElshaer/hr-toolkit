@@ -23,7 +23,7 @@ import { toast } from "sonner";
 import { useBoolean } from "usehooks-ts";
 import { z } from "zod";
 import { authSearchParams } from "../auth-search-params";
-import { SignInWithEmail } from "../lib";
+import { SignInWithEmail } from "../auth.lib";
 import { SignInWithSocial } from "./sign-in-with-social";
 
 export function SignIn() {

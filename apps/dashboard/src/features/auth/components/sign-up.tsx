@@ -24,7 +24,7 @@ import { toast } from "sonner";
 import { useBoolean } from "usehooks-ts";
 import { z } from "zod";
 import { authSearchParams } from "../auth-search-params";
-import { SignUpWithEmail } from "../lib";
+import { SignUpWithEmail } from "../auth.lib";
 
 const signUpSchema = z.object({
   firstName: z.string().min(2, { message: "First name is required" }),
