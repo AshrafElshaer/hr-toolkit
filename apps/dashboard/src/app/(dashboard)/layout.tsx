@@ -12,6 +12,7 @@ import {
 } from "@toolkit/ui/breadcrumb";
 import { Separator } from "@toolkit/ui/separator";
 import { SidebarProvider } from "@toolkit/ui/sidebar";
+import { Bell } from "lucide-react";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   // This is where your authenticated app lives, add a sidebar, header etc.
@@ -19,8 +20,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <SidebarProvider>
       <AppSidebar />
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-          <div className="flex items-center gap-2 px-4">
+        <header className="flex w-full h-16 px-4 shrink-0 items-center justify-between gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
+          <div className="flex items-center gap-2">
             <SidebarTrigger className="-ml-1 md:hidden " />
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
@@ -37,6 +38,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
+          <Bell className="size-5" />
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-full">
           {children}

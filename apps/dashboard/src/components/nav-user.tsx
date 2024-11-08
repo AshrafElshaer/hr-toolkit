@@ -25,6 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@toolkit/ui/sidebar";
+import { useUser } from "@clerk/nextjs";
 
 export function NavUser({
   user,
@@ -36,6 +37,7 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+
 
   return (
     <SidebarMenu>

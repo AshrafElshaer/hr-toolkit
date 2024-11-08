@@ -7,8 +7,6 @@ export default function Page() {
   const { user } = useUser();
   const pathname = usePathname();
 
-
-  console.log(user);
   return (
     <div>
       <SignOutButton redirectUrl={`/auth?redirect_url=${pathname}`} />

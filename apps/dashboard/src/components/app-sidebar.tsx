@@ -4,11 +4,14 @@ import {
   AudioWaveform,
   BookOpen,
   Bot,
+  Building2,
   Command,
   Frame,
   GalleryVerticalEnd,
+  Headset,
   MapIcon,
   PieChart,
+  Settings,
   Settings2,
   SquareTerminal,
 } from "lucide-react";
@@ -18,6 +21,7 @@ import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
+import { useUser } from "@clerk/nextjs";
 import {
   Sidebar,
   SidebarContent,
@@ -28,6 +32,7 @@ import {
 import {
   Calendar03Icon,
   ChartRoseIcon,
+  Chatting01Icon,
   Files01Icon,
   Home01Icon,
   JobLinkIcon,
@@ -197,19 +202,53 @@ const links = [
     icon: <Files01Icon strokeWidth={2} size={20} />,
   },
 ];
+const communication = [
+  {
+    title: "Chat",
+    url: "/chat",
+    icon: <Chatting01Icon strokeWidth={2} size={20} />,
+  },
+  {
+    title: "Interviews",
+    url: "/interviews",
+    icon: <Headset strokeWidth={2} size={20} />,
+  },
+];
+
+const settings = [
+  {
+    title: "Organization",
+    url: "/organization",
+    icon: <Building2 strokeWidth={2} size={20} />,
+  },
+  {
+    title: "Settings",
+    url: "/settings",
+    icon: <Settings strokeWidth={2} size={20} />,
+  },
+];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { user } = useUser();
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={links} />
+        <NavMain items={links} label="Platform" />
+        {/* <NavMain items={communication} label="Communication" /> */}
+        <NavMain items={settings} label="Settings" />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        <NavUser
+          user={{
+            name: user?.fullName ?? "",
+            email: user?.emailAddresses[0]?.emailAddress ?? "",
+            avatar: user?.imageUrl ?? "",
+          }}
+        />
       </SidebarFooter>
       {/* <SidebarRail /> */}
     </Sidebar>

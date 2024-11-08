@@ -24,17 +24,19 @@ import { usePathname } from "next/navigation";
 
 export function NavMain({
   items,
+  label,
 }: {
   items: {
     title: string;
     url: string;
     icon: React.ReactNode;
   }[];
+  label: string;
 }) {
   const pathname = usePathname();
   return (
     <SidebarGroup>
-      <SidebarGroupLabel>Platform</SidebarGroupLabel>
+      <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
           const isActive = item.url === pathname;
