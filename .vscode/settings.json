@@ -24,5 +24,12 @@
   "search.exclude": {
     "**/node_modules": true
   },
-  "cSpell.words": ["hugeicons", "nextjs", "Nuqs", "supabase", "usehooks"]
+  "cSpell.words": [
+    "hugeicons",
+    "nextjs",
+    "Nuqs",
+    "supabase",
+    "svix",
+    "usehooks"
+  ]
 }

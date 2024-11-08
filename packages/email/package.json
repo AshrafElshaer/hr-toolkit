@@ -17,5 +17,8 @@
   },
   "devDependencies": {
     "react-email": "^3.0.1"
+  },
+  "exports": {
+    ".": "./emails/index.ts"
   }
 }

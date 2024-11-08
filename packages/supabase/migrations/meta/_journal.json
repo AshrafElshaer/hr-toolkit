@@ -1,1 +1,13 @@
-{ "version": "7", "dialect": "postgresql", "entries": [] }
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1731015521877,
+      "tag": "20241107213841_illegal_emma_frost",
+      "breakpoints": true
+    }
+  ]
+}

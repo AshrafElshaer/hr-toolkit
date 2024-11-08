@@ -1,11 +1,12 @@
 "use client";
 
-import { SignOutButton, useUser } from "@clerk/nextjs";
+import { SignOutButton, useUser, useAuth ,useSession} from "@clerk/nextjs";
 import { usePathname } from "next/navigation";
 
 export default function Page() {
   const { user } = useUser();
   const pathname = usePathname();
+
 
   console.log(user);
   return (
