@@ -48,7 +48,7 @@ export function SignIn() {
       email,
       signIn,
     });
-
+    setPreparingFalse();
     if (error) {
       setEmailError(error);
       toast.error(error);
@@ -59,7 +59,6 @@ export function SignIn() {
       email: email,
       active_tap: "verify-otp",
     });
-    setPreparingFalse();
   }
 
   useEffect(() => {

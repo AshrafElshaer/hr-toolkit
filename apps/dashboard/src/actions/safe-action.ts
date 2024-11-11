@@ -3,7 +3,7 @@ import { setupAnalytics } from "@toolkit/analytics/server";
 import { ratelimit } from "@toolkit/kv/ratelimit";
 import { logger } from "@toolkit/logger";
 import { getUser } from "@toolkit/supabase/queries";
-import { createClient } from "@toolkit/supabase/server";
+import { createServerClient } from "@/lib/supabase/server";
 import {
   DEFAULT_SERVER_ERROR_MESSAGE,
   createSafeActionClient,
@@ -74,10 +74,10 @@ export const authActionClient = actionClientWithMeta
     });
   })
   .use(async ({ next, metadata }) => {
+    const supabase = await createServerClient();
     const {
       data: { user },
-    } = await getUser();
-    const supabase = await createClient();
+    } = await getUser(supabase);
 
     if (!user) {
       throw new Error("Unauthorized");

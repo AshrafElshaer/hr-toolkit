@@ -221,11 +221,11 @@ const settings = [
     url: "/organization",
     icon: <Building2 strokeWidth={2} size={20} />,
   },
-  {
-    title: "Settings",
-    url: "/settings",
-    icon: <Settings strokeWidth={2} size={20} />,
-  },
+  // {
+  //   title: "Settings",
+  //   url: "/settings",
+  //   icon: <Settings strokeWidth={2} size={20} />,
+  // },
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
@@ -233,11 +233,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <TeamSwitcher />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={links} label="Platform" />
-        {/* <NavMain items={communication} label="Communication" /> */}
+        <NavMain items={links} label="Workspace" />
+        <NavMain items={communication} label="Communication" />
         <NavMain items={settings} label="Settings" />
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>

@@ -12,7 +12,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@clerk/nextjs": "^6.2.0",
     "@toolkit/analytics": "workspace:*",
     "@toolkit/kv": "workspace:*",
     "@toolkit/supabase": "workspace:*",

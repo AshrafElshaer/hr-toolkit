@@ -9,8 +9,8 @@ export const updateUserAction = authActionClient
   .metadata({
     name: "update-user",
   })
-  .action(async ({ parsedInput: input, ctx: { user } }) => {
-    const result = await updateUser(user.id, input);
+  .action(async ({ parsedInput: input, ctx: { user, supabase } }) => {
+    const result = await updateUser(supabase, user.id, input);
 
     return result;
   });

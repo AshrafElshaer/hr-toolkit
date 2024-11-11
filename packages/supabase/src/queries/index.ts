@@ -1,9 +1,7 @@
 import { logger } from "@toolkit/logger";
-import { createClient } from "@toolkit/supabase/server";
+import type { SupabaseInstance } from "../types";
 
-export async function getUser() {
-  const supabase = await createClient();
-
+export async function getUser(supabase: SupabaseInstance) {
   try {
     const result = await supabase.auth.getUser();
 
@@ -15,11 +13,9 @@ export async function getUser() {
   }
 }
 
-export async function getPosts() {
-  const supabase = await createClient();
-
+export async function getPosts(supabase: SupabaseInstance) {
   try {
-    const result = await supabase.from("posts").select("*");
+    const result = await supabase.from("job_posts").select("*");
 
     return result;
   } catch (error) {

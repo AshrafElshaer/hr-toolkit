@@ -18,6 +18,7 @@ import {
   SidebarMenuSub,
   SidebarMenuSubButton,
   SidebarMenuSubItem,
+  useSidebar,
 } from "@toolkit/ui/sidebar";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -34,6 +35,7 @@ export function NavMain({
   label: string;
 }) {
   const pathname = usePathname();
+  const { setOpenMobile } = useSidebar();
   return (
     <SidebarGroup>
       <SidebarGroupLabel>{label}</SidebarGroupLabel>
@@ -41,12 +43,16 @@ export function NavMain({
         {items.map((item) => {
           const isActive = item.url === pathname;
           return (
-            <SidebarMenuButton asChild key={item.title}>
+            <SidebarMenuButton
+              asChild
+              key={item.title}
+              onClick={() => setOpenMobile(false)}
+            >
               <Link
                 href={item.url}
                 className={buttonVariants({
                   variant: isActive ? "secondary" : "ghost",
-                  className: cn("!justify-start gap-2 relative font-semibold"),
+                  className: cn("!justify-start gap-2  relative font-semibold"),
                 })}
               >
                 {item.icon}

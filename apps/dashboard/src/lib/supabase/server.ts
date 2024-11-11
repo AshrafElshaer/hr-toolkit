@@ -1,13 +1,15 @@
-import { createServerClient } from "@supabase/ssr";
+import { env } from "@/env.mjs";
+import { auth } from "@clerk/nextjs/server";
+import { createServerClient as createClient } from "@supabase/ssr";
+import type { Database } from "@toolkit/supabase/types";
 import { cookies } from "next/headers";
-import type { Database } from "../types";
 
-export const createClient = async () => {
+export async function createServerClient() {
   const cookieStore = await cookies();
 
-  return createServerClient<Database>(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  return createClient<Database>(
+    env.NEXT_PUBLIC_SUPABASE_URL,
+    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
@@ -23,4 +25,4 @@ export const createClient = async () => {
       },
     },
   );
-};
+}

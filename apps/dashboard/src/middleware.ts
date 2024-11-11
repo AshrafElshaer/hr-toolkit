@@ -1,11 +1,17 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
-const isPublicRoute = createRouteMatcher(["/auth(.*)", "/api(.*)"]);
+import type { NextRequest } from "next/server";
 
-export default clerkMiddleware(async (auth, request) => {
-  if (!isPublicRoute(request)) {
-    await auth.protect();
+import { NextResponse } from "next/server";
+import { updateSession } from "./lib/supabase/middleware";
+
+export async function middleware(request: NextRequest) {
+  const { response, user } = await updateSession(request, NextResponse.next());
+
+  if (!request.nextUrl.pathname.endsWith("/auth") && !user) {
+    return NextResponse.redirect(new URL("/auth", request.url));
   }
-});
+
+  return response;
+}
 
 export const config = {
   matcher: [

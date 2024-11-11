@@ -1,11 +1,11 @@
 "use client";
 
-import { createClient } from "@toolkit/supabase/client";
+import { createBrowserClient } from "@/lib/supabase/browser";
 import { Button } from "@toolkit/ui/button";
 import { Icons } from "@toolkit/ui/icons";
 
 export function SignOut() {
-  // const supabase = createClient();
+  // const supabase = createBrowserClient();
 
   const handleSignOut = () => {
     // supabase.auth.signOut();

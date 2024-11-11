@@ -38,7 +38,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
-          <Bell className="size-5" />
+          {/* <Bell className="size-5" /> */}
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0 max-w-full">
           {children}

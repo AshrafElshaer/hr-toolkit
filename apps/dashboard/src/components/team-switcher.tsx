@@ -18,32 +18,20 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@toolkit/ui/sidebar";
+import { Icons } from "@toolkit/ui/icons";
 
-export function TeamSwitcher({
-  teams,
-}: {
-  teams: {
-    name: string;
-    logo: React.ElementType;
-    plan: string;
-  }[];
-}) {
+export function TeamSwitcher() {
   const { isMobile } = useSidebar();
-  const [activeTeam, setActiveTeam] = React.useState(teams[0]);
 
   return (
-    <div
-      className="flex items-center gap-2"
-    >
-      <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-        {activeTeam?.logo && <activeTeam.logo className="size-4" />}
-        A
+    <div className="flex items-center gap-2 p-2">
+      <div className="flex aspect-square size-8 items-center justify-center rounded-lg ">
+      <Icons.Logo className="size-8" />
       </div>
       <div className="grid flex-1 text-left text-sm leading-tight">
-        <span className="truncate font-semibold">{activeTeam?.name}</span>
-        <span className="truncate text-xs">{activeTeam?.plan}</span>
+        <span className="truncate font-semibold">org name</span>
+        <span className="truncate text-xs">org plan</span>
       </div>
-
     </div>
   );
 }

@@ -91,7 +91,7 @@ export function VerifyOtp() {
 
       if (signUpAttempt.status === "complete") {
         await setSignUpActive({ session: signUpAttempt.createdSessionId });
-        router.push(redirect_url ?? "/");
+        router.push("/onboarding");
       }
     } catch (error) {
       if (isClerkAPIResponseError(error)) {
@@ -110,6 +110,8 @@ export function VerifyOtp() {
   }
   async function signInVerify(code: string) {
     if (!isLoadedSignIn || !signIn) return null;
+
+    setIsVerifyingTrue();
 
     try {
       const signInAttempt = await signIn.attemptFirstFactor({
@@ -130,6 +132,8 @@ export function VerifyOtp() {
       }
       setIsError(true);
       return;
+    } finally {
+      setIsVerifyingFalse();
     }
   }
 
