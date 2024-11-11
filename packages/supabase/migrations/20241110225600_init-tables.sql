@@ -27,7 +27,7 @@ create table organizations (
     description text not null,
     logo_url text not null,
     website text not null,
-    admin_id uuid references auth.users on delete set null,
+    admin_id uuid references users(id) on delete set null,
     location text not null,
     industry text not null,
 
@@ -41,7 +41,7 @@ create index idx_organizations_admin on organizations(admin_id);
 
 create table organization_members (
     organization_id uuid references organizations(id) on delete cascade,
-    user_id uuid references auth.users on delete cascade,
+    user_id uuid references users(id) on delete cascade,
 
     created_at timestamp with time zone default now() not null,
     updated_at timestamp with time zone default now() not null
@@ -56,7 +56,7 @@ create type experience_level_enum as enum ('entry', 'mid', 'senior', 'lead', 'ex
 create table job_posts (
     id uuid primary key default gen_random_uuid(),
     organization_id uuid references organizations(id)  on delete cascade,
-    created_by uuid references auth.users  on delete set null,
+    created_by uuid references users(id)  on delete set null,
     title text not null,
     content jsonb not null,
     employment_type employment_type_enum not null,
