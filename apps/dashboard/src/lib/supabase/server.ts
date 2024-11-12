@@ -1,5 +1,5 @@
 import { env } from "@/env.mjs";
-import { auth } from "@clerk/nextjs/server";
+
 import { createServerClient as createClient } from "@supabase/ssr";
 import type { Database } from "@toolkit/supabase/types";
 import { cookies } from "next/headers";
