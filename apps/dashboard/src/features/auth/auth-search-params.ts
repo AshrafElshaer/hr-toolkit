@@ -2,12 +2,15 @@ import {
   createSearchParamsCache,
   parseAsInteger,
   parseAsString,
+  parseAsStringEnum,
 } from "nuqs/server";
 // Note: import from 'nuqs/server' to avoid the "use client" directive
 
 export const authSearchParams = {
   redirect_url: parseAsString.withDefault("/"),
-  auth_type: parseAsString.withDefault("sign-in"),
+  auth_type: parseAsStringEnum(["signup", "magiclink"]).withDefault(
+    "magiclink",
+  ),
   email: parseAsString.withDefault(""),
   active_tap: parseAsString.withDefault("sign-in"),
 };

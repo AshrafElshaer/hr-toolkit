@@ -1,15 +1,25 @@
 "use client";
 
-import { SignOutButton, useUser, useAuth ,useSession} from "@clerk/nextjs";
-import { usePathname } from "next/navigation";
+import { createBrowserClient } from "@/lib/supabase/browser";
+import { Button } from "@toolkit/ui/button";
+import { usePathname, useRouter } from "next/navigation";
 
 export default function Page() {
-  const { user } = useUser();
+  const supabase = createBrowserClient();
+  const router = useRouter();
   const pathname = usePathname();
 
   return (
     <div>
-      <SignOutButton redirectUrl={`/auth?redirect_url=${pathname}`} />
+      <Button
+        onClick={() =>
+          supabase.auth
+            .signOut()
+            .then(() => router.push(`/auth?redirect_url=${pathname}`))
+        }
+      >
+        Sign Out
+      </Button>
     </div>
   );
 }

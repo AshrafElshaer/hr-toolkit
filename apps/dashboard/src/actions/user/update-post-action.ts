@@ -1,6 +1,6 @@
 "use server";
 
-import { authActionClient } from "@/actions/safe-action";
+import { authActionClient } from "@/lib/safe-action";
 import { updateUser } from "@toolkit/supabase/mutations";
 import { updateUserSchema } from "./schema";
 

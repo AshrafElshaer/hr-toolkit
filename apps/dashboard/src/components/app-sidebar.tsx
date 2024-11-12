@@ -21,7 +21,7 @@ import { NavMain } from "@/components/nav-main";
 import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
-import { useUser } from "@clerk/nextjs";
+
 import {
   Sidebar,
   SidebarContent,
@@ -229,7 +229,7 @@ const settings = [
 ];
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const { user } = useUser();
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -242,13 +242,13 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser
+        {/* <NavUser
           user={{
             name: user?.fullName ?? "",
             email: user?.emailAddresses[0]?.emailAddress ?? "",
             avatar: user?.imageUrl ?? "",
           }}
-        />
+        /> */}
       </SidebarFooter>
       {/* <SidebarRail /> */}
     </Sidebar>

@@ -5,7 +5,6 @@ import { useQueryStates } from "nuqs";
 import React from "react";
 import { authSearchParams } from "../auth-search-params";
 import { SignIn } from "./sign-in";
-import { SignUp } from "./sign-up";
 import { VerifyOtp } from "./verify-otp";
 
 export function AuthComponent() {
@@ -29,9 +28,7 @@ export function AuthComponent() {
           <SignIn />
         ) : active_tap === "verify-otp" ? (
           <VerifyOtp />
-        ) : (
-          <SignUp />
-        )}
+        ) : null}
       </motion.div>
     </AnimatePresence>
   );

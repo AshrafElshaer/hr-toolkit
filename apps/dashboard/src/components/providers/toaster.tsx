@@ -40,7 +40,7 @@ export const Toaster = ({ ...props }: ToasterProps) => {
             "[&>[data-button]]:absolute [&>[data-button=true]]:bottom-4",
             "[&>[data-action=true]]:right-4",
             "[&>[data-cancel=true]]:left-4",
-            "[&>[data-close-button=true]]:hover:bg-transparent",
+            "[&>[data-close-button=true]]:hover:bg-transparent [&>[data-close-button=true]]:!bg-transparent",
           ),
           description: "text-sm",
           title: "font-semibold",
@@ -49,15 +49,15 @@ export const Toaster = ({ ...props }: ToasterProps) => {
           content:
             "[&:not(:has(+button))]:pr-10 [&:has(+button)]:pb-11 md:[&:has(+button)]:pb-9",
           loading:
-            "bg-background ring-border text-foreground ring-inset shadow-md  [&>[data-close-button=true]>svg]:text-foreground [&>[data-close-button=true]:hover]:bg-transparent",
+            "bg-background ring-border text-foreground ring-inset shadow-md  [&>[data-close-button=true]>svg]:text-foreground [&>[data-close-button=true]:hover]:bg-transparent [&>[data-close-button=true]]:!bg-transparent",
           error:
-            "bg-destructive/75 ring-destructive text-white ring-inset shadow-md shadow-destructive/50 [&>[data-close-button=true]>svg]:text-white [&>[data-close-button=true]:hover]:bg-transparent",
-          info: "bg-blue/80 !ring-blue text-white ring-inset shadow-md shadow-blue [&>[data-close-button=true]>svg]:text-white [&>[data-close-button=true]:hover]:bg-transparent",
+            "bg-destructive/75 ring-destructive text-white ring-inset shadow-md shadow-destructive/50 [&>[data-close-button=true]>svg]:text-white [&>[data-close-button=true]]:!bg-transparent [&>[data-close-button=true]:not(:hover)]:!bg-transparent",
+          info: "bg-blue/80 !ring-blue text-white ring-inset shadow-md shadow-blue [&>[data-close-button=true]>svg]:text-white [&>[data-close-button=true]:hover]:bg-transparent [&>[data-close-button=true]]:!bg-transparent",
           warning:
-            "bg-warning/75 text-warning-foreground ring-warning ring-inset shadow-md shadow-warning/50 [&>[data-close-button=true]>svg]:text-warning-foreground [&>[data-close-button=true]:hover]:bg-transparent",
+            "bg-warning/75 text-warning-foreground ring-warning ring-inset shadow-md shadow-warning/50 [&>[data-close-button=true]>svg]:text-warning-foreground [&>[data-close-button=true]:hover]:bg-transparent [&>[data-close-button=true]]:!bg-transparent",
           loader: "bg-blue-500",
           success:
-            "bg-success ring-success text-success-foreground ring-inset shadow-md shadow-success/50 [&>[data-close-button=true]>svg]:text-success-foreground [&>[data-close-button=true]:hover]:bg-transparent",
+            "bg-success ring-success text-success-foreground ring-inset shadow-md shadow-success/50 [&>[data-close-button=true]>svg]:text-success-foreground [&>[data-close-button=true]:hover]:bg-transparent [&>[data-close-button=true]]:!bg-transparent",
           cancelButton: buttonVariants({
             className: "",
             size: "sm",

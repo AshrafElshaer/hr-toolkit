@@ -22,6 +22,7 @@ const buttonVariants = cva(
         link: "text-primary/70 underline-offset-4 hover:text-primary  hover:underline",
         success:
           " bg-success hover:bg-success/80 border border-success text-white",
+        info: "bg-blue/80 !ring-blue text-white ring-inset shadow-md shadow-blue",
       },
       size: {
         default: " px-4 py-2",

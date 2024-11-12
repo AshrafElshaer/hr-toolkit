@@ -4,12 +4,20 @@ import { createServerClient as createClient } from "@supabase/ssr";
 import type { Database } from "@toolkit/supabase/types";
 import { cookies } from "next/headers";
 
-export async function createServerClient() {
+type Options =
+  | {
+      isAdmin: boolean;
+    }
+  | undefined;
+
+export async function createServerClient(options?: Options) {
   const cookieStore = await cookies();
 
   return createClient<Database>(
     env.NEXT_PUBLIC_SUPABASE_URL,
-    env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    options?.isAdmin
+      ? env.SUPABASE_SERVICE_KEY
+      : env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {
