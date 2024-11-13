@@ -15,7 +15,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div className="space-y-2">
         <div
           className={cn(
-            "relative flex items-center w-full border rounded-md px-2",
+            "relative flex items-center w-full border  rounded-md px-2",
             startIcon ? "pl-10" : "",
             endIcon ? "pr-10" : "",
             isActive ? "border-secondary-foreground" : "border-border",
@@ -39,7 +39,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
           <input
             type={type}
             className={cn(
-              "flex h-10 w-full border-none bg-background text-base sm:text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
+              "flex  w-full border-none bg-background text-base sm:text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50",
               "py-2",
             )}
             ref={ref}

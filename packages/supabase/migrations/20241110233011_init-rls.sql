@@ -19,11 +19,14 @@ create policy "Organization Admin Can Delete Organization Member" on organizatio
 -- Users
 alter table users enable row level security;
 
+create policy "Anyone Can Create User" on users for insert with check (true);
+
 create policy "Anyone Can View User" on users for select using (true);
 
 create policy "Admin Or User Can Update User" on users for update using (is_user_admin() or auth.uid() = id);
 
 create policy "Admin Can Delete User" on users for delete using (is_user_admin());
+
 
 -- Job Posts
 alter table job_posts enable row level security;

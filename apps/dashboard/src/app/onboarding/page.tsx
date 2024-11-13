@@ -1,45 +1,20 @@
 "use client";
-import { Button } from "@toolkit/ui/button";
-import { toast } from "sonner";
+
+import { TextGenerateEffect } from "@/components/text-generate-effect";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function OnboardingPage() {
+  const router = useRouter();
+  useEffect(() => {
+    setTimeout(() => {
+      router.push("/onboarding/user");
+    }, 4500);
+  }, [router]);
   return (
-    <main className="w-full h-screen flex flex-col gap-4">
-      <Button
-        variant="secondary"
-        className="w-fit"
-        onClick={() => toast("Hello")}
-      >
-        Secondary
-      </Button>
-      <Button
-        onClick={() => toast.success("Hello")}
-        variant="success"
-        className="w-fit"
-      >
-        Success
-      </Button>
-      <Button
-        onClick={() => toast.error("Hello")}
-        variant="destructive"
-        className="w-fit"
-      >
-        Destructive
-      </Button>
-      <Button
-        onClick={() => toast.info("Hello")}
-        variant="info"
-        className="w-fit"
-      >
-        Info
-      </Button>
-      <Button
-        onClick={() => toast.warning("Hello")}
-        variant="warning"
-        className="w-fit"
-      >
-        Warning
-      </Button>
-    </main>
+    <TextGenerateEffect
+      words="Welcome to HR Toolkit! We're thrilled to have you onboard. Next, we need more information to set you up for success."
+      className="w-full "
+    />
   );
 }
