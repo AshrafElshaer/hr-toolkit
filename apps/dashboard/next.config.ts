@@ -5,6 +5,9 @@ import type { NextConfig } from "next";
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: ["@toolkit/supabase"],
+  images: {
+    remotePatterns: [{ hostname: "**" }],
+  },
 };
 
 export default withSentryConfig(nextConfig, {

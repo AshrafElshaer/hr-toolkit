@@ -29,7 +29,7 @@ export function UserOnboarding() {
           }}
         >
           <TextGenerateEffect
-            words="First, let's gather some information about you as the owner."
+            words="First, let's gather basic information about you."
             className="w-full "
           />
         </motion.div>
@@ -85,7 +85,7 @@ function UserForm() {
     resolver: zodResolver(userInsertSchema),
   });
 
-  const { executeAsync: createUser } = useAction(onboardUserAction, {
+  const { executeAsync: createUser, status } = useAction(onboardUserAction, {
     onError: ({ error }) => {
       toast.error(error.serverError);
     },
@@ -141,7 +141,7 @@ function UserForm() {
             multiple: false,
             maxFiles: 1,
           }}
-          className=" size-24 rounded-md  flex items-center justify-center text-secondary-foreground"
+          className=" size-20 rounded-md  flex items-center justify-center text-secondary-foreground"
         >
           {imagePreview ? (
             <Image
@@ -157,7 +157,7 @@ function UserForm() {
 
         {!imagePreview ? (
           <div className="flex flex-col  text-secondary-foreground">
-            <p className="font-bold text-foreground mb-2">Profile Picture</p>
+            <p className="font-bold text-foreground mb-1">Profile Picture</p>
 
             <p className="text-sm">Accepts: .png, .jpg, .jpeg</p>
             <p className="text-sm">Max image size: 1MBs</p>
@@ -226,7 +226,7 @@ function UserForm() {
       <Button
         type="submit"
         className="w-full"
-        disabled={form.formState.isSubmitting}
+        disabled={form.formState.isSubmitting || status === "hasSucceeded"}
       >
         {form.formState.isSubmitting ? (
           <Loader className="size-4 animate-spin mr-2" />

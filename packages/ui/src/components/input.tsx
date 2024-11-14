@@ -66,4 +66,18 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
 );
 Input.displayName = "Input";
 
-export { Input };
+interface UrlInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  error?: string;
+}
+
+function UrlInput({ error, ...props }: UrlInputProps) {
+  return (
+    <div className="relative">
+      <Input {...props} className="peer ps-16" type="text" error={error} />
+      <span className="pointer-events-none absolute inset-y-0 start-0 flex items-center justify-center ps-3 text-sm text-secondary-foreground peer-disabled:opacity-50">
+        https://
+      </span>
+    </div>
+  );
+}
+export { Input, UrlInput };

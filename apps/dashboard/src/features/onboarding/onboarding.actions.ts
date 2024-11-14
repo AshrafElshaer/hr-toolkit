@@ -1,7 +1,11 @@
 "use server";
 import { authActionClient } from "@/lib/safe-action";
-import { createUser } from "@toolkit/supabase/mutations";
-import { userInsertSchema } from "@toolkit/supabase/validations";
+import { uploadOrganizationLogo } from "@/lib/supabase/storage/uploade";
+import { createOrganization, createUser } from "@toolkit/supabase/mutations";
+import {
+  organizationInsertSchema,
+  userInsertSchema,
+} from "@toolkit/supabase/validations";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
@@ -23,4 +27,46 @@ export const onboardUserAction = authActionClient
     }
 
     return data;
+  });
+
+export const onboardOrganizationAction = authActionClient
+  .metadata({
+    name: "onboard-organization",
+  })
+  .schema(
+    organizationInsertSchema.merge(
+      z.object({
+        logo: zfd.file(),
+      }),
+    ),
+  )
+  .action(async ({ ctx, parsedInput }) => {
+    const { user, supabase } = ctx;
+    const { logo, ...data } = parsedInput;
+    const organizationId = crypto.randomUUID();
+
+    const logoUrl = await uploadOrganizationLogo(
+      supabase,
+      organizationId,
+      logo,
+    );
+
+    const { data: organization, error } = await createOrganization(supabase, {
+      ...data,
+      logo_url: logoUrl,
+      admin_id: user.id,
+      id: organizationId,
+    });
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    await supabase.auth.updateUser({
+      data: {
+        organization_id: organizationId,
+      },
+    });
+
+    return organization;
   });

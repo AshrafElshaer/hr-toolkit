@@ -1,5 +1,7 @@
 import { createBrowserClient } from "@/lib/supabase/browser";
-import { FileOptions } from "@supabase/storage-js";
+import { upload } from "@toolkit/supabase/utils";
+
+import type { SupabaseInstance } from "@toolkit/supabase/types";
 
 type UploadProps = {
   path: string;
@@ -26,4 +28,12 @@ export async function uploadUserAvatar(userId: string, file: File) {
     throw new Error(error.message);
   }
   return supabase.storage.from("avatars").getPublicUrl(data.path);
+}
+
+export async function uploadOrganizationLogo(
+  supabase: SupabaseInstance,
+  organizationId: string,
+  file: File,
+) {
+  return await upload(supabase, { file, path: [organizationId], bucket: "logos" });
 }

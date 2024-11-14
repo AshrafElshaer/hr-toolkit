@@ -1,6 +1,8 @@
 import { logger } from "@toolkit/logger";
 import type { SupabaseInstance } from "../types";
 
+export * from "./organization.queries";
+
 export async function getUser(supabase: SupabaseInstance) {
   try {
     const result = await supabase.auth.getUser();
