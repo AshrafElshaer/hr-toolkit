@@ -53,6 +53,11 @@ const links = [
     url: "/reports",
     icon: <ChartRoseIcon strokeWidth={2} size={20} />,
   },
+  {
+    title: "Interviews",
+    url: "/interviews",
+    icon: <Headset strokeWidth={2} size={20} />,
+  },
   // {
   //   title: "Files",
   //   url: "/files",
@@ -64,11 +69,6 @@ const communication = [
     title: "Chat",
     url: "/chat",
     icon: <Chatting01Icon strokeWidth={2} size={20} />,
-  },
-  {
-    title: "Interviews",
-    url: "/interviews",
-    icon: <Headset strokeWidth={2} size={20} />,
   },
 ];
 
@@ -89,7 +89,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={links} label="Workspace" />
-        <NavMain items={communication} label="Communication" />
+        <NavMain items={communication} label="Team" />
         {user?.user_role === "admin" ? (
           <NavMain items={settings} label="Settings" />
         ) : null}
