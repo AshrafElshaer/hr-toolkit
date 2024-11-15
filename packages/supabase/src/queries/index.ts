@@ -2,6 +2,7 @@ import { logger } from "@toolkit/logger";
 import type { SupabaseInstance } from "../types";
 
 export * from "./organization.queries";
+export * from "./user.queries";
 
 export async function getUser(supabase: SupabaseInstance) {
   try {

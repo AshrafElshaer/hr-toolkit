@@ -184,9 +184,9 @@ function OrganizationForm() {
         <div className="space-y-2">
           <Label>Website</Label>
 
-          <UrlInput
+          <Input
             {...form.register("website")}
-            placeholder="example.com"
+            placeholder="https://example.com"
             error={form.formState.errors.website?.message}
           />
         </div>
