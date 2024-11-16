@@ -41,7 +41,9 @@ export function NavMain({
       <SidebarGroupLabel>{label}</SidebarGroupLabel>
       <SidebarMenu>
         {items.map((item) => {
-          const isActive = item.url === pathname;
+         const isActive =
+            pathname === item.url ||
+            item.url === pathname.split("/").slice(0, 2).join("/"); 
           return (
             <SidebarMenuButton
               asChild

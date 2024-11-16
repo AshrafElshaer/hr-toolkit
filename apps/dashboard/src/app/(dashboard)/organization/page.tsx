@@ -7,7 +7,9 @@ const OrganizationSchema = z.object({
 });
 
 export default async function OrganizationPage() {
-
-
-  return <div>organization</div>;
+  return (
+    <main className="flex flex-col">
+      <h1>Organization</h1>
+    </main>
+  );
 }

@@ -148,7 +148,7 @@ function ThemeToggle() {
               className="peer sr-only after:absolute after:inset-0"
             />
             <Image
-              src={item.image}
+              src={item.image.src}
               alt={item.label}
               width={78}
               height={60}
