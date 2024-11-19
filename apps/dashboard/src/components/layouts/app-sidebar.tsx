@@ -4,9 +4,7 @@ import { Building2, Headset } from "lucide-react";
 import type * as React from "react";
 
 import { NavMain } from "@/components/layouts/nav-main";
-import { NavProjects } from "@/components/layouts/nav-projects";
-import { NavUser } from "@/components/layouts/nav-user";
-import { TeamSwitcher } from "@/components/layouts/team-switcher";
+import { OrganizationLogo } from "@/components/layouts/org-logo";
 
 import { useCurrentUser } from "@/hooks/use-current-user";
 import {
@@ -25,7 +23,6 @@ import {
   UserSearch01Icon,
 } from "hugeicons-react";
 
-// "dashboard , candidates, job listings, calendar, reports ,files"
 const links = [
   {
     title: "Dashboard",
@@ -85,7 +82,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
-        <TeamSwitcher />
+        <OrganizationLogo />
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={links} label="Workspace" />

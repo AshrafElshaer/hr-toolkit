@@ -9,7 +9,7 @@ type UploadZoneProps = React.ComponentProps<"div"> & {
   children?: React.ReactNode;
 };
 
-export default function UploadZone({
+export  function UploadZone({
   className,
   options,
   children,

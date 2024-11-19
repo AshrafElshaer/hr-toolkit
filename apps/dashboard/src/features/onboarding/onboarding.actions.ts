@@ -56,6 +56,7 @@ export const onboardOrganizationAction = authActionClient
       logo_url: logoUrl,
       admin_id: user.id,
       id: organizationId,
+      profile: undefined,
     });
 
     if (error) {

@@ -24,19 +24,21 @@ create index idx_users_email on users(email);
 create table organizations (
     id uuid primary key default gen_random_uuid(),
     name text not null,
-    description text not null,
     logo_url text not null,
-    website text not null,
+    domain text not null,
     admin_id uuid references users(id) on delete set null,
     location text not null,
     industry text not null,
+    description text not null,
+    profile jsonb ,
+
 
     created_at timestamp with time zone default now() not null,
     updated_at timestamp with time zone default now() not null
 );
 
 create index idx_organizations_id on organizations(id);
-create index idx_organizations_admin on organizations(admin_id);
+create index idx_organizations_domain on organizations(domain);
 
 
 create table organization_members (
@@ -46,6 +48,8 @@ create table organization_members (
     created_at timestamp with time zone default now() not null,
     updated_at timestamp with time zone default now() not null
 );
+
+
 
 create index idx_organization_members_org on organization_members(organization_id);
 create index idx_organization_members_user on organization_members(user_id);

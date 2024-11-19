@@ -1,6 +1,7 @@
-import type { SupabaseInstance, TablesInsert } from "../types";
+import type { SupabaseInstance, TablesInsert, TablesUpdate } from "../types";
 
 type Organization = TablesInsert<"organizations">;
+type OrganizationUpdate = TablesUpdate<"organizations">;
 
 export async function createOrganization(
   supabase: SupabaseInstance,
@@ -24,4 +25,15 @@ export async function createOrganization(
   if (memberError) return { error: memberError, data };
 
   return { error: null, data };
+}
+
+export async function updateOrganization(
+  supabase: SupabaseInstance,
+  organization: OrganizationUpdate,
+) {
+  return supabase
+    .from("organizations")
+    .update(organization)
+    .eq("id", organization.id as string)
+    .select();
 }

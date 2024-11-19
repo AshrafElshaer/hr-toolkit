@@ -15,25 +15,21 @@ import { usePathname } from "next/navigation";
 
 const organizationNavItems = [
   {
-    label: "General",
-    href: "/organization",
-    icon: <Settings01Icon strokeWidth={2} size={16} />,
-  },
-  {
     label: "Profile",
-    href: "/organization/profile",
+    href: "/organization",
     icon: <Profile02Icon strokeWidth={2} size={16} />,
-  },
-  {
-    label: "Billing",
-    href: "/organization/billing",
-    icon: <CreditCardIcon strokeWidth={2} size={16} />,
   },
   {
     label: "Team",
     href: "/organization/team",
     icon: <UserMultiple02Icon strokeWidth={2} size={16} />,
   },
+  {
+    label: "Billing",
+    href: "/organization/billing",
+    icon: <CreditCardIcon strokeWidth={2} size={16} />,
+  },
+
   {
     label: "Security",
     href: "/organization/security",
@@ -53,7 +49,8 @@ export function OrganizationNav() {
               variant: "ghost",
               className: cn(
                 "gap-2",
-                isActive && "border-b-2 border-b-primary rounded-none px-0 text-foreground",
+                isActive &&
+                  "border-b border-b-primary rounded-b-none px-0 text-foreground bg-accent",
               ),
             })}
             href={item.href}

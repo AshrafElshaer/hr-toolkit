@@ -1,7 +1,7 @@
 "use client";
 
 import { TextGenerateEffect } from "@/components/text-generate-effect";
-import UploadZone from "@/components/upload-zone";
+import {UploadZone} from "@/components/upload-zone";
 import { useSession } from "@/hooks/use-session";
 import { formatBytes } from "@/lib/formatters/format-bytes";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -9,13 +9,13 @@ import { organizationInsertSchema } from "@toolkit/supabase/validations";
 import { Button } from "@toolkit/ui/button";
 import { Input, UrlInput } from "@toolkit/ui/input";
 import { Label } from "@toolkit/ui/label";
-import { Textarea, TextareaWithError } from "@toolkit/ui/textarea";
+import { TextareaWithError } from "@toolkit/ui/textarea";
 import { AnimatePresence, motion } from "framer-motion";
 import { ImagePlus, Loader } from "lucide-react";
 import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { type InputHTMLAttributes, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import type { DropzoneOptions } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -173,7 +173,7 @@ function OrganizationForm() {
       </section>
 
       <div className="flex gap-2">
-        <div className="space-y-2">
+        <div className="space-y-2 w-full">
           <Label>Organization Name</Label>
           <Input
             {...form.register("name")}
@@ -181,13 +181,13 @@ function OrganizationForm() {
             error={form.formState.errors.name?.message}
           />
         </div>
-        <div className="space-y-2">
-          <Label>Website</Label>
+        <div className="space-y-2 w-full">
+          <Label>Domain</Label>
 
-          <Input
-            {...form.register("website")}
-            placeholder="https://example.com"
-            error={form.formState.errors.website?.message}
+          <UrlInput
+            {...form.register("domain")}
+            placeholder="domain.example"
+            error={form.formState.errors.domain?.message}
           />
         </div>
       </div>
@@ -196,13 +196,11 @@ function OrganizationForm() {
         <Label>Description</Label>
         <TextareaWithError
           {...form.register("description")}
-          placeholder="Tell us about your organization"
+          placeholder="This will be used as a brief description of your organization"
           error={form.formState.errors.description?.message}
         />
-        <p className="text-sm text-muted-foreground">
-          This will be used to generate your organization's profile page.
-        </p>
       </div>
+
       <div className="flex gap-2 w-full">
         <div className="space-y-2 w-full">
           <Label>Location</Label>

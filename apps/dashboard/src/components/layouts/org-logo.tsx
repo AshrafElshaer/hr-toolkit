@@ -10,7 +10,7 @@ import { useSidebar } from "@toolkit/ui/sidebar";
 import { Skeleton } from "@toolkit/ui/skeleton";
 import Image from "next/image";
 
-export function TeamSwitcher() {
+export function OrganizationLogo() {
   const supabase = useSupabase();
 
   const { data: organization, isLoading } = useQuery({

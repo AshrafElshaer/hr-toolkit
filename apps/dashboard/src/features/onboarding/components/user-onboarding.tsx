@@ -48,7 +48,7 @@ export function UserOnboarding() {
     </AnimatePresence>
   );
 }
-import UploadZone from "@/components/upload-zone";
+import {UploadZone} from "@/components/upload-zone";
 import { useSession } from "@/hooks/use-session";
 import { zodResolver } from "@hookform/resolvers/zod";
 

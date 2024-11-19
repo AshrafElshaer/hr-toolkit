@@ -1,5 +1,5 @@
 // import { SettingsSidebar } from "@/components/organization-settings/sidebar";
-import { OrganizationNav } from "@/components/layouts/navigations/organization-nav";
+import { OrganizationNav } from "@/components/layouts/organization-nav";
 import { buttonVariants } from "@toolkit/ui/button";
 import Link from "next/link";
 

@@ -271,6 +271,13 @@ export type Database = {
         };
         Relationships: [
           {
+            foreignKeyName: "job_posts_created_by_fkey";
+            columns: ["created_by"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
             foreignKeyName: "job_posts_organization_id_fkey";
             columns: ["organization_id"];
             isOneToOne: false;
@@ -306,6 +313,13 @@ export type Database = {
             referencedRelation: "organizations";
             referencedColumns: ["id"];
           },
+          {
+            foreignKeyName: "organization_members_user_id_fkey";
+            columns: ["user_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
         ];
       };
       organizations: {
@@ -313,39 +327,50 @@ export type Database = {
           admin_id: string | null;
           created_at: string;
           description: string;
+          domain: string;
           id: string;
           industry: string;
           location: string;
           logo_url: string;
           name: string;
+          profile: Json | null;
           updated_at: string;
-          website: string;
         };
         Insert: {
           admin_id?: string | null;
           created_at?: string;
           description: string;
+          domain: string;
           id?: string;
           industry: string;
           location: string;
           logo_url: string;
           name: string;
+          profile?: Json | null;
           updated_at?: string;
-          website: string;
         };
         Update: {
           admin_id?: string | null;
           created_at?: string;
           description?: string;
+          domain?: string;
           id?: string;
           industry?: string;
           location?: string;
           logo_url?: string;
           name?: string;
+          profile?: Json | null;
           updated_at?: string;
-          website?: string;
         };
-        Relationships: [];
+        Relationships: [
+          {
+            foreignKeyName: "organizations_admin_id_fkey";
+            columns: ["admin_id"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+        ];
       };
       users: {
         Row: {

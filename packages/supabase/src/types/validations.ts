@@ -11,8 +11,8 @@ export const userSchema = z.object({
   timezone: z.string(),
   user_role: z.enum(["admin", "member"]),
   email: z.string().email({ message: "Invalid email address" }),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  created_at: z.string(),
+  updated_at: z.string(),
 });
 
 export const userInsertSchema = userSchema.omit({
@@ -27,17 +27,33 @@ export const userUpdateSchema = userSchema.partial().required({
 
 type Organization = Tables<"organizations">;
 
+interface JSONContent {
+  [key: string]: unknown;
+  type?: string;
+  attrs?: Record<string, unknown>;
+  content?: JSONContent[];
+  marks?: {
+    type: string;
+    attrs?: Record<string, unknown>;
+    [key: string]: unknown;
+  }[];
+  text?: string;
+}
+
 export const organizationSchema = z.object({
   id: z.string().uuid(),
   name: z.string().min(2, { message: "Organization name is required" }),
-  description: z.string().min(10, { message: "Description is required" }),
   logo_url: z.string().url({ message: "Valid logo URL is required" }),
-  website: z.string().url({ message: "Valid website URL is required" }),
+  domain: z
+    .string()
+    .regex(/^(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}$/, "Invalid domain format"),
   admin_id: z.string().uuid(),
+  profile: z.custom<JSONContent>().optional(),
+  description: z.string().min(10, { message: "Description is required" }),
   location: z.string().min(2, { message: "Location is required" }),
   industry: z.string().min(2, { message: "Industry is required" }),
-  created_at: z.string().datetime(),
-  updated_at: z.string().datetime(),
+  created_at: z.string(),
+  updated_at: z.string(),
 });
 
 export const organizationInsertSchema = organizationSchema.omit({
