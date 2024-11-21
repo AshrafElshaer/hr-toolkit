@@ -9,6 +9,7 @@ import { useRouter } from "next/navigation";
 import type { ComponentProps } from "react";
 import type { DropzoneOptions } from "react-dropzone";
 import { toast } from "sonner";
+import { uploadOrganizationLogoAction } from "../../organization.actions";
 type UploadLogoProps = {
   organization_id: string;
   logo_url: string;
@@ -20,7 +21,7 @@ export function UploadLogo({
   ...props
 }: UploadLogoProps) {
   const supabase = useSupabase();
-  const router = useRouter();
+
   const handleLogoDrop: DropzoneOptions["onDrop"] = async (acceptedFiles) => {
     if (!acceptedFiles[0]) return;
 
@@ -31,25 +32,22 @@ export function UploadLogo({
           organization_id,
           acceptedFiles[0] as File,
         );
-        console.log(logoUrl);
         if (!logoUrl) {
           throw new Error("Error uploading logo. Please try again.");
         }
-        const { error } = await supabase
-          .from("organizations")
-          .update({ logo_url: logoUrl })
-          .eq("id", organization_id);
-        if (error) {
-          throw new Error(error.message);
+        const res = await uploadOrganizationLogoAction({
+          organization_id,
+          logo_url: logoUrl,
+        });
+        if (res?.serverError) {
+          throw new Error(res.serverError);
         }
       },
       {
         success: "Logo uploaded successfully",
-        error: (error) => error.message,
+        error: ({ error }) => error.message,
       },
     );
-
-    router.refresh();
   };
 
   const handleLogoDropRejected: DropzoneOptions["onDropRejected"] = (

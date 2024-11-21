@@ -11,7 +11,7 @@ export default async function OrganizationPage() {
   const headersList = await headers();
   const organizationId = headersList.get("x-organization-id");
 
-  const { data: organization } = await getOrganizationById(
+  const { data: organization  } = await getOrganizationById(
     supabase,
     organizationId ?? "",
   );

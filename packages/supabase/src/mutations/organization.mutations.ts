@@ -35,5 +35,6 @@ export async function updateOrganization(
     .from("organizations")
     .update(organization)
     .eq("id", organization.id as string)
-    .select();
+    .select()
+    .single();
 }

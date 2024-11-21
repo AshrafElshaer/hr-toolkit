@@ -1,12 +1,11 @@
-import { ChevronsUpDown, Plus } from "lucide-react";
+"use client";
+
 import * as React from "react";
 
 import { useSupabase } from "@/hooks/use-supabase";
-import { createServerClient } from "@/lib/supabase/server";
+
 import { useQuery } from "@tanstack/react-query";
 import { getOrganizationById } from "@toolkit/supabase/queries";
-import { Icons } from "@toolkit/ui/icons";
-import { useSidebar } from "@toolkit/ui/sidebar";
 import { Skeleton } from "@toolkit/ui/skeleton";
 import Image from "next/image";
 
@@ -23,10 +22,11 @@ export function OrganizationLogo() {
       if (!user) {
         return null;
       }
-      const { data: organization } = await getOrganizationById(
+      const { data: organization, error } = await getOrganizationById(
         supabase,
         user?.user_metadata?.organization_id,
       );
+
       return organization;
     },
   });
