@@ -26,7 +26,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <main className="flex flex-col gap-4 items-start px-4 py-12 max-w-3xl mx-auto">
-      <div className="flex  gap-4 justify-between w-full">
+      <div className="flex flex-col gap-4 sm:flex-row sm:justify-between w-full">
         <Link
           href={`https://${domain}`}
           target="_blank"

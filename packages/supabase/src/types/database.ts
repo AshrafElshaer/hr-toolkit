@@ -73,7 +73,6 @@ export type Database = {
           avatar_url: string | null;
           created_at: string;
           email: string;
-          embedding: string | null;
           id: string;
           linkedin_url: string | null;
           name: string;
@@ -87,7 +86,6 @@ export type Database = {
           avatar_url?: string | null;
           created_at?: string;
           email: string;
-          embedding?: string | null;
           id?: string;
           linkedin_url?: string | null;
           name: string;
@@ -101,7 +99,6 @@ export type Database = {
           avatar_url?: string | null;
           created_at?: string;
           email?: string;
-          embedding?: string | null;
           id?: string;
           linkedin_url?: string | null;
           name?: string;
@@ -114,6 +111,38 @@ export type Database = {
         Relationships: [
           {
             foreignKeyName: "candidates_organization_id_fkey";
+            columns: ["organization_id"];
+            isOneToOne: false;
+            referencedRelation: "organizations";
+            referencedColumns: ["id"];
+          },
+        ];
+      };
+      departments: {
+        Row: {
+          created_at: string;
+          id: string;
+          name: string;
+          organization_id: string;
+          updated_at: string;
+        };
+        Insert: {
+          created_at?: string;
+          id?: string;
+          name: string;
+          organization_id: string;
+          updated_at?: string;
+        };
+        Update: {
+          created_at?: string;
+          id?: string;
+          name?: string;
+          organization_id?: string;
+          updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "departments_organization_id_fkey";
             columns: ["organization_id"];
             isOneToOne: false;
             referencedRelation: "organizations";
@@ -164,7 +193,6 @@ export type Database = {
           application_id: string | null;
           created_at: string;
           date: string;
-          embedding: string | null;
           feedback: string | null;
           id: string;
           interviewer_id: string | null;
@@ -177,7 +205,6 @@ export type Database = {
           application_id?: string | null;
           created_at?: string;
           date: string;
-          embedding?: string | null;
           feedback?: string | null;
           id?: string;
           interviewer_id?: string | null;
@@ -190,7 +217,6 @@ export type Database = {
           application_id?: string | null;
           created_at?: string;
           date?: string;
-          embedding?: string | null;
           feedback?: string | null;
           id?: string;
           interviewer_id?: string | null;
@@ -228,7 +254,7 @@ export type Database = {
           content: Json;
           created_at: string;
           created_by: string | null;
-          embedding: string | null;
+          department_id: string | null;
           employment_type: Database["public"]["Enums"]["employment_type_enum"];
           experience_level: Database["public"]["Enums"]["experience_level_enum"];
           id: string;
@@ -243,7 +269,7 @@ export type Database = {
           content: Json;
           created_at?: string;
           created_by?: string | null;
-          embedding?: string | null;
+          department_id?: string | null;
           employment_type: Database["public"]["Enums"]["employment_type_enum"];
           experience_level: Database["public"]["Enums"]["experience_level_enum"];
           id?: string;
@@ -258,7 +284,7 @@ export type Database = {
           content?: Json;
           created_at?: string;
           created_by?: string | null;
-          embedding?: string | null;
+          department_id?: string | null;
           employment_type?: Database["public"]["Enums"]["employment_type_enum"];
           experience_level?: Database["public"]["Enums"]["experience_level_enum"];
           id?: string;
@@ -275,6 +301,13 @@ export type Database = {
             columns: ["created_by"];
             isOneToOne: false;
             referencedRelation: "users";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "job_posts_department_id_fkey";
+            columns: ["department_id"];
+            isOneToOne: false;
+            referencedRelation: "departments";
             referencedColumns: ["id"];
           },
           {
@@ -440,42 +473,6 @@ export type Database = {
           organization_id: string;
         };
         Returns: boolean;
-      };
-      match_candidate_embeddings: {
-        Args: {
-          query_embedding: string;
-          match_threshold: number;
-          match_count: number;
-        };
-        Returns: {
-          id: string;
-          name: string;
-          similarity: number;
-        }[];
-      };
-      match_interview_embeddings: {
-        Args: {
-          query_embedding: string;
-          match_threshold: number;
-          match_count: number;
-        };
-        Returns: {
-          id: string;
-          feedback: string;
-          similarity: number;
-        }[];
-      };
-      match_job_post_embeddings: {
-        Args: {
-          query_embedding: string;
-          match_threshold: number;
-          match_count: number;
-        };
-        Returns: {
-          id: string;
-          title: string;
-          similarity: number;
-        }[];
       };
     };
     Enums: {

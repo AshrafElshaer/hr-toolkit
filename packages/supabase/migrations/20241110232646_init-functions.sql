@@ -42,58 +42,6 @@ as $$
 $$ language sql stable;
 
 
-create or replace function match_job_post_embeddings (
-  query_embedding vector (384),
-  match_threshold float,
-  match_count int
-) returns table (id uuid, title text, similarity float) language sql stable as $$
-    select
-        id,
-        title,
-        1 - (job_posts.embedding <=> query_embedding) as similarity
-    from job_posts
-    where job_posts.embedding is not null
-    and 1 - (job_posts.embedding <=> query_embedding) > match_threshold 
-    order by similarity desc
-    limit match_count;
-$$;
-
-create or replace function match_interview_embeddings(
-    query_embedding vector(384),
-    match_threshold float,
-    match_count int
-) returns table (
-    id uuid,
-    feedback text,
-    similarity float
-) language sql stable as $$
-    select
-        id,
-        feedback,
-        1 - (interviews.embedding <=> query_embedding) as similarity
-    from interviews
-    where interviews.embedding is not null
-    and 1 - (interviews.embedding <=> query_embedding) > match_threshold 
-    order by similarity desc
-    limit match_count;
-$$;
-
-create
-or replace function match_candidate_embeddings (
-  query_embedding vector (384),
-  match_threshold float,
-  match_count int
-) returns table (id uuid, name text, similarity float) language sql stable as $$
-    select
-        id,
-        name,
-        1 - (candidates.embedding <=> query_embedding) as similarity
-    from candidates
-    where candidates.embedding is not null
-    and 1 - (candidates.embedding <=> query_embedding) > match_threshold 
-    order by similarity desc
-    limit match_count;
-$$;
 
 
 

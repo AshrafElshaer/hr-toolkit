@@ -1,6 +1,5 @@
 "use client";
 
-import { useQuery } from "@tanstack/react-query";
 import { Avatar } from "@toolkit/ui/avatar";
 import {
   DropdownMenu,
@@ -117,14 +116,16 @@ import { RadioGroup, RadioGroupItem } from "@toolkit/ui/radio-group";
 import { Check, Minus } from "lucide-react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
-import UiDark from "../../../public/ui-dark.png";
-import UiLight from "../../../public/ui-light.png";
-import UiSystem from "../../../public/ui-system.png";
 
 const items = [
-  { id: "radio-18-r1", value: "light", label: "Light", image: UiLight },
-  { id: "radio-18-r2", value: "dark", label: "Dark", image: UiDark },
-  { id: "radio-18-r3", value: "system", label: "System", image: UiSystem },
+  { id: "radio-18-r1", value: "light", label: "Light", image: "/ui-light.png" },
+  { id: "radio-18-r2", value: "dark", label: "Dark", image: "/ui-dark.png" },
+  {
+    id: "radio-18-r3",
+    value: "system",
+    label: "System",
+    image: "/ui-system.png",
+  },
 ];
 
 function ThemeToggle() {
@@ -148,7 +149,7 @@ function ThemeToggle() {
               className="peer sr-only after:absolute after:inset-0"
             />
             <Image
-              src={item.image.src}
+              src={item.image}
               alt={item.label}
               width={78}
               height={60}

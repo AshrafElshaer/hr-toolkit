@@ -36,7 +36,6 @@ export function OrganizationLogo() {
     },
   });
 
-
   return (
     <div className="flex items-center gap-2 p-2">
       <div className="flex aspect-square size-9 bg-secondary border items-center justify-center rounded-lg relative">
@@ -58,10 +57,7 @@ export function OrganizationLogo() {
             <Skeleton className="h-2 w-1/3" />
           </>
         ) : (
-          <>
-            <span className="truncate font-semibold">{organization?.name}</span>
-            <span className="truncate text-xs">org plan</span>
-          </>
+          <span className="truncate font-semibold">{organization?.name}</span>
         )}
       </div>
     </div>

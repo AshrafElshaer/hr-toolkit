@@ -67,3 +67,24 @@ export const organizationInsertSchema = organizationSchema.omit({
 export const organizationUpdateSchema = organizationSchema.partial().required({
   id: true,
 });
+
+export const departmentSchema = z.object({
+  id: z.string().uuid(),
+  organization_id: z.string().uuid(),
+  name: z.string().min(2, {
+    message: "Name need to be minimum 2 characters",
+  }),
+  created_at: z.string(),
+  updated_at: z.string(),
+});
+
+export const departmentInsertSchema = departmentSchema.omit({
+  id: true,
+  organization_id: true,
+  created_at: true,
+  updated_at: true,
+});
+
+export const departmentUpdateSchema = departmentSchema.partial().required({
+  id: true,
+});
