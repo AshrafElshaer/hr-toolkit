@@ -22,14 +22,20 @@ export function OrganizationLogo() {
       if (!user) {
         return null;
       }
-      const { data: organization, error } = await getOrganizationById(
+      const { data, error } = await getOrganizationById(
         supabase,
-        user?.user_metadata?.organization_id,
+        user.user_metadata.organization_id,
       );
 
-      return organization;
+      if (error) {
+        console.error("Error fetching organization:", error);
+        return null;
+      }
+
+      return data;
     },
   });
+
 
   return (
     <div className="flex items-center gap-2 p-2">

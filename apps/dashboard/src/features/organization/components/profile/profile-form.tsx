@@ -111,7 +111,7 @@ export function ProfileForm({ organization }: ProfileFormProps) {
           }
           onChange={(value) => {
             setValue("profile", value);
-            console.log(value);
+
           }}
         />
       </div>

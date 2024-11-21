@@ -2,10 +2,10 @@
 
 import { UploadZone } from "@/components/upload-zone";
 import { useSupabase } from "@/hooks/use-supabase";
-import { uploadOrganizationLogo } from "@/lib/supabase/storage/uploade";
+import { uploadOrganizationLogo } from "@/lib/supabase/storage/uploads";
 import { cn } from "@toolkit/ui/cn";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
+
 import type { ComponentProps } from "react";
 import type { DropzoneOptions } from "react-dropzone";
 import { toast } from "sonner";
@@ -32,6 +32,7 @@ export function UploadLogo({
           organization_id,
           acceptedFiles[0] as File,
         );
+
         if (!logoUrl) {
           throw new Error("Error uploading logo. Please try again.");
         }
@@ -44,6 +45,7 @@ export function UploadLogo({
         }
       },
       {
+        loading: "Uploading logo...",
         success: "Logo uploaded successfully",
         error: ({ error }) => error.message,
       },
@@ -78,6 +80,7 @@ export function UploadLogo({
           alt="organization logo"
           className="size-full rounded-md object-cover"
           fill
+
         />
       </UploadZone>
     </section>

@@ -1,6 +1,6 @@
 "use server";
 import { authActionClient } from "@/lib/safe-action";
-import { uploadOrganizationLogo } from "@/lib/supabase/storage/uploade";
+import { uploadOrganizationLogo } from "@/lib/supabase/storage/uploads";
 import { createOrganization, createUser } from "@toolkit/supabase/mutations";
 import {
   organizationInsertSchema,

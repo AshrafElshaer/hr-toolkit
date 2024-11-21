@@ -48,14 +48,14 @@ export function UserOnboarding() {
     </AnimatePresence>
   );
 }
-import {UploadZone} from "@/components/upload-zone";
+import { UploadZone } from "@/components/upload-zone";
 import { useSession } from "@/hooks/use-session";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { TimezoneSelector } from "@/components/selectors/timezone-selector";
 import { formatBytes } from "@/lib/formatters/format-bytes";
 
-import { uploadUserAvatar } from "@/lib/supabase/storage/uploade";
+import { uploadUserAvatar } from "@/lib/supabase/storage/uploads";
 import { userInsertSchema } from "@toolkit/supabase/validations";
 import { Button } from "@toolkit/ui/button";
 import { Input } from "@toolkit/ui/input";

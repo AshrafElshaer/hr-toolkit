@@ -7,6 +7,7 @@ const nextConfig = {
   transpilePackages: ["@toolkit/supabase"],
   images: {
     remotePatterns: [{ hostname: "**" }],
+    unoptimized: true,
   },
 };
 

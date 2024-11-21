@@ -29,7 +29,6 @@ export const updateOrganizationAction = authActionClient
     }
 
     revalidatePath("/organization");
-    revalidateTag(parsedInput.id);
 
     return data;
   });
@@ -59,8 +58,6 @@ export const uploadOrganizationLogoAction = authActionClient
       throw new Error(error.message);
     }
     revalidatePath("/organization");
-    revalidateTag(parsedInput.organization_id);
-    revalidateTag(data?.domain);
 
     return data;
   });

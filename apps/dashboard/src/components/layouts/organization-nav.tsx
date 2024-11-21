@@ -4,6 +4,7 @@ import { Button, buttonVariants } from "@toolkit/ui/button";
 import { cn } from "@toolkit/ui/cn";
 import {
   CreditCardIcon,
+  GridViewIcon,
   Profile02Icon,
   SecurityLockIcon,
   Settings01Icon,
@@ -18,6 +19,11 @@ const organizationNavItems = [
     label: "Profile",
     href: "/organization",
     icon: <Profile02Icon strokeWidth={2} size={16} />,
+  },
+  {
+    label: "Departments",
+    href: "/organization/departments",
+    icon: <GridViewIcon strokeWidth={2} size={16} />,
   },
   {
     label: "Team",
