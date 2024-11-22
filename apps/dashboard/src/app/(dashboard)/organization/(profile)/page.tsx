@@ -11,7 +11,7 @@ export default async function OrganizationPage() {
   const headersList = await headers();
   const organizationId = headersList.get("x-organization-id");
 
-  const { data: organization  } = await getOrganizationById(
+  const { data: organization } = await getOrganizationById(
     supabase,
     organizationId ?? "",
   );
@@ -19,12 +19,11 @@ export default async function OrganizationPage() {
   return (
     <main className="flex flex-col gap-4">
       <p className="text-muted-foreground font-semibold">
-        Organization profile.
+        Organization Profile
         <br />
-        Here you can view and manage all details related to your organization
-        that will be displayed in the organization profile page.
+        View and manage all organization details displayed on the profile page.
       </p>
-     
+
       <ProfileForm organization={organization} />
     </main>
   );

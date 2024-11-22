@@ -19,6 +19,12 @@ export default async function DepartmentsPage() {
   );
   return (
     <div className="flex flex-col gap-4">
+      <p className="text-muted-foreground font-semibold">
+        Manage and view all departments within your organization.
+        <br />
+        Use departments to organize job listings and streamline operations.
+      </p>
+
       <DepartmentForm />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {data?.map((department) => (
