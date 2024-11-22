@@ -1,3 +1,4 @@
+import { DepartmentCard } from "@/features/departments/components/department-card";
 import { DepartmentForm } from "@/features/departments/components/new-department";
 import { createServerClient } from "@/lib/supabase/server";
 import { getDepartmentsByOrganizationId } from "@toolkit/supabase/queries";
@@ -19,9 +20,11 @@ export default async function DepartmentsPage() {
   return (
     <div className="flex flex-col gap-4">
       <DepartmentForm />
-      {data?.map((department) => (
-        <div key={department.id}>{department.name}</div>
-      ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        {data?.map((department) => (
+          <DepartmentCard key={department.id} department={department} />
+        ))}
+      </div>
     </div>
   );
 }
