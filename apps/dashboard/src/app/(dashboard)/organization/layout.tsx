@@ -9,7 +9,7 @@ export default function OrganizationLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col gap-4 w-full">
+    <div className="flex flex-col gap-4 w-full flex-grow">
       <OrganizationNav />
       {children}
     </div>

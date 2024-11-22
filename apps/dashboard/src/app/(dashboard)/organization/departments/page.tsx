@@ -1,5 +1,5 @@
-import { DepartmentCard } from "@/features/departments/components/department-card";
-import { DepartmentForm } from "@/features/departments/components/new-department";
+import { DepartmentCard } from "@/features/organization/departments/components/department-card";
+import { DepartmentForm } from "@/features/organization/departments/components/new-department";
 import { createServerClient } from "@/lib/supabase/server";
 import { getDepartmentsByOrganizationId } from "@toolkit/supabase/queries";
 import { headers } from "next/headers";

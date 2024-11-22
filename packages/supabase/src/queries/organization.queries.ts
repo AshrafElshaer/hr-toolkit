@@ -18,3 +18,13 @@ export async function getOrganizationByDomain(
     .eq("domain", domain)
     .single();
 }
+
+export async function getOrganizationMembers(
+  supabase: SupabaseInstance,
+  organizationId: string,
+) {
+  return await supabase
+    .from("organization_members")
+    .select("* ,users(*)")
+    .eq("organization_id", organizationId);
+}

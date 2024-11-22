@@ -15,3 +15,7 @@ export type Organization = OrganizationTable["Row"];
 
 export type OrganizationMemberTable = Table["organization_members"];
 export type OrganizationMember = OrganizationMemberTable["Row"];
+
+export interface OrganizationMemberWithUser extends OrganizationMember {
+  users: User | null;
+}

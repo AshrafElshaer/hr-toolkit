@@ -10,6 +10,8 @@ create policy "Organization Admin Can Delete Organization" on organizations for 
 -- Organization Members
 alter table organization_members enable row level security;
 
+
+create policy "Organization Members Can View Organization Member" on organization_members for select using (true);
 create policy "Organization Admin Can Create Organization Member" on organization_members for insert with check (is_user_organization_admin(organization_id));
 
 create policy "Organization Admin Can Update Organization Member" on organization_members for update using (is_user_organization_admin(organization_id));
