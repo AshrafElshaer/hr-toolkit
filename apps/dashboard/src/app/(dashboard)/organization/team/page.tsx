@@ -10,7 +10,7 @@ export default async function OrganizationTeamPage() {
   const headerList = await headers();
   const organizationId = headerList.get("x-organization-id");
 
-  console.log(organizationId);
+
   const { data: members } = await getOrganizationMembers(
     supabase,
     organizationId ?? "",

@@ -6,6 +6,7 @@ import {
   getCoreRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { cn } from "@toolkit/ui/cn";
 
 import {
   Table,
@@ -42,7 +43,13 @@ export function MembersTable<TData, TValue>({
             >
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id} className="text-foreground">
+                  <TableHead
+                    key={header.id}
+                    className={cn(
+                      "text-foreground",
+                      header.id === "actions" && "!w-8",
+                    )}
+                  >
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -61,7 +68,6 @@ export function MembersTable<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className="h-10"
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

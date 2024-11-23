@@ -19,9 +19,11 @@ import { Popover, PopoverContent, PopoverTrigger } from "@toolkit/ui/popover";
 export function TimezoneSelector({
   value,
   onValueChange,
+  isModal = false,
 }: {
   value: string;
   onValueChange: (value: string) => void;
+  isModal?: boolean;
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -53,7 +55,7 @@ export function TimezoneSelector({
   return (
     <div className="space-y-2">
       <Label htmlFor="select-43">Timezone</Label>
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover open={open} onOpenChange={setOpen} modal={isModal}>
         <PopoverTrigger asChild>
           <Button
             id="select-43"

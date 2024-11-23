@@ -68,7 +68,7 @@ export const columns: ColumnDef<OrganizationMemberWithUser>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="left">
-            <DropdownMenuLabel className="text-sm font-medium">
+            <DropdownMenuLabel className="text-sm font-bold">
               Actions
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
