@@ -1,7 +1,13 @@
-import type { SupabaseInstance, TablesInsert, TablesUpdate } from "../types";
+import type {
+  OrganizationMember,
+  SupabaseInstance,
+  TablesInsert,
+  TablesUpdate,
+} from "../types";
 
 type Organization = TablesInsert<"organizations">;
 type OrganizationUpdate = TablesUpdate<"organizations">;
+type OrganizationMemberInsert = TablesInsert<"organization_members">;
 
 export async function createOrganization(
   supabase: SupabaseInstance,
@@ -36,5 +42,16 @@ export async function updateOrganization(
     .update(organization)
     .eq("id", organization.id as string)
     .select()
+    .single();
+}
+
+export async function createOrganizationMember(
+  supabase: SupabaseInstance,
+  organizationMember: OrganizationMemberInsert,
+) {
+  return supabase
+    .from("organization_members")
+    .insert(organizationMember)
+    .select("organization:organizations(*)")
     .single();
 }

@@ -11,7 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@toolkit/ui/dropdown-menu";
-import { MoreHorizontal } from "lucide-react";
+import { Edit01Icon } from "hugeicons-react";
+import { MoreHorizontal, Trash } from "lucide-react";
 import moment from "moment";
 
 // This type is used to define the shape of our data.
@@ -44,6 +45,11 @@ export const columns: ColumnDef<OrganizationMemberWithUser>[] = [
     },
   },
   {
+    id: "timezone",
+    accessorFn: (row) => row.users?.timezone ?? "",
+    header: () => <div className="font-semibold min-w-28">Timezone</div>,
+  },
+  {
     id: "joined",
     accessorFn: (row) => row.users?.created_at ?? "",
     header: () => <div className="font-semibold min-w-28">Joined</div>,
@@ -68,12 +74,14 @@ export const columns: ColumnDef<OrganizationMemberWithUser>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="left">
-            <DropdownMenuLabel className="text-sm font-bold">
-              Actions
-            </DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>Edit</DropdownMenuItem>
-            <DropdownMenuItem>Delete</DropdownMenuItem>
+            <DropdownMenuItem>
+              <Edit01Icon className="size-4" strokeWidth={2} />
+              Edit
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <Trash className="size-4" strokeWidth={2} />
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

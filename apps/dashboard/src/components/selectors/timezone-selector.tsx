@@ -20,10 +20,12 @@ export function TimezoneSelector({
   value,
   onValueChange,
   isModal = false,
+  error,
 }: {
   value: string;
   onValueChange: (value: string) => void;
   isModal?: boolean;
+  error?: string;
 }) {
   const [open, setOpen] = useState<boolean>(false);
 
@@ -117,6 +119,7 @@ export function TimezoneSelector({
           </Command>
         </PopoverContent>
       </Popover>
+      {error && <p className="text-sm text-destructive">{error}</p>}
     </div>
   );
 }

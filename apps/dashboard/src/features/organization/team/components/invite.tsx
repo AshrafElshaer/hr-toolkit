@@ -18,17 +18,20 @@ import {
 import { Input } from "@toolkit/ui/input";
 import { Label } from "@toolkit/ui/label";
 import { UserAdd01Icon, UserIcon } from "hugeicons-react";
-import { ImagePlus } from "lucide-react";
+import { ImagePlus, Loader } from "lucide-react";
+import { useAction } from "next-safe-action/hooks";
 import Image from "next/image";
 import { useState } from "react";
-import type { DropzoneOptions, FileRejection } from "react-dropzone";
+import type { DropzoneOptions } from "react-dropzone";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import type { z } from "zod";
+import { inviteTeamMemberAction } from "../../organization.actions";
 
 export function InviteTeamMember() {
+  const [isOpen, setIsOpen] = useState(false);
   return (
-    <Dialog>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <Button className="w-fit ml-auto" variant="secondary">
           <UserIcon className="w-4 h-4 mr-2" strokeWidth={2} />
@@ -45,15 +48,25 @@ export function InviteTeamMember() {
             Invite a team member to your organization.
           </DialogDescription>
         </DialogHeader>
-        <InviteForm />
+        <InviteForm setIsOpen={setIsOpen} />
       </DialogContent>
     </Dialog>
   );
 }
 
-function InviteForm() {
+function InviteForm({ setIsOpen }: { setIsOpen: (value: boolean) => void }) {
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [image, setImage] = useState<File | null>(null);
+  const { execute, isExecuting } = useAction(inviteTeamMemberAction, {
+    onSuccess: () => {
+      toast.success("Team Member invited successfully");
+      setIsOpen(false);
+    },
+    onError: ({ error }) => {
+      toast.error(error.serverError);
+    },
+  });
+
   const {
     register,
     handleSubmit,
@@ -63,17 +76,19 @@ function InviteForm() {
   } = useForm<z.infer<typeof userInsertSchema>>({
     resolver: zodResolver(userInsertSchema),
     defaultValues: {
-      email: "",
-      avatar_url: "",
-      first_name: "",
-      last_name: "",
-      timezone: "",
       user_role: "member",
     },
   });
 
   const onSubmit = handleSubmit((data) => {
-    console.log(data);
+    if (!image) {
+      toast.error("Please upload an avatar");
+      return;
+    }
+    execute({
+      ...data,
+      avatar: image,
+    });
   });
 
   const handleImageDrop: DropzoneOptions["onDrop"] = (acceptedFiles) => {
@@ -179,18 +194,21 @@ function InviteForm() {
         value={watch("timezone")}
         onValueChange={(value) => setValue("timezone", value)}
         isModal
+        error={errors.timezone?.message}
       />
       <RoleSelector
         value={watch("user_role")}
         onValueChange={(value) => setValue("user_role", value)}
+        error={errors.user_role?.message}
       />
       <div className="flex gap-4 ">
         <DialogClose asChild>
-          <Button variant="outline" className="w-full">
+          <Button variant="outline" className="w-full" disabled={isExecuting}>
             Cancel
           </Button>
         </DialogClose>
-        <Button type="submit" className="w-full">
+        <Button type="submit" className="w-full" disabled={isExecuting}>
+          {isExecuting ? <Loader className="animate-spin size-4 mr-2" /> : null}
           Invite
         </Button>
       </div>
@@ -209,9 +227,11 @@ import {
 export default function RoleSelector({
   value,
   onValueChange,
+  error,
 }: {
   value: "admin" | "member";
   onValueChange: (value: "admin" | "member") => void;
+  error?: string;
 }) {
   return (
     <div className="space-y-2">
@@ -244,6 +264,7 @@ export default function RoleSelector({
           </SelectItem>
         </SelectContent>
       </Select>
+      {error && <p className="text-sm text-destructive">{error}</p>}
     </div>
   );
 }

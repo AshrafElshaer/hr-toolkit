@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@react-email/components": "^0.0.24",
-    "@react-email/tailwind": "^0.1.0"
+    "@react-email/tailwind": "^0.1.0",
+    "@toolkit/supabase": "workspace:*"
   },
   "devDependencies": {
     "react-email": "^3.0.1"
