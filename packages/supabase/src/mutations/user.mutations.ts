@@ -47,10 +47,5 @@ export async function deleteUser(
   if (organization?.admin_id === userId) {
     throw new Error("Cannot delete organization admin");
   }
-  const { error } = await supabase.auth.admin.deleteUser(userId);
-  if (error) {
-    return { error, data: null };
-  }
-
-  return await supabase.from("users").delete().eq("id", userId);
+  return await supabase.auth.admin.deleteUser(userId);
 }
