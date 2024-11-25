@@ -1,4 +1,4 @@
-import { InviteTeamMember } from "@/features/organization/team/components/invite";
+import { InviteTeamMember } from "@/features/organization/team/components/invite-team-member";
 import { MembersTable } from "@/features/organization/team/components/table";
 import { columns } from "@/features/organization/team/components/table/columns";
 import { createServerClient } from "@/lib/supabase/server";

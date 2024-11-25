@@ -1,7 +1,7 @@
 "use client";
 
 import type { ColumnDef } from "@tanstack/react-table";
-import type { OrganizationMemberWithUser } from "@toolkit/supabase/types";
+import type { OrganizationMemberWithUser, User } from "@toolkit/supabase/types";
 import { Button } from "@toolkit/ui/button";
 import {
   DropdownMenu,
@@ -14,6 +14,8 @@ import {
 import { Edit01Icon } from "hugeicons-react";
 import { MoreHorizontal, Trash } from "lucide-react";
 import moment from "moment";
+import DeleteUser from "./delete-user";
+import { UpdateUser } from "./update-user";
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -74,14 +76,19 @@ export const columns: ColumnDef<OrganizationMemberWithUser>[] = [
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="start" side="left">
-            <DropdownMenuItem>
-              <Edit01Icon className="size-4" strokeWidth={2} />
-              Edit
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Trash className="size-4" strokeWidth={2} />
-              Delete
-            </DropdownMenuItem>
+            <UpdateUser user={row.original.users as User}>
+              <DropdownMenuItem asDialogTrigger className="gap-2">
+                <Edit01Icon className="size-4" strokeWidth={2} />
+                Edit
+              </DropdownMenuItem>
+            </UpdateUser>
+
+            <DeleteUser user={row.original.users as User}>
+              <DropdownMenuItem asDialogTrigger className="gap-2">
+                <Trash className="size-4" strokeWidth={2} />
+                Delete
+              </DropdownMenuItem>
+            </DeleteUser>
           </DropdownMenuContent>
         </DropdownMenu>
       );

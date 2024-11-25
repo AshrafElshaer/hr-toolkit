@@ -4,7 +4,9 @@ import { createServerClient } from "@/lib/supabase/server";
 import {
   createOrganizationMember,
   createUser,
+  deleteUser,
   updateOrganization,
+  updateUser,
 } from "@toolkit/supabase/mutations";
 
 import { resend } from "@/lib/resend";
@@ -13,9 +15,10 @@ import { InvitationEmail } from "@toolkit/email";
 import {
   organizationUpdateSchema,
   userInsertSchema,
+  userUpdateSchema,
 } from "@toolkit/supabase/validations";
-import { revalidatePath, revalidateTag } from "next/cache";
-import React from "react";
+import { revalidatePath } from "next/cache";
+
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 
@@ -144,6 +147,57 @@ export const inviteTeamMemberAction = authActionClient
         name: `${data.first_name} ${data.last_name}`,
       }),
     });
+    revalidatePath("/organization/team");
+
+    return data;
+  });
+
+export const updateUserAction = authActionClient
+  .metadata({
+    name: "updateUser",
+    track: {
+      event: "update-user",
+      channel: "organization",
+    },
+  })
+  .schema(userUpdateSchema.merge(z.object({ avatar: zfd.file().optional() })))
+  .action(async ({ ctx, parsedInput }) => {
+    const { supabase } = ctx;
+    const { data, error } = await updateUser(supabase, parsedInput);
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    revalidatePath("/organization/team");
+
+    return data;
+  });
+
+export const deleteUserAction = authActionClient
+  .metadata({
+    name: "deleteUser",
+    track: {
+      event: "delete-user",
+      channel: "organization",
+    },
+  })
+  .schema(z.object({ id: z.string() }))
+  .action(async ({ ctx, parsedInput }) => {
+    const { user } = ctx;
+    const supabase = await createServerClient({
+      isAdmin: true,
+    });
+    const { data, error } = await deleteUser(
+      supabase,
+      parsedInput.id,
+      user.user_metadata.organization_id,
+    );
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
     revalidatePath("/organization/team");
 
     return data;

@@ -1,8 +1,6 @@
 import { z } from "zod";
 import type { Tables } from "./database";
 
-type User = Tables<"users">;
-
 export const userSchema = z.object({
   id: z.string().uuid(),
   first_name: z.string().min(2, { message: "First name is required" }),
@@ -24,8 +22,6 @@ export const userInsertSchema = userSchema.omit({
 export const userUpdateSchema = userSchema.partial().required({
   id: true,
 });
-
-type Organization = Tables<"organizations">;
 
 interface JSONContent {
   [key: string]: unknown;

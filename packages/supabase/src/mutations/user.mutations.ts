@@ -15,27 +15,42 @@ export async function createUser(
 
 export async function updateUser(
   supabase: SupabaseInstance,
-  userId: string,
+
   data: TablesUpdate<"users">,
 ) {
-  try {
-    return await supabase
-      .from("users")
-      .update(data)
-      .eq("id", userId)
-      .select()
-      .single();
-  } catch (error) {
-    logger.error(error);
-    throw error;
+  const { id, ...rest } = data;
+  if (!id) {
+    throw new Error("User ID is required");
   }
+  return await supabase
+    .from("users")
+    .update(rest)
+    .eq("id", id)
+    .select()
+    .single();
 }
 
-export async function deleteUser(supabase: SupabaseInstance, userId: string) {
-  try {
-    return await supabase.from("users").delete().eq("id", userId);
-  } catch (error) {
-    logger.error(error);
-    throw error;
+export async function deleteUser(
+  supabase: SupabaseInstance,
+  userId: string,
+  organization_id: string,
+) {
+  if (!userId) {
+    throw new Error("User ID is required");
   }
+  const { data: organization } = await supabase
+    .from("organizations")
+    .select("admin_id")
+    .eq("id", organization_id)
+    .single();
+
+  if (organization?.admin_id === userId) {
+    throw new Error("Cannot delete organization admin");
+  }
+  const { error } = await supabase.auth.admin.deleteUser(userId);
+  if (error) {
+    return { error, data: null };
+  }
+
+  return await supabase.from("users").delete().eq("id", userId);
 }

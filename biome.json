@@ -15,8 +15,7 @@
         "noNonNullAssertion": "off"
       },
       "correctness": {
-        "useExhaustiveDependencies": "off",
-        "noUnusedVariables": "info"
+        "useExhaustiveDependencies": "off"
       }
     }
   },
